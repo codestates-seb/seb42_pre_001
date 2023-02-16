@@ -1,11 +1,17 @@
-function Input() {
+import styled from 'styled-components';
+function Input({ inputTitle, inputDesc }) {
   return (
-    <>
-      <h4>Title</h4>
-      <p>Be specific and imagine you’re asking a question to another person.</p>
+    <Div>
+      <h4>{inputTitle}</h4>
+      <p>{inputDesc}</p>
       <input />
-    </>
+    </Div>
   );
 }
+
+const Div = styled.div`
+  border: 1px solid black;
+  background-color: white;
+`;
 
 export default Input;
