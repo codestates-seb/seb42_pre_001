@@ -1,5 +1,5 @@
-import Editor from '../components/Editor';
-import Input from '../components/Input';
+import MainContent from '../components/MainContent';
+import Sidebar from '../components/Sidebar';
 
 function Questions() {
   return (
@@ -24,8 +24,8 @@ function Questions() {
           <li>Review your question and post it to the site.</li>
         </ul>
       </div>
-      <Input />
-      <Editor />
+      <MainContent />
+      <Sidebar />
     </>
   );
 }
