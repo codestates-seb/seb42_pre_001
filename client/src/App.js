@@ -1,7 +1,11 @@
 import './App.css';
-
+import Questions from './pages/Questions';
 function App() {
-  return <div>환영합니다!</div>;
+  return (
+    <div>
+      <Questions />
+    </div>
+  );
 }
 
 export default App;
