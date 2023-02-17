@@ -1,15 +1,20 @@
 import styled, { css } from 'styled-components';
 
-function HeaderButton({ buttonText }) {
-  return <Button text={buttonText}>{buttonText}</Button>;
+function MainButton({ buttonText }) {
+  return (
+    <Button text={buttonText}>
+      <div>{buttonText}</div>
+    </Button>
+  );
 }
 
 const Button = styled.button`
   padding: 8px 10.4px;
+  margin: 2px;
   border: 1px solid hsl(205, 41%, 63%);
   border-radius: 3px;
-  margin: 4px;
   box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
+  white-space: nowrap;
 
   ${(props) => {
     return (
@@ -24,6 +29,7 @@ const Button = styled.button`
       `
     );
   }}
+
   ${(props) => {
     return (
       props.text === 'Sign up' &&
@@ -37,4 +43,4 @@ const Button = styled.button`
     );
   }}
 `;
-export default HeaderButton;
+export default MainButton;

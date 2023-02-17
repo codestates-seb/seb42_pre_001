@@ -17,8 +17,6 @@ function Ask() {
 }
 
 const Div = styled.div`
-  /* position: relative;
-  top: 48px; */
   background-color: hsl(210, 8%, 95%);
   display: flex;
 `;
