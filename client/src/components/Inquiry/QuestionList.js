@@ -4,16 +4,16 @@ import QuestionListTop from './QuestionListTop';
 
 const QuestionList = ({ name }) => {
   return (
-    <QuestionListContainer>
+    <Container>
       <QuestionListTop name={name}></QuestionListTop>
       <QuestionsItems></QuestionsItems>
-    </QuestionListContainer>
+    </Container>
   );
 };
 
 export default QuestionList;
 
-const QuestionListContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;

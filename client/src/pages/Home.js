@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import LeftSidebar from '../components/LeftSidebar';
-import QuestionList from '../components/QuestionList';
-import QuestionSidebar from '../components/QuestionSidebar';
+import LeftSidebar from '../components/Inquiry/LeftSidebar';
+import QuestionList from '../components/Inquiry/QuestionList';
+import QuestionSidebar from '../components/Inquiry/QuestionSidebar';
 
 const Home = () => {
   return (

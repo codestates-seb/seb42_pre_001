@@ -3,33 +3,33 @@ import styled from 'styled-components';
 import { FaGlobeAmericas } from 'react-icons/fa';
 const LeftSidebar = () => {
   return (
-    <LeftSidebarContainer>
-      <LeftSidebarWrapper>
+    <Container>
+      <Wrapper>
         <CustomLink to="/">Home</CustomLink>
-        <div className="public">PUBLIC</div>
+        <PublicWrapper>PUBLIC</PublicWrapper>
         <CustomLink to="/inquiry">
-          <div className="globe-icon-container">
-            <div className="globe-icon">
+          <IconWrapper>
+            <GlobeIcon>
               <FaGlobeAmericas size="18" />
-            </div>
+            </GlobeIcon>
             Questions
-          </div>
+          </IconWrapper>
         </CustomLink>
         <CustomLink to="/tags">Tages</CustomLink>
         <CustomLink to="/users">Users</CustomLink>
         <CustomLink to="/companies">Companies</CustomLink>
-      </LeftSidebarWrapper>
-    </LeftSidebarContainer>
+      </Wrapper>
+    </Container>
   );
 };
 
 export default LeftSidebar;
 
-const LeftSidebarContainer = styled.div`
+const Container = styled.div`
   border-right: 1px solid hsl(210deg 8% 90%);
 `;
 
-const LeftSidebarWrapper = styled.div`
+const Wrapper = styled.div`
   padding: 24px 0 0 0;
   width: 164px;
   display: flex;
@@ -37,19 +37,19 @@ const LeftSidebarWrapper = styled.div`
   position: sticky;
   position: -webkit-sticky;
   top: 0px;
-  .globe-icon-container {
-    display: flex;
-  }
+`;
 
-  .globe-icon {
-    padding: 0 5px 0 0;
-  }
+const IconWrapper = styled.div`
+  display: flex;
+`;
 
-  .public {
-    font-size: 11px;
-    color: gray;
-    padding: 1.5em 0.5em 0.5em 0.5em;
-  }
+const GlobeIcon = styled.div`
+  padding: 0 5px 0 0;
+`;
+const PublicWrapper = styled.div`
+  font-size: 11px;
+  color: gray;
+  padding: 1.5em 0.5em 0.5em 0.5em;
 `;
 const CustomLink = styled(Link)`
   color: gray;
