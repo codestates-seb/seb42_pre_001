@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import LeftSidebar from '../components/Inquiry/LeftSidebar';
+import LeftSidebar from '../components/inquiry/LeftSidebar';
 
 const Users = () => {
   return (

@@ -3,28 +3,28 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionList from '../components/inquiry/QuestionList';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 
-const Home = () => {
+const Questions = () => {
   return (
-    <HomeContainer>
+    <QuestionsContainer>
       <LeftSidebar />
-      <HomeContentContainer>
-        <QuestionList name="Top Questions"></QuestionList>
+      <QuestionsContentContainer>
+        <QuestionList name="All Questions"></QuestionList>
         <QuestionSidebar></QuestionSidebar>
-      </HomeContentContainer>
-    </HomeContainer>
+      </QuestionsContentContainer>
+    </QuestionsContainer>
   );
 };
 
-export default Home;
+export default Questions;
 
-const HomeContainer = styled.div`
-  height: 150vh;
+const QuestionsContainer = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 
-const HomeContentContainer = styled.div`
+const QuestionsContentContainer = styled.div`
   max-width: 1100px;
   width: calc(100% - 164px);
   display: flex;
