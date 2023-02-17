@@ -98,8 +98,9 @@ export default function SingUp() {
   };
 
   const resigerUser = () => {
-    // if (state.validation.errMsg1 === 0 && state.validation.errMsg2 === 0) {
-    dispatch(setSubmit());
+    if (state.validation.errMsg1 === 0 && state.validation.errMsg2 === 0) {
+      dispatch(setSubmit());
+    }
   };
   console.log('state', state.validation);
   console.log('state', state.signUp.email);
@@ -191,8 +192,9 @@ const SignUpContainer = styled.div`
   height: 600px;
   padding: 24px;
   border-radius: 10px;
-  border: 1px solid;
+
   margin-top: 20px;
+  background-color: white;
 `;
 // text, input 묶음
 const InputContainer = styled.div`
@@ -211,7 +213,6 @@ const FailLabel = styled.div`
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
   font-size: 20px;
   color: red;
 `;
@@ -230,10 +231,11 @@ const Input = styled.input`
   width: 350px;
   height: 30px;
   padding: 8px 9px 8px 9px;
-  border: 1px solid;
+
   border-radius: 5px;
   font-size: 18px;
   margin: 10px 0 10px 0;
+  border: 1px solid lightgray;
 `;
 
 // 회원가입 실패(Only number, Only letter, at least eight Characters)
@@ -275,7 +277,7 @@ const SocialBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 420px;
+  width: 395px;
   height: 42px;
   margin: 6px 0 6px 0;
   padding: 8px 9px 8px 9px;

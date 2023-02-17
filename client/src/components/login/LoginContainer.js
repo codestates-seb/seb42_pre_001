@@ -12,7 +12,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   // 로그인 성공 시 Home 화면으로 이동
-  const navigateLogin = () => {
+  const loginHandler = () => {
     navigate('/');
     alert('로그인에 성공했습니다.');
   };
@@ -30,7 +30,7 @@ export default function Login() {
   //아이디, 패스워드 확인
   const checkUser = (id, pass) => {
     if (id === 'abc@gmail.com' && pass === '1234') {
-      navigateLogin();
+      loginHandler();
     } else {
       alert('비밀번호가 틀렸습니다.');
     }
@@ -83,19 +83,19 @@ const Conatiner = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 // 로그인 창 묶음
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  background-color: white;
   width: 370px;
   height: 300px;
   padding: 24px;
   border-radius: 10px;
   line-height: 40px;
-  border: 1px solid;
   margin-top: 20px;
 `;
 // text, input 묶음
@@ -107,7 +107,7 @@ const InputContainer = styled.div`
 // label label
 const Label = styled.label`
   width: 300px;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
 `;
 // 비밀번호 찾기 label
@@ -123,8 +123,9 @@ const Input = styled.input`
   width: 330px;
   height: 30px;
   padding: 8px 9px 8px 9px;
-  border: 1px solid;
+  border: 1px solid lightgray;
   border-radius: 5px;
+
   font-size: 18px;
 `;
 
@@ -135,9 +136,8 @@ const LoginBtn = styled.div`
   align-items: center;
   width: 335px;
   height: 42px;
-  margin: 6px 0 6px 7px;
+  margin: 6px 0 15px 7px;
   padding: 8px 9px 8px 9px;
-  border: 1px solid;
   background-color: hsl(206, 100%, 52%);
   border-radius: 5px;
   color: white;
@@ -148,14 +148,12 @@ const LoginBtn = styled.div`
   }
 `;
 
-// Styled Componetns
-
 // 소셜 로그인 버튼
 const SocialBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 420px;
+  width: 400px;
   height: 42px;
   margin: 6px 0 6px 0;
   padding: 8px 9px 8px 9px;
