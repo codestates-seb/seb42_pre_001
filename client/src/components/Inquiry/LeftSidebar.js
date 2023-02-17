@@ -7,7 +7,7 @@ const LeftSidebar = () => {
       <Wrapper>
         <CustomLink to="/">Home</CustomLink>
         <PublicWrapper>PUBLIC</PublicWrapper>
-        <CustomLink to="/inquiry">
+        <CustomLink to="/questions">
           <IconWrapper>
             <GlobeIcon>
               <FaGlobeAmericas size="18" />

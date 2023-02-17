@@ -5,7 +5,7 @@ const QuestionListTop = ({ name }) => {
   return (
     <Container>
       <Title>{name}</Title>
-      <AskLink to="/question">
+      <AskLink to="/questions/ask">
         <AskBtn>Ask Question</AskBtn>
       </AskLink>
     </Container>
