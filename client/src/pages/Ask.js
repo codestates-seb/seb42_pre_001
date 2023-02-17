@@ -1,8 +1,8 @@
-import MainContent from '../components/questions/MainContent';
+import MainContent from '../components/ask/MainContent';
 import styled from 'styled-components';
 import { ReactComponent as Background } from '../assets/background.svg';
 
-function Questions() {
+function Ask() {
   return (
     <>
       <Div>
@@ -17,10 +17,10 @@ function Questions() {
 }
 
 const Div = styled.div`
-  position: relative;
-  top: 48px;
+  /* position: relative;
+  top: 48px; */
   background-color: hsl(210, 8%, 95%);
   display: flex;
 `;
 
-export default Questions;
+export default Ask;
