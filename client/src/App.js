@@ -2,7 +2,7 @@ import Header from './components/Header';
 
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Inquiry from './pages/Inquiry';
+import Questions from './pages/Questions';
 import Tages from './pages/Tags';
 import Users from './pages/Users';
 import Companies from './pages/Companies';
@@ -20,7 +20,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/questions" element={<Inquiry />}></Route>
+        <Route path="/questions" element={<Questions />}></Route>
         <Route path="/questions/ask" element={<Ask />}></Route>
         <Route path="/tags" element={<Tages />}></Route>
         <Route path="/users" element={<Users />}></Route>
