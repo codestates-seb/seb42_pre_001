@@ -1,4 +1,4 @@
-import MainContent from '../components/MainContent';
+import MainContent from '../components/questions/MainContent';
 import styled from 'styled-components';
 import { ReactComponent as Background } from '../assets/background.svg';
 
@@ -7,7 +7,7 @@ function Questions() {
     <>
       <Div>
         <h1>Ask a public question</h1>
-        <Background width="100" />
+        <Background />
       </Div>
       <Div>
         <MainContent />
@@ -17,6 +17,8 @@ function Questions() {
 }
 
 const Div = styled.div`
+  position: relative;
+  top: 48px;
   background-color: hsl(210, 8%, 95%);
   display: flex;
 `;

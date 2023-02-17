@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { askTitle, askDesc } from '../assets/askInputDesc';
+import { askTitle, askDesc } from '../../assets/askInputDesc';
 
 function Notice() {
   return (
