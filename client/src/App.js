@@ -1,4 +1,5 @@
-import './App.css';
+import Header from './components/Header';
+
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Questions from './pages/Questions';
@@ -11,13 +12,16 @@ import store from './store/store';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Logout from './pages/Logout';
+import Ask from './pages/Ask';
 function App() {
   return (
     <Provider store={store}>
       <GlobalStyle></GlobalStyle>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/questions" element={<Questions />}></Route>
+        <Route path="/questions/ask" element={<Ask />}></Route>
         <Route path="/tags" element={<Tages />}></Route>
         <Route path="/users" element={<Users />}></Route>
         <Route path="/companies" element={<Companies />}></Route>
