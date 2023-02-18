@@ -1,17 +1,21 @@
 import styled from 'styled-components';
+import Footer from '../components/Footer';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionList from '../components/inquiry/QuestionList';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 
 const Questions = () => {
   return (
-    <QuestionsContainer>
-      <LeftSidebar />
-      <QuestionsContentContainer>
-        <QuestionList name="All Questions"></QuestionList>
-        <QuestionSidebar></QuestionSidebar>
-      </QuestionsContentContainer>
-    </QuestionsContainer>
+    <>
+      <QuestionsContainer>
+        <LeftSidebar />
+        <QuestionsContentContainer>
+          <QuestionList name="All Questions"></QuestionList>
+          <QuestionSidebar></QuestionSidebar>
+        </QuestionsContentContainer>
+      </QuestionsContainer>
+      <Footer />
+    </>
   );
 };
 
