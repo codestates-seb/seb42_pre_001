@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { ReactComponent as NoticeIcon } from '../../assets/noticeIcon.svg';
 import { NoticeStyle } from './AskStyle';
-function Notice({ noticeTitle, noticeDesc }) {
+function AskPageSideNotice({ noticeTitle, noticeDesc }) {
   return (
-    <AskPageSideNotice>
+    <Div>
       <h5>{noticeTitle}</h5>
       <div>
         <div>
@@ -15,10 +15,10 @@ function Notice({ noticeTitle, noticeDesc }) {
           ))}
         </div>
       </div>
-    </AskPageSideNotice>
+    </Div>
   );
 }
 
-const AskPageSideNotice = styled(NoticeStyle)``;
+const Div = styled(NoticeStyle)``;
 
-export default Notice;
+export default AskPageSideNotice;

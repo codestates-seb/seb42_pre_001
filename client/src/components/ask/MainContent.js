@@ -1,8 +1,9 @@
 import Input from './Input';
 import TextEditor from './TextEditor';
 import styled from 'styled-components';
-import Notice from './Notice';
-import AskPageNotice from './AskPageNotice';
+import AskPageMainNotice from './AskPageMainNotice';
+import AskPageSideNotice from './AskPageSideNotice';
+
 import {
   ask,
   problem,
@@ -20,33 +21,39 @@ function MainContent() {
           <h1>Ask a public question</h1>
           <BgImg />
         </Top>
-        <AskPageNotice />
+        <AskPageMainNotice />
       </div>
       <InputSet>
         <Input title={ask.title} desc={ask.desc} />
-        <Notice noticeTitle={ask.noticeTitle} noticeDesc={ask.noticeDesc} />
+        <AskPageSideNotice
+          noticeTitle={ask.noticeTitle}
+          noticeDesc={ask.noticeDesc}
+        />
       </InputSet>
       <InputSet>
         <TextEditor title={problem.title} desc={problem.desc} />
-        <Notice
+        <AskPageSideNotice
           noticeTitle={problem.noticeTitle}
           noticeDesc={problem.noticeDesc}
         />
       </InputSet>
       <InputSet>
         <TextEditor title={tryAndExpect.title} desc={tryAndExpect.desc} />
-        <Notice
+        <AskPageSideNotice
           noticeTitle={tryAndExpect.noticeTitle}
           noticeDesc={tryAndExpect.noticeDesc}
         />
       </InputSet>
       <InputSet>
         <Input title={tags.title} desc={tags.desc} />
-        <Notice noticeTitle={tags.noticeTitle} noticeDesc={tags.noticeDesc} />
+        <AskPageSideNotice
+          noticeTitle={tags.noticeTitle}
+          noticeDesc={tags.noticeDesc}
+        />
       </InputSet>
       <InputSet>
         <Input title={review.title} desc={review.desc} />
-        <Notice
+        <AskPageSideNotice
           noticeTitle={review.noticeTitle}
           noticeDesc={review.noticeDesc}
         />

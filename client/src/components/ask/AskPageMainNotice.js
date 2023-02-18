@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { mainNotice } from '../../assets/askInputDesc';
-function AskPageNotice() {
+function AskPageMainNotice() {
   const { title, desc, stepsDetail } = mainNotice;
   return (
     <Div>
@@ -19,7 +19,7 @@ function AskPageNotice() {
     </Div>
   );
 }
-export default AskPageNotice;
+export default AskPageMainNotice;
 
 const Div = styled.div`
   background-color: hsl(206deg 67% 95%);
