@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import profile from '../../assets/profile.png';
+import ViewTags from '../ViewTags';
 const QuestionsItems = () => {
   return (
     <Container>
@@ -23,10 +24,7 @@ const QuestionsItems = () => {
           <RightTop>Typescript specific string value in the array</RightTop>
         </TitleLink>
         <RightBottom>
-          <TagContainer>
-            <Tages>reactjs</Tages>
-            <Tages>typescript</Tages>
-          </TagContainer>
+          <ViewTags />
           <NameContainer>
             <NameImage src={profile} />
             <Name>myungju kang</Name>
@@ -96,26 +94,8 @@ const RightTop = styled.div`
 `;
 const RightBottom = styled.div`
   display: flex;
+  justify-content: space-between;
   flex-grow: 1;
-`;
-const TagContainer = styled.ul`
-  display: flex;
-  flex-grow: 1;
-  list-style-type: none;
-`;
-const Tages = styled.li`
-  height: 27px;
-  margin-right: 5px;
-  padding: 4px 6px 5px 6px;
-  border-radius: 3px;
-  cursor: pointer;
-  background-color: hsl(205deg 46% 92%);
-  color: hsl(205deg 47% 42%);
-  font-size: 12px;
-  :hover {
-    background-color: hsl(205deg 53% 88%);
-    color: hsl(209deg 100% 26%);
-  }
 `;
 const NameContainer = styled.div`
   display: flex;

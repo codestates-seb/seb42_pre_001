@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
-import ViewTags from '../ViewTags';
 import ViewProfile from '../ViewProfile';
-const QuestionContent = () => {
-  let str = `I tried every solution I found online, but nothing worked. I tried to add this : android:orientation="vertical" to the linearLayout, but it changed nothing. I still can't scroll How can I get the scrollView to work?`;
+const AnswerContent = () => {
+  let str = `Certainly seems like an internal nuke issue. Which nuke are you running? I know 11 and 12 will almost always spit out some kind of python error on close - either threading or something like this.
+  If your my_callbacks.py is being loaded by init/menu, try just adding the callback to the root node itself (rather than the global knob change process) with node.knob('knob_changed').setValue(YOUR CODE in string format)
+  In this case of course, the knob changed code will only fire on the Root node, and you'll have to run that setValue code in each script you want. You might be able to use init/menu and another callback (onScriptLoad) to accomplish that.`;
   return (
     <Container>
       <VoteContainer>
@@ -13,17 +14,15 @@ const QuestionContent = () => {
       </VoteContainer>
       <ContentContainer>
         <Content>{str}</Content>
-        <ViewTags />
         <ViewProfile />
       </ContentContainer>
     </Container>
   );
 };
-export default QuestionContent;
-
+export default AnswerContent;
 const Container = styled.div`
   width: 727px;
-  padding-top: 24px;
+  padding: 16px 0px;
   display: flex;
 `;
 const VoteContainer = styled.div`
@@ -41,13 +40,12 @@ const VoteNum = styled.div`
 `;
 const VoteDownButton = styled(GoTriangleDown)`
   color: hsl(210deg 8% 75%);
-  cursor: pointer;
 `;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 const Content = styled.div`
-  height: 700px;
+  height: 400px;
   word-break: break-all; // width에 맞게 강제 줄바꿈
 `;
