@@ -1,21 +1,33 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
 import MainButton from './MainButton';
+import { useState } from 'react';
 // import { HiOutlineXMark } from 'react-icons/hi2';
+import { GoInbox } from 'react-icons/go';
+import { GiDiamondTrophy } from 'react-icons/gi';
+import { AiFillQuestionCircle } from 'react-icons/ai';
+import { BsFillChatRightTextFill } from 'react-icons/bs';
+
 function Header() {
+  const [isLogin, setIsLogin] = useState(false);
+  const handleLogin = () => {
+    setIsLogin(!isLogin);
+    console.log(isLogin);
+  };
+
   return (
     <HeaderWrapper>
       <Div>
-        <Menu>
+        <Menu isLogin={isLogin}>
           {/* <HiOutlineXMark size="20" /> */}
           <FiMenu size="20" />
         </Menu>
         <LogoLink href="https://stackoverflow.com/">
           <span></span>
         </LogoLink>
-        <Navi>
+        <Navi isLogin={isLogin}>
           <li>
             <a href="https://stackoverflow.co/">About</a>
           </li>
@@ -26,23 +38,56 @@ function Header() {
             <a href="https://stackoverflow.co/teams/">For Teams</a>
           </li>
         </Navi>
-        <SearchBar>
+        <SearchBar isLogin={isLogin}>
           <input />
           <CgSearch size="20" color="hsl(210,8%,55%)" />
         </SearchBar>
-        <Topbar>
-          <li></li>
-          <li></li>
-          <li>
-            <Link to="/users/login">
-              <MainButton buttonText="Log in" />
-            </Link>
-          </li>
-          <li>
-            <Link to="/users/signup">
-              <MainButton buttonText="Sign up" />
-            </Link>
-          </li>
+        <Topbar isLogin={isLogin}>
+          {isLogin ? (
+            <>
+              <li>
+                <Link to="/users/logout">
+                  <img
+                    src="https://www.gravatar.com/avatar/?s=32&d=identicon&r=PG&f=1"
+                    alt=""
+                  />
+                </Link>
+              </li>
+              <li>
+                <Link to="/users/logout">
+                  <TopbarInbox />
+                </Link>
+              </li>
+              <li>
+                <Link to="/users/logout">
+                  <TopbarAchievements />
+                </Link>
+              </li>
+              <li>
+                <Link to="/users/logout">
+                  <TopbarQuestionMark />
+                </Link>
+              </li>
+              <li>
+                <Link to="/users/logout">
+                  <TopbarCurrentCommunity />
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link to="/users/login" onClick={handleLogin}>
+                  <MainButton buttonText="Log in" />
+                </Link>
+              </li>
+              <li>
+                <Link to="/users/signup">
+                  <MainButton buttonText="Sign up" />
+                </Link>
+              </li>
+            </>
+          )}
         </Topbar>
       </Div>
     </HeaderWrapper>
@@ -74,7 +119,7 @@ const Div = styled.div`
 `;
 
 const Menu = styled.a`
-  display: flex;
+  display: ${({ isLogin }) => (isLogin ? 'none' : 'flex')};
   align-items: center;
   height: 100%;
   padding: 0 16px;
@@ -95,15 +140,16 @@ const LogoLink = styled(Menu)`
   }
 `;
 
-const Topbar = styled.ol`
-  padding: 0;
+const Navi = styled.ol`
   display: flex;
   > li {
+    height: 100%;
     list-style: none;
+    padding: 0;
   }
-`;
-
-const Navi = styled(Topbar)`
+  > li:not(:nth-child(2)) {
+    display: ${({ isLogin }) => (isLogin ? 'none' : 'block')};
+  }
   a {
     display: flex;
     align-items: center;
@@ -124,9 +170,38 @@ const Navi = styled(Topbar)`
   }
 `;
 
+const Topbar = styled.ol`
+  display: flex;
+  height: 100%;
+  img {
+    width: 20px;
+    margin: 6px 15px 0 0;
+  }
+  > li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    list-style: none;
+    cursor: pointer;
+    ${({ isLogin }) => {
+      return (
+        isLogin &&
+        css`
+          padding: 0 10px;
+          :hover {
+            color: hsl(210deg 8% 35%);
+            background-color: hsl(210, 8%, 90%);
+          }
+        `
+      );
+    }}
+  }
+`;
+
 const SearchBar = styled.div`
   position: relative;
-  width: 52%;
+  width: ${({ isLogin }) => (isLogin ? '60%' : '52%')};
   margin: 0 8px;
   > input {
     width: 100%;
@@ -144,6 +219,32 @@ const SearchBar = styled.div`
     transform: translateY(-50%);
     pointer-events: none;
   }
+`;
+
+const TopbarInbox = styled(GoInbox)`
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: hsl(210deg 8% 35%);
+`;
+const TopbarAchievements = styled(GiDiamondTrophy)`
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: hsl(210deg 8% 35%);
+`;
+const TopbarQuestionMark = styled(AiFillQuestionCircle)`
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: hsl(210deg 8% 35%);
+`;
+
+const TopbarCurrentCommunity = styled(BsFillChatRightTextFill)`
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: hsl(210deg 8% 35%);
 `;
 
 export default Header;
