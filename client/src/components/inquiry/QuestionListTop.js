@@ -20,7 +20,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   padding: 24px;
-  height: 150px;
+  height: 100px;
   border-bottom: 1px solid hsl(210deg 8% 90%);
 `;
 
