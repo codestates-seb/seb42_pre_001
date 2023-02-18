@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import MainButton from '../MainButton';
 
 const QuestionListTop = ({ name }) => {
   return (
     <Container>
       <Title>{name}</Title>
       <AskLink to="/questions/ask">
-        <AskBtn>Ask Question</AskBtn>
+        <MainButton buttonText="Ask Question" />
       </AskLink>
     </Container>
   );
@@ -29,18 +30,4 @@ const Title = styled.span`
 const AskLink = styled(Link)`
   text-decoration: none;
   display: flex;
-`;
-
-const AskBtn = styled.button`
-  align-items: center;
-  border-style: none;
-  border-radius: 5%;
-  background-color: hsl(206deg 100% 52%);
-  color: white;
-  padding: 10px;
-  height: 40px;
-
-  :hover {
-    filter: brightness(0.9);
-  }
 `;

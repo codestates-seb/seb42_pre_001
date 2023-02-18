@@ -38,16 +38,18 @@ function App() {
 export default App;
 
 const GlobalStyle = createGlobalStyle`
- * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+
+  *{
+  box-sizing: border-box; 
+  margin: 0;
+  padding: 0;
   }
 
   body {
-    width: 100vw;
-    height: 100vh;  
-    background-color: hsl(210, 8%, 93%);
+  width: 100vw;
+  height: 100vh;  
+  background-color: hsl(210, 8%, 93%);
   }
 
   a {
