@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
 import MainButton from './MainButton';
-
 import { useState } from 'react';
 // import { HiOutlineXMark } from 'react-icons/hi2';
 import { GoInbox } from 'react-icons/go';
@@ -56,22 +55,22 @@ function Header() {
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarInbox />
+                  <GoInbox />
                 </Link>
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarAchievements />
+                  <GiDiamondTrophy />
                 </Link>
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarQuestionMark />
+                  <AiFillQuestionCircle />
                 </Link>
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarCurrentCommunity />
+                  <BsFillChatRightTextFill />
                 </Link>
               </li>
             </>
@@ -148,6 +147,7 @@ const Navi = styled.ol`
     list-style: none;
     padding: 0;
   }
+
   > li:not(:nth-child(2)) {
     display: ${({ isLogin }) => (isLogin ? 'none' : 'block')};
   }
@@ -197,6 +197,12 @@ const Topbar = styled.ol`
         `
       );
     }}
+    > a > svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+      color: hsl(210deg 8% 35%);
+    }
   }
 `;
 
@@ -220,32 +226,6 @@ const SearchBar = styled.div`
     transform: translateY(-50%);
     pointer-events: none;
   }
-`;
-
-const TopbarInbox = styled(GoInbox)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
-`;
-const TopbarAchievements = styled(GiDiamondTrophy)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
-`;
-const TopbarQuestionMark = styled(AiFillQuestionCircle)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
-`;
-
-const TopbarCurrentCommunity = styled(BsFillChatRightTextFill)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
 `;
 
 export default Header;
