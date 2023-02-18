@@ -1,12 +1,11 @@
 import Header from './components/Header';
-
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Questions from './pages/Questions';
 import Tages from './pages/Tags';
 import Users from './pages/Users';
 import Companies from './pages/Companies';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import Login from './pages/Login';
@@ -18,17 +17,19 @@ function App() {
     <Provider store={store}>
       <GlobalStyle></GlobalStyle>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/questions" element={<Questions />}></Route>
-        <Route path="/questions/ask" element={<Ask />}></Route>
-        <Route path="/tags" element={<Tages />}></Route>
-        <Route path="/users" element={<Users />}></Route>
-        <Route path="/companies" element={<Companies />}></Route>
-        <Route path="/users/login" element={<Login />} />
-        <Route path="/users/signup" element={<SignUp />} />
-        <Route path="/users/logout" element={<Logout />} />
-      </Routes>
+      <PageLayout>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/questions" element={<Questions />}></Route>
+          <Route path="/questions/ask" element={<Ask />}></Route>
+          <Route path="/tags" element={<Tages />}></Route>
+          <Route path="/users" element={<Users />}></Route>
+          <Route path="/companies" element={<Companies />}></Route>
+          <Route path="/users/login" element={<Login />} />
+          <Route path="/users/signup" element={<SignUp />} />
+          <Route path="/users/logout" element={<Logout />} />
+        </Routes>
+      </PageLayout>
     </Provider>
   );
 }
@@ -36,15 +37,20 @@ function App() {
 export default App;
 
 const GlobalStyle = createGlobalStyle`
-  body {
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;  
+  *{
+  box-sizing: border-box; 
   margin: 0;
   padding: 0;
+  }
+  body {
+  width: 100vw;
+  height: 100vh;  
   background-color: hsl(210, 8%, 93%);
   }
   a {
     text-decoration: none;
   }
+`;
+const PageLayout = styled.div`
+  padding-top: 48px;
 `;

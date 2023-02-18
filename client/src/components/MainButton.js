@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-function HeaderButton({ buttonText }) {
+function MainButton({ buttonText }) {
   return <Button text={buttonText}>{buttonText}</Button>;
 }
 
@@ -26,8 +26,9 @@ const Button = styled.button`
   }}
   ${(props) => {
     return (
-      props.text === 'Sign up' &&
+      (props.text === 'Sign up' || props.text === 'Ask Question') &&
       css`
+        height: ${(props) => (props.text === 'Ask Question' ? '40px' : 'auto')};
         color: hsl(0, 0%, 100%);
         background-color: hsl(206, 100%, 52%);
         :hover {
@@ -37,4 +38,4 @@ const Button = styled.button`
     );
   }}
 `;
-export default HeaderButton;
+export default MainButton;

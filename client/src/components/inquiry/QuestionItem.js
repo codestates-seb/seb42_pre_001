@@ -35,6 +35,8 @@ const QuestionsItems = () => {
               />
             </NameImage>
             <Name>myungju kang</Name>
+            <Num>1</Num>
+            <Time>asked 5 min ago</Time>
           </NameContainer>
         </RightBottom>
       </RightContainer>
@@ -120,7 +122,7 @@ const Tages = styled.li`
 const NameContainer = styled.div`
   display: flex;
   align-self: center;
-  padding-right: 40px;
+  padding-right: 30px;
 `;
 const NameImage = styled.div`
   padding-right: 4px;
@@ -128,8 +130,24 @@ const NameImage = styled.div`
 const Name = styled.div`
   color: hsl(206deg 100% 40%);
   font-size: 12px;
+  padding-right: 4px;
   cursor: pointer;
   :hover {
     color: hsl(206deg 100% 52%);
+  }
+`;
+const Num = styled.div`
+  padding-right: 4px;
+  color: hsl(210deg 8% 35%);
+  font-size: 12px;
+  font-weight: 600;
+`;
+
+const Time = styled.div`
+  color: gray;
+  font-size: 12px;
+  cursor: pointer;
+  :hover {
+    color: black;
   }
 `;

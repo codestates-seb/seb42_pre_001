@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import logo from '../assets/logo.png';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
-import HeaderButton from './HeaderButton';
+import MainButton from './MainButton';
 function Header() {
   return (
     <Div>
@@ -35,10 +35,10 @@ function Header() {
       </SearchBar>
       <Ol>
         <Li>
-          <HeaderButton buttonText="Log in" />
+          <MainButton buttonText="Log in" />
         </Li>
         <Li>
-          <HeaderButton buttonText="Sign up" />
+          <MainButton buttonText="Sign up" />
         </Li>
       </Ol>
     </Div>
