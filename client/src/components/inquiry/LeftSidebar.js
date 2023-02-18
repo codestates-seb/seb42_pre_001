@@ -36,7 +36,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   position: sticky;
   position: -webkit-sticky;
-  top: 0px;
+  top: 50px;
 `;
 
 const IconWrapper = styled.div`

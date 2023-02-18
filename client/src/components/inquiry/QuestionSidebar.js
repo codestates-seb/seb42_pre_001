@@ -83,10 +83,12 @@ const Container = styled.div`
 `;
 
 const SidebarUl = styled.ul`
+  width: 325px;
   display: flex;
   flex-direction: column;
   border: 0px 1px 1px 1px solid hsl(47deg 65% 84%);
   list-style: none;
+  padding: 0;
   background-color: hsl(47deg 87% 94%);
 `;
 

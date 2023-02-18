@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import profile from '../../assets/profile.png';
 const QuestionsItems = () => {
   return (
     <Container>
@@ -18,23 +19,19 @@ const QuestionsItems = () => {
         </LeftWrapper>
       </LeftContainer>
       <RightContainer>
-        <RightTop>Typescript specific string value in the array</RightTop>
+        <TitleLink to="/questions/question">
+          <RightTop>Typescript specific string value in the array</RightTop>
+        </TitleLink>
         <RightBottom>
           <TagContainer>
             <Tages>reactjs</Tages>
             <Tages>typescript</Tages>
           </TagContainer>
           <NameContainer>
-            <NameImage>
-              <img
-                src="https://www.gravatar.com/avatar/1038d2ef92dbab2e24166a5c46179e81?s=32&amp;d=identicon&amp;r=PG&amp;f=1"
-                alt="Abdullah Imran's user avatar"
-                width="16"
-                height="16"
-                className="s-avatar--image"
-              />
-            </NameImage>
+            <NameImage src={profile} />
             <Name>myungju kang</Name>
+            <Num>1</Num>
+            <Time>asked 5 min ago</Time>
           </NameContainer>
         </RightBottom>
       </RightContainer>
@@ -93,6 +90,9 @@ const RightTop = styled.div`
   :hover {
     color: hsl(206deg 100% 52%);
   }
+  :visited {
+    text-decoration: none;
+  }
 `;
 const RightBottom = styled.div`
   display: flex;
@@ -120,16 +120,37 @@ const Tages = styled.li`
 const NameContainer = styled.div`
   display: flex;
   align-self: center;
-  padding-right: 40px;
+  padding-right: 30px;
 `;
-const NameImage = styled.div`
-  padding-right: 4px;
+const NameImage = styled.img`
+  width: 16px;
+  height: 16px;
+  margin: 2px 4px 0px 0px;
 `;
 const Name = styled.div`
   color: hsl(206deg 100% 40%);
   font-size: 12px;
+  padding-right: 4px;
   cursor: pointer;
   :hover {
     color: hsl(206deg 100% 52%);
   }
+`;
+const Num = styled.div`
+  padding-right: 4px;
+  color: hsl(210deg 8% 35%);
+  font-size: 12px;
+  font-weight: 600;
+`;
+
+const Time = styled.div`
+  color: gray;
+  font-size: 12px;
+  cursor: pointer;
+  :hover {
+    color: black;
+  }
+`;
+const TitleLink = styled(Link)`
+  text-decoration: none;
 `;

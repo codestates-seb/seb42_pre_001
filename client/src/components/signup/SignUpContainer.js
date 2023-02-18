@@ -102,8 +102,8 @@ export default function SingUp() {
       dispatch(setSubmit());
     }
   };
-  console.log('state', state.validation);
-  console.log('state', state.signUp.email);
+  // console.log('state', state.validation);
+  // console.log('state', state.signUp.email);
 
   return (
     <Conatiner>
