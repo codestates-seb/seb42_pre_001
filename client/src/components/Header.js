@@ -227,5 +227,4 @@ const SearchBar = styled.div`
     pointer-events: none;
   }
 `;
-
 export default Header;
