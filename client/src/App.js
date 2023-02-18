@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Logout from './pages/Logout';
 import Ask from './pages/Ask';
+
 function App() {
   return (
     <Provider store={store}>
@@ -37,20 +38,25 @@ function App() {
 export default App;
 
 const GlobalStyle = createGlobalStyle`
+
+
   *{
   box-sizing: border-box; 
   margin: 0;
   padding: 0;
   }
+
   body {
   width: 100vw;
   height: 100vh;  
   background-color: hsl(210, 8%, 93%);
   }
+
   a {
     text-decoration: none;
   }
 `;
+
 const PageLayout = styled.div`
-  padding-top: 48px;
+  padding-top: 50px;
 `;

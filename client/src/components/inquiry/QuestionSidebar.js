@@ -87,7 +87,7 @@ const SidebarUl = styled.ul`
   flex-direction: column;
   border: 0px 1px 1px 1px solid hsl(47deg 65% 84%);
   list-style: none;
-  padding: 0px;
+  padding: 0;
   background-color: hsl(47deg 87% 94%);
 `;
 
