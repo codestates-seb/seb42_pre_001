@@ -186,26 +186,26 @@ const Conatiner = styled.div`
 const SignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 370px;
-  height: 600px;
+  justify-content: space-around;
+  background-color: white;
+  width: 300px;
+  height: 500px;
   padding: 24px;
   border-radius: 10px;
-
   margin-top: 20px;
-  background-color: white;
 `;
 // text, input 묶음
 const InputContainer = styled.div`
-  width: 350px;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 80px;
 `;
 // label label
 const Label = styled.label`
+  margin-left: 3px;
   width: 300px;
-  height: 100%;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
 `;
 
@@ -213,8 +213,9 @@ const FailLabel = styled.div`
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 20px;
+  font-size: 15px;
   color: red;
+  margin-top: 5px;
 `;
 
 // 비밀번호 찾기 label
@@ -228,14 +229,12 @@ const FailLabel = styled.div`
 
 // Input
 const Input = styled.input`
-  width: 350px;
-  height: 30px;
+  width: 255px;
+  height: 35px;
   padding: 8px 9px 8px 9px;
-
-  border-radius: 5px;
-  font-size: 18px;
-  margin: 10px 0 10px 0;
-  border: 1px solid lightgray;
+  border: 1px solid hsl(210, 8%, 75%);
+  border-radius: 3px;
+  margin-top: 5px;
 `;
 
 // 회원가입 실패(Only number, Only letter, at least eight Characters)
@@ -250,23 +249,24 @@ const Input = styled.input`
 
 // 텍스트
 const Text = styled.div`
-  font-size: 20px;
+  font-size: 15px;
+  margin-top: 10px;
 `;
 
-// 로그인 버튼
+// 회원가입 버튼
 const SignUpBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 350px;
-  height: 42px;
-  margin: 6px 0 6px 0;
+  width: 255px;
+  height: 38px;
   padding: 8px 9px 8px 9px;
-  border: 1px solid;
   background-color: hsl(206, 100%, 52%);
-  border-radius: 5px;
+  border-radius: 3px;
   color: white;
-  font-size: 22px;
+  font-size: 15px;
+  margin-top: 10px;
+
   :hover {
     background-color: hsl(206, 100%, 42%);
     cursor: pointer;
@@ -277,15 +277,15 @@ const SocialBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 395px;
-  height: 42px;
+  width: 300px;
+  height: 40px;
   margin: 6px 0 6px 0;
   padding: 8px 9px 8px 9px;
   background-color: ${(props) => props.color};
-  border-radius: 10px;
+  border-radius: 5px;
   color: ${(props) => (props.color === 'white' ? 'black' : 'white')};
-  font-size: 22px;
-  border: 2px solid lightgray;
+  font-size: 15px;
+  border: 1px solid lightgray;
   cursor: pointer;
   :hover {
     opacity: 0.7;

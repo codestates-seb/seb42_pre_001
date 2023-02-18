@@ -36,13 +36,15 @@ function App() {
 export default App;
 
 const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;  
+    margin: 0;
+    padding: 0;
+  }
   body {
-  box-sizing: border-box;
   width: 100vw;
-  height: 100vh;  
-  margin: 0;
-  padding: 0;
-  background-color: hsl(210, 8%, 93%);
+  height: 100vh; 
+background-color: hsl(210, 8%, 93%);
   }
   a {
     text-decoration: none;
