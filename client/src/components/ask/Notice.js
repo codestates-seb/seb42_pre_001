@@ -1,30 +1,24 @@
 import styled from 'styled-components';
-import { askTitle, askDesc } from '../../assets/askInputDesc';
-
-function Notice() {
+import { ReactComponent as NoticeIcon } from '../../assets/noticeIcon.svg';
+import { NoticeStyle } from './AskStyle';
+function Notice({ noticeTitle, noticeDesc }) {
   return (
-    <Div>
-      <h5>{askTitle}</h5>
-      {askDesc.map((el, idx) => (
-        <p key={idx}>{el}</p>
-      ))}
-    </Div>
+    <AskPageSideNotice>
+      <h5>{noticeTitle}</h5>
+      <div>
+        <div>
+          <NoticeIcon />
+        </div>
+        <div>
+          {noticeDesc.map((el, idx) => (
+            <p key={idx}>{el}</p>
+          ))}
+        </div>
+      </div>
+    </AskPageSideNotice>
   );
 }
 
-const Div = styled.div`
-  > h5 {
-    margin: 0;
-    padding: 10px;
-    border-bottom: 1px solid;
-  }
-  > p {
-    margin: 0;
-    padding: 10px;
-    background-color: white;
-  }
-  border: 1px solid;
-  height: fit-content;
-`;
+const AskPageSideNotice = styled(NoticeStyle)``;
 
 export default Notice;

@@ -1,17 +1,19 @@
 import styled from 'styled-components';
-function Input({ inputTitle, inputDesc }) {
+import MainButton from '../MainButton';
+import { AskBoxStyle, InputStyle } from './AskStyle';
+function Input({ title, desc }) {
   return (
     <Div>
-      <h4>{inputTitle}</h4>
-      <p>{inputDesc}</p>
-      <input />
+      <div>
+        <label>{title}</label>
+        <p>{desc}</p>
+        <AskPageInput />
+      </div>
+      <MainButton buttonText="Next" />
     </Div>
   );
 }
 
-const Div = styled.div`
-  border: 1px solid black;
-  background-color: white;
-`;
-
+const Div = styled(AskBoxStyle)``;
+const AskPageInput = styled(InputStyle)``;
 export default Input;

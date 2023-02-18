@@ -1,24 +1,21 @@
 import MainContent from '../components/ask/MainContent';
 import styled from 'styled-components';
-import { ReactComponent as Background } from '../assets/background.svg';
 
 function Ask() {
   return (
-    <>
-      <Div>
-        <h1>Ask a public question</h1>
-        <Background />
-      </Div>
-      <Div>
-        <MainContent />
-      </Div>
-    </>
+    <Content>
+      <MainContent />
+    </Content>
   );
 }
 
-const Div = styled.div`
-  background-color: hsl(210, 8%, 95%);
+const Content = styled.div`
+  width: 100%;
   display: flex;
+  justify-content: center;
+  min-height: 750px;
+  overflow: visible;
+  background-color: transparent;
 `;
 
 export default Ask;

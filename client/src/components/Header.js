@@ -9,6 +9,7 @@ import { GoInbox } from 'react-icons/go';
 import { GiDiamondTrophy } from 'react-icons/gi';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsFillChatRightTextFill } from 'react-icons/bs';
+import { InputStyle } from './ask/AskStyle';
 
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
@@ -39,7 +40,7 @@ function Header() {
           </li>
         </Navi>
         <SearchBar isLogin={isLogin}>
-          <input />
+          <HeaderInput />
           <CgSearch size="20" color="hsl(210,8%,55%)" />
         </SearchBar>
         <Topbar isLogin={isLogin}>
@@ -210,14 +211,6 @@ const SearchBar = styled.div`
   position: relative;
   width: ${({ isLogin }) => (isLogin ? '60%' : '52%')};
   margin: 0 8px;
-  > input {
-    width: 100%;
-    color: hsl(210deg 8% 25%);
-    box-sizing: border-box;
-    border: 1px solid hsl(210deg 8% 75%);
-    border-radius: 3px;
-    padding: 7.8px 9.1px 7.8px 32px;
-  }
   > svg {
     position: absolute;
     top: 51%;
@@ -227,4 +220,9 @@ const SearchBar = styled.div`
     pointer-events: none;
   }
 `;
+
+const HeaderInput = styled(InputStyle)`
+  padding: 7.8px 9.1px 7.8px 32px;
+`;
+
 export default Header;

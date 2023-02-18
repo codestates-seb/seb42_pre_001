@@ -2,67 +2,98 @@ import Input from './Input';
 import TextEditor from './TextEditor';
 import styled from 'styled-components';
 import Notice from './Notice';
+import AskPageNotice from './AskPageNotice';
+import {
+  ask,
+  problem,
+  tryAndExpect,
+  tags,
+  review,
+} from '../../assets/askInputDesc';
+import { ReactComponent as Background } from '../../assets/background.svg';
 
 function MainContent() {
   return (
-    <div>
-      <h2>Writing a good question</h2>
-      <Div>
-        <p>
-          You’re ready to ask a programming-related question and this form will
-          help guide you through the process. Looking to ask a non-programming
-          question? See the topics here to find a relevant site.
-        </p>
-        <h5>Steps</h5>
-        <ul>
-          <li>Summarize your problem in a one-line title.</li>
-          <li>Describe your problem in more detail.</li>
-          <li>Describe what you tried and what you expected to happen.</li>
-          <li>
-            Add “tags” which help surface your question to members of the
-            community.
-          </li>
-          <li>Review your question and post it to the site.</li>
-        </ul>
-      </Div>
-      <Input
-        inputTitle="Title"
-        inputDesc="Be specific and imagine you’re asking a question to another person."
-      />
-      <Notice />
-      <TextEditor
-        editorTitle="What are the details of your problem?"
-        editorDesc="Introduce the problem and expand on what you put in the title. Minimum 20 characters."
-      />
-      <Notice />
-      <TextEditor
-        editorTitle="What did you try and what were you expecting?"
-        editorDesc="Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters."
-      />
-      <Input
-        inputTitle="Tags"
-        inputDesc="Add up to 5 tags to describe what your question is about. Start typing to see suggestions."
-      />
-      <Notice />
-      <Input
-        inputTitle="Review questions already on Stack Overflow to see if your question is a duplicate."
-        inputDesc="Clicking on these questions will open them in a new tab for you to review. Your progress here will be saved so you can come back and continue."
-      />
-      <Notice />
+    <Main>
+      <div>
+        <Top>
+          <h1>Ask a public question</h1>
+          <BgImg />
+        </Top>
+        <AskPageNotice />
+      </div>
+      <InputSet>
+        <Input title={ask.title} desc={ask.desc} />
+        <Notice noticeTitle={ask.noticeTitle} noticeDesc={ask.noticeDesc} />
+      </InputSet>
+      <InputSet>
+        <TextEditor title={problem.title} desc={problem.desc} />
+        <Notice
+          noticeTitle={problem.noticeTitle}
+          noticeDesc={problem.noticeDesc}
+        />
+      </InputSet>
+      <InputSet>
+        <TextEditor title={tryAndExpect.title} desc={tryAndExpect.desc} />
+        <Notice
+          noticeTitle={tryAndExpect.noticeTitle}
+          noticeDesc={tryAndExpect.noticeDesc}
+        />
+      </InputSet>
+      <InputSet>
+        <Input title={tags.title} desc={tags.desc} />
+        <Notice noticeTitle={tags.noticeTitle} noticeDesc={tags.noticeDesc} />
+      </InputSet>
+      <InputSet>
+        <Input title={review.title} desc={review.desc} />
+        <Notice
+          noticeTitle={review.noticeTitle}
+          noticeDesc={review.noticeDesc}
+        />
+      </InputSet>
       <Button>Discard draft</Button>
-    </div>
+    </Main>
   );
 }
 
-const Div = styled.div`
-  background-color: hsl(206, 66.7%, 95.3%);
-  border-color: 1px solid blue;
+const Main = styled.div`
+  padding: 0 24px 24px 24px;
+  max-width: 1240px;
+`;
+
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  > h1 {
+    font-weight: 700;
+    font-size: 1.7rem;
+    margin: 24px 0 27px;
+    line-height: 1.3;
+  }
+`;
+
+const BgImg = styled(Background)`
+  width: 550px;
+`;
+
+const InputSet = styled.div`
+  display: flex;
+  :not(:last-child) {
+    margin-bottom: 12px;
+  }
 `;
 
 const Button = styled.button`
   border: none;
-  color: red;
-  padding: 5px;
+  color: hsl(358deg 62% 47%);
+  padding: 10.4px;
+  background-color: transparent;
+  letter-spacing: 0.03rem;
+  cursor: pointer;
+  :hover {
+    background-color: hsl(358deg 75% 97%);
+  }
 `;
 
 export default MainContent;
