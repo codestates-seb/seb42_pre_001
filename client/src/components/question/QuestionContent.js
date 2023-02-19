@@ -49,6 +49,6 @@ const ContentContainer = styled.div`
   flex-direction: column;
 `;
 const Content = styled.div`
-  height: 700px;
+  height: 400px;
   word-break: break-all; // width에 맞게 강제 줄바꿈
 `;

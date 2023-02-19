@@ -24,10 +24,11 @@ const Answers = () => {
                 <AnswerContent />
                 <CreateAnswer />
                 <QuestionBottom>
-                  {`Not the answer you're looking for? Browse other questions tagged
-              pythonnuke or `}
+                  {`Not the answer you're looking for? Browse other questions tagged `}
                   <ViewTags />
-                  <QuestionBottomAsk>{`ask your own question.`}</QuestionBottomAsk>
+                  {` or `}
+                  <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
+                  {`.`}
                 </QuestionBottom>
               </AnswerContainer>
             </ViewContent>

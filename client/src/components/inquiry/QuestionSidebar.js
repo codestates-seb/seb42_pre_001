@@ -83,7 +83,7 @@ const Container = styled.div`
 `;
 
 const SidebarUl = styled.ul`
-  width: 325px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   border: 0px 1px 1px 1px solid hsl(47deg 65% 84%);

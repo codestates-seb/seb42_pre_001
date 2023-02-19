@@ -40,13 +40,8 @@ function App() {
 export default App;
 
 const GlobalStyle = createGlobalStyle`
-<<<<<<< HEAD
+
   *{
-=======
-
-
-*{
->>>>>>> 4133e69615392f3d59471dc5bba8dcb703dcf6cf
   box-sizing: border-box; 
   margin: 0;
   padding: 0;
