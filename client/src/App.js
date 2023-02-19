@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Logout from './pages/Logout';
 import Ask from './pages/Ask';
+import Answers from './pages/Answers';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/questions" element={<Questions />}></Route>
           <Route path="/questions/ask" element={<Ask />}></Route>
+          <Route path="/questions/question" element={<Answers />}></Route>
           <Route path="/tags" element={<Tages />}></Route>
           <Route path="/users" element={<Users />}></Route>
           <Route path="/companies" element={<Companies />}></Route>
@@ -40,7 +42,7 @@ export default App;
 const GlobalStyle = createGlobalStyle`
 
 
-  *{
+*{
   box-sizing: border-box; 
   margin: 0;
   padding: 0;
