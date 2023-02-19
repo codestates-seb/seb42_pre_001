@@ -23,7 +23,6 @@ const Container = styled.div`
   height: 100px;
   border-bottom: 1px solid hsl(210deg 8% 90%);
 `;
-
 const Title = styled.span`
   font-size: 27px;
 `;

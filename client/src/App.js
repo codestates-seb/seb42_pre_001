@@ -51,7 +51,7 @@ const GlobalStyle = createGlobalStyle`
   body {
   width: 100vw;
   height: 100vh;  
-  background-color: hsl(210, 8%, 93%);
+  background-color: hsl(210deg 8% 98%)
   }
 
   a {

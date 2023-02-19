@@ -15,6 +15,7 @@ const Button = styled.button`
   border-radius: 3px;
   box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
   white-space: nowrap;
+  cursor: pointer;
 
   ${(props) => {
     return (
@@ -32,7 +33,9 @@ const Button = styled.button`
 
   ${(props) => {
     return (
-      (props.text === 'Sign up' || props.text === 'Ask Question') &&
+      (props.text === 'Sign up' ||
+        props.text === 'Ask Question' ||
+        props.text === 'Next') &&
       css`
         height: ${(props) => (props.text === 'Ask Question' ? '40px' : 'auto')};
         color: hsl(0, 0%, 100%);

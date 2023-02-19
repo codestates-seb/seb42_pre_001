@@ -2,8 +2,9 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import styled from 'styled-components';
 import { useRef } from 'react';
-
-function TextEditor({ editorTitle, editorDesc }) {
+import MainButton from '../MainButton';
+import { AskBoxStyle } from './AskStyle';
+function TextEditor({ title, desc }) {
   const editorRef = useRef(null);
 
   const showNotice = () => {
@@ -12,24 +13,25 @@ function TextEditor({ editorTitle, editorDesc }) {
 
   return (
     <Div>
-      <h3>{editorTitle}</h3>
-      <p>{editorDesc}</p>
-      <Editor
-        initialValue="hello react editor world!"
-        previewStyle="vertical"
-        height="600px"
-        initialEditType="markdown"
-        useCommandShortcut={true}
-        ref={editorRef}
-        onFocus={showNotice}
-      />
+      <div>
+        <label>{title}</label>
+        <p>{desc}</p>
+        <EditorBox
+          previewStyle="vertical"
+          initialEditType="wysiwyg"
+          useCommandShortcut={true}
+          ref={editorRef}
+          onFocus={showNotice}
+        />
+      </div>
+      <MainButton buttonText="Next" />
     </Div>
   );
 }
 
-const Div = styled.div`
-  border: 1px solid black;
-  background-color: white;
-`;
+const Div = styled(AskBoxStyle)``;
 
+const EditorBox = styled(Editor)`
+  height: 254.664px;
+`;
 export default TextEditor;
