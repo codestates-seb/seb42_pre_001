@@ -1,10 +1,10 @@
-import MainContent from '../components/ask/MainContent';
+import AskPageContents from '../components/ask/AskPageContents';
 import styled from 'styled-components';
 
 function Ask() {
   return (
     <Content>
-      <MainContent />
+      <AskPageContents />
     </Content>
   );
 }

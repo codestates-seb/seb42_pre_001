@@ -13,7 +13,7 @@ import {
 } from '../../assets/askInputDesc';
 import { ReactComponent as Background } from '../../assets/background.svg';
 
-function MainContent() {
+function AskPageContents() {
   return (
     <Main>
       <div>
@@ -103,4 +103,4 @@ const Button = styled.button`
   }
 `;
 
-export default MainContent;
+export default AskPageContents;
