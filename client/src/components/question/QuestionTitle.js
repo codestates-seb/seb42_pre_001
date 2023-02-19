@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import MainButton from '../MainButton';
-
+import { Link } from 'react-router-dom';
 const QuestionTitle = () => {
   return (
     <Container>
       <Title>{`The scrollview doesn't scroll`}</Title>
-      <MainButton buttonText="Ask Question" />
+      <Link to="/questions/ask">
+        <MainButton buttonText="Ask Question" />
+      </Link>
     </Container>
   );
 };
