@@ -40,7 +40,13 @@ function App() {
 export default App;
 
 const GlobalStyle = createGlobalStyle`
+<<<<<<< HEAD
   *{
+=======
+
+
+*{
+>>>>>>> 4133e69615392f3d59471dc5bba8dcb703dcf6cf
   box-sizing: border-box; 
   margin: 0;
   padding: 0;
@@ -49,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
   body {
   width: 100vw;
   height: 100vh;  
-  background-color: hsl(210, 8%, 93%);
+  background-color: hsl(210deg 8% 98%)
   }
 
   a {

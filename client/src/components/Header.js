@@ -3,13 +3,13 @@ import styled, { css } from 'styled-components';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
 import MainButton from './MainButton';
-
 import { useState } from 'react';
 // import { HiOutlineXMark } from 'react-icons/hi2';
 import { GoInbox } from 'react-icons/go';
 import { GiDiamondTrophy } from 'react-icons/gi';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsFillChatRightTextFill } from 'react-icons/bs';
+import { InputStyle } from './ask/AskStyle';
 
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
@@ -40,7 +40,7 @@ function Header() {
           </li>
         </Navi>
         <SearchBar isLogin={isLogin}>
-          <input />
+          <HeaderInput />
           <CgSearch size="20" color="hsl(210,8%,55%)" />
         </SearchBar>
         <Topbar isLogin={isLogin}>
@@ -56,22 +56,22 @@ function Header() {
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarInbox />
+                  <GoInbox />
                 </Link>
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarAchievements />
+                  <GiDiamondTrophy />
                 </Link>
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarQuestionMark />
+                  <AiFillQuestionCircle />
                 </Link>
               </li>
               <li>
                 <Link to="/users/logout">
-                  <TopbarCurrentCommunity />
+                  <BsFillChatRightTextFill />
                 </Link>
               </li>
             </>
@@ -148,6 +148,7 @@ const Navi = styled.ol`
     list-style: none;
     padding: 0;
   }
+
   > li:not(:nth-child(2)) {
     display: ${({ isLogin }) => (isLogin ? 'none' : 'block')};
   }
@@ -197,6 +198,12 @@ const Topbar = styled.ol`
         `
       );
     }}
+    > a > svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+      color: hsl(210deg 8% 35%);
+    }
   }
 `;
 
@@ -204,14 +211,6 @@ const SearchBar = styled.div`
   position: relative;
   width: ${({ isLogin }) => (isLogin ? '60%' : '52%')};
   margin: 0 8px;
-  > input {
-    width: 100%;
-    color: hsl(210deg 8% 25%);
-    box-sizing: border-box;
-    border: 1px solid hsl(210deg 8% 75%);
-    border-radius: 3px;
-    padding: 7.8px 9.1px 7.8px 32px;
-  }
   > svg {
     position: absolute;
     top: 51%;
@@ -222,30 +221,8 @@ const SearchBar = styled.div`
   }
 `;
 
-const TopbarInbox = styled(GoInbox)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
-`;
-const TopbarAchievements = styled(GiDiamondTrophy)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
-`;
-const TopbarQuestionMark = styled(AiFillQuestionCircle)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
-`;
-
-const TopbarCurrentCommunity = styled(BsFillChatRightTextFill)`
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: hsl(210deg 8% 35%);
+const HeaderInput = styled(InputStyle)`
+  padding: 7.8px 9.1px 7.8px 32px;
 `;
 
 export default Header;

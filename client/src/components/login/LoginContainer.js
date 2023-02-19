@@ -63,7 +63,7 @@ export default function Login() {
           </InputContainer>
         </form>
         <LoginBtn onClick={() => checkUser(state.id, state.password)}>
-          Login
+          Log in
         </LoginBtn>
       </LoginContainer>
       <SingUp>
@@ -91,23 +91,25 @@ const LoginContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  width: 370px;
-  height: 300px;
+  width: 300px;
+  height: 250px;
   padding: 24px;
   border-radius: 10px;
-  line-height: 40px;
   margin-top: 20px;
 `;
 // text, input 묶음
 const InputContainer = styled.div`
-  width: 350px;
-  height: 100px;
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 80px;
+  margin-left: 45px;
 `;
 // label label
 const Label = styled.label`
+  margin-left: 3px;
   width: 300px;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 700;
 `;
 // 비밀번호 찾기 label
@@ -120,13 +122,12 @@ const Label = styled.label`
 // `;
 // Input태그
 const Input = styled.input`
-  width: 330px;
-  height: 30px;
+  width: 255px;
+  height: 35px;
   padding: 8px 9px 8px 9px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-
-  font-size: 18px;
+  border: 1px solid hsl(210, 8%, 75%);
+  border-radius: 3px;
+  margin-top: 5px;
 `;
 
 // 로그인 버튼
@@ -134,14 +135,13 @@ const LoginBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 335px;
-  height: 42px;
-  margin: 6px 0 15px 7px;
+  width: 255px;
+  height: 38px;
   padding: 8px 9px 8px 9px;
   background-color: hsl(206, 100%, 52%);
-  border-radius: 5px;
+  border-radius: 3px;
   color: white;
-  font-size: 22px;
+  font-size: 15px;
   :hover {
     background-color: hsl(206, 100%, 42%);
     cursor: pointer;
@@ -153,15 +153,15 @@ const SocialBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px;
-  height: 42px;
+  width: 300px;
+  height: 40px;
   margin: 6px 0 6px 0;
   padding: 8px 9px 8px 9px;
   background-color: ${(props) => props.color};
-  border-radius: 10px;
+  border-radius: 5px;
   color: ${(props) => (props.color === 'white' ? 'black' : 'white')};
-  font-size: 22px;
-  border: 2px solid lightgray;
+  font-size: 15px;
+  border: 1px solid lightgray;
   cursor: pointer;
   :hover {
     opacity: 0.7;
@@ -170,8 +170,8 @@ const SocialBtn = styled.div`
 
 const SingUp = styled.label`
   display: flex;
-  margin-top: 45px;
-  font-size: 20px;
+  margin-top: 35px;
+  font-size: 15px;
   text-decoration: none;
   :hover {
     background-color: ${(props) => props};
@@ -179,7 +179,7 @@ const SingUp = styled.label`
 `;
 
 const Image = styled.img`
-  width: 50px;
-  height: 70px;
-  margin-bottom: 30px;
+  width: 32px;
+  height: 42px;
+  margin-bottom: 15px;
 `;

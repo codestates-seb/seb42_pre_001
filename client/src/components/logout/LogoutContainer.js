@@ -85,9 +85,9 @@ const LogoutContainer = styled.div`
   flex-direction: column;
   background-color: white;
   justify-content: space-around;
-  width: 400px;
-  height: 580px;
-  padding: 24px;
+  width: 300px;
+  height: 500px;
+  padding: 20px;
   border-radius: 10px;
 `;
 
@@ -101,11 +101,11 @@ const InputContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: start;
-  margin: 25px 0 0 10px;
+  margin: 25px 0 0 0;
   padding: 20px 0 0 0;
-  width: 365px;
+  width: 250px;
   height: 50px;
-  font-size: 19px;
+  font-size: 16px;
   border-top: 2px solid lightgray;
 `;
 
@@ -114,10 +114,8 @@ const Domain = styled.a`
   justify-content: start;
   align-items: center;
   width: 300px;
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 600;
-  margin: 5px;
-
   color: hsl(206, 100%, 35%);
   :hover {
     color: hsl(206, 100%, 70%);
@@ -127,8 +125,8 @@ const Domain = styled.a`
 
 // Input태그
 const Input = styled.input`
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   border: 1px solid;
   border-radius: 5px;
   background-color: yellow;
@@ -141,15 +139,15 @@ const LogoutBtn = styled.div`
   justify-content: center;
   align-items: center;
   width: 80px;
-  height: 35px;
-  margin: 6px 0 6px 7px;
+  height: 40px;
+  margin: 6px 5px 6px 2px;
   padding: 8px 9px 8px 9px;
   border: 1px solid;
   background-color: hsl(206, 100%, 52%);
   border-radius: 5px;
   color: white;
-  font-size: 22px;
-  margin-right: 5px;
+  font-size: 16px;
+
   :hover {
     background-color: hsl(206, 100%, 42%);
     cursor: pointer;
@@ -161,31 +159,30 @@ const CancelBtn = styled.div`
   justify-content: center;
   align-items: center;
   width: 80px;
-  height: 35px;
+  height: 40px;
   margin: 6px 0 6px 7px;
-  padding: 8px 9px 8px 9px;
+  padding: 8px 9px 4px 9px;
   border: 1px solid;
   background-color: white;
   border-radius: 5px;
   color: hsl(206, 100%, 52%);
-  font-size: 22px;
-
+  font-size: 16px;
   :hover {
     background-color: lightgray;
     cursor: pointer;
   }
 `;
 const Text = styled.div`
-  font-size: 20px;
+  font-size: 13px;
   color: gray;
-  margin-top: 30px;
-  line-height: 25px;
+  margin-top: 13px;
+  line-height: 30px;
 `;
 
 const Text2 = styled.div`
-  font-size: 33px;
-  width: 700px;
-  margin-bottom: 35px;
+  font-size: 24px;
+  width: 550px;
+  margin-bottom: 25px;
   text-align: center;
 `;
 

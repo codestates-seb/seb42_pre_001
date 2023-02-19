@@ -38,31 +38,32 @@ export default function Section() {
 const Conatiner = styled.div`
   min-height: 700px;
   min-height: 600px;
-  width: 700px;
-  height: 600px;
+  width: 540px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: 30px;
+  margin-right: 10px;
 `;
 
 // 제목
 const Title = styled.div`
-  font-size: 41px;
-  margin-left: 40px;
+  font-size: 30px;
+  margin-left: 45px;
+  margin-bottom: 15px;
 `;
 
 // 텍스트
 const Text = styled.div`
   display: flex;
   align-items: center;
-  font-size: 28px;
-  margin: 30px 0 0 50px;
+  font-size: 18px;
+  margin: 12px 0 0 50px;
 `;
 
 // 텍스트2
 const Text2 = styled.div`
-  font-size: 22px;
+  font-size: 17px;
   margin: 40px;
 `;
 
