@@ -16,6 +16,5 @@ public class QuestionPostDto {
     @NotBlank
     private String content;
 
-    /*@NotBlank
-    private String expecting; // expecting 부분 뺀다면 지우기*/
+
 }

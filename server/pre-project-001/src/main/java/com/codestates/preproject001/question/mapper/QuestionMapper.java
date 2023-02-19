@@ -12,6 +12,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper  {
+    List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions);
 
     default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
         if (questionPostDto == null ) {
@@ -23,7 +24,6 @@ public interface QuestionMapper  {
         member.setMemberId(questionPostDto.getMId());
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
-        //expecting 부분 추가하면 넣기
         return question;
     }
     default Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto) {
@@ -34,7 +34,6 @@ public interface QuestionMapper  {
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setContent(questionPatchDto.getContent());
         question.setTitle(questionPatchDto.getTitle());
-        // expecting 부분 추가하면 넣기
 
         return question;
     }

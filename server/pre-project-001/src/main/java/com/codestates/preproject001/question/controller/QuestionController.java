@@ -1,68 +1,77 @@
 package com.codestates.preproject001.question.controller;
 
 
+import com.codestates.preproject001.dto.MultiResponseDto;
+import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.member.service.MemberService;
 import com.codestates.preproject001.question.dto.QuestionPatchDto;
 import com.codestates.preproject001.question.dto.QuestionPostDto;
+import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.mapper.QuestionMapper;
 import com.codestates.preproject001.question.service.QuestionService;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @Validated
 @RestController
 @RequestMapping("") // url 미정으로 비워두기
 public class QuestionController {
     private final QuestionService questionService;
-    private final QuestionMapper questionMapper;
-    private final MemberService memberService;
+    private final QuestionMapper mapper;
 
-    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, MemberService memberService) {
+    public QuestionController(QuestionService questionService, QuestionMapper mapper) {
         this.questionService = questionService;
-        this.questionMapper = questionMapper;
-        this.memberService = memberService;
+        this.mapper = mapper;
     }
 
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
-        // 서비스쪽 구현하면서 진행 예정
 
-        return null;
+        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto));
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
     @PatchMapping("") // url 미정으로 비워두기
     public ResponseEntity patchQuestion(@PathVariable("") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
-        // 서비스쪽 구현하면서 진행 예정
+        Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
 
-        return null;
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
     @GetMapping("") // url 미정으로 비워두기 / 질문 조회
     public ResponseEntity getQuestion(@PathVariable("") @Positive long questionId) {
-        // 서비스쪽 구현하면서 진행 예정
+        Question question = questionService.findQuestion(questionId);
 
-        return null;
+        return new ResponseEntity(
+                new SingleResponseDto(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
-    @GetMapping // 질문 목록,
+    @GetMapping // 질문 목록
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size) {
-        // 서비스쪽 구현하면서 진행 예정
-
-        return null;
+        Page<Question> questions = questionService.findQuestions(page - 1, size);
+        List<Question> content = questions.getContent();
+        return new ResponseEntity(
+                new MultiResponseDto(mapper.questionsToQuestionResponseDtos(content), questions), HttpStatus.OK);
     }
 
     @DeleteMapping("") // url 미정으로 비워두기 / 질문 삭제
     public ResponseEntity deleteQuestion(@PathVariable("") @Positive long questionId) {
-        // 서비스쪽 구현하면서 진행 예정
+        questionService.deleteQuestion(questionId);
 
-        return null;
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+
     }
 
 

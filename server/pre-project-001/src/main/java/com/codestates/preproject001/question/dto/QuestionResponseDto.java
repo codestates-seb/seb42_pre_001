@@ -18,7 +18,7 @@ public class QuestionResponseDto {
     private LocalDateTime modifiedAt; // 수정 시간
     private String title;
     private String content;
-    // private String expecting; // expecting 부분 안 쓰면 삭제 
+
 
 
 }

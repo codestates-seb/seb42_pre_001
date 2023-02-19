@@ -11,6 +11,5 @@ public class QuestionPatchDto {
     private long questionId;
     private String title;
     private String content;
-    // private String expecting; expecting 지우면
 
 }
