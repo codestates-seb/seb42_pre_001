@@ -1,13 +1,13 @@
 package com.codestates.preproject001.question.entity;
 
 import com.codestates.preproject001.answer.entity.Answer;
+import com.codestates.preproject001.audit.auditable;
 import com.codestates.preproject001.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +15,10 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Question {
+public class Question extends auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long questionId;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
 
     //답변여부 (변수명 이대로 괜찮은가)
     @Column(nullable = false)
