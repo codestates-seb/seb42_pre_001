@@ -32,6 +32,7 @@ const VoteContainer = styled.div`
 `;
 const VoteUpButton = styled(GoTriangleUp)`
   color: hsl(210deg 8% 75%);
+  cursor: pointer;
 `;
 const VoteNum = styled.div`
   align-self: center;
@@ -40,6 +41,7 @@ const VoteNum = styled.div`
 `;
 const VoteDownButton = styled(GoTriangleDown)`
   color: hsl(210deg 8% 75%);
+  cursor: pointer;
 `;
 const ContentContainer = styled.div`
   display: flex;
