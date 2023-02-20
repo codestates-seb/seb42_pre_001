@@ -1,4 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { setUserInfo } from '../../slice/loginSlice';
+import { useDispatch } from 'react-redux';
+
 import styled from 'styled-components';
 import askubuntu from '../../assets/askubuntu.png';
 import exchange from '../../assets/exchange.png';
@@ -9,9 +12,16 @@ import stack from '../../assets/stack.png';
 import superuser from '../../assets/superuser.png';
 
 export default function Logout() {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  // 로그아웃 성공 시 이전 화면으로 이동
+  // 로그아웃 성공 시 홈 화면으로 이동 => 현재 헤더의 state 값을 전역적으로 관리해야함(header 컴포넌트 수정 필요)
+  const logoutHandler = () => {
+    dispatch(setUserInfo(null));
+    navigate('/');
+  };
+  // 로그아웃 취소 시 이전 화면으로 이동
   const cancelHandler = () => {
     navigate(-1);
   };
@@ -58,7 +68,7 @@ export default function Logout() {
           Log out on all devices
         </InputContainer>
         <BtnContainer>
-          <LogoutBtn>Log out</LogoutBtn>
+          <LogoutBtn onClick={logoutHandler}>Log out</LogoutBtn>
           <CancelBtn onClick={cancelHandler}>Cancel</CancelBtn>
         </BtnContainer>
         <Text>
@@ -101,12 +111,12 @@ const InputContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: start;
-  margin: 25px 0 0 0;
-  padding: 20px 0 0 0;
-  width: 250px;
+  margin: 15px 0 0 0;
+  padding: 15px 0 0 0;
+  width: 262px;
   height: 50px;
   font-size: 16px;
-  border-top: 2px solid lightgray;
+  border-top: 1px solid lightgray;
 `;
 
 const Domain = styled.a`
