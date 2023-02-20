@@ -29,7 +29,7 @@ const questionSlice = createSlice({
       state.contentErrorMsg = action.payload;
     },
     setTags: (state, action) => {
-      state.tags.push(action.payload);
+      state.tags = action.payload;
     },
     setTagsErrorMsg: (state, action) => {
       state.tagsErrorMsg = action.payload;

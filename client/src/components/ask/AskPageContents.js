@@ -1,6 +1,7 @@
 // title 에서만 받아오기
 //axios 요청
-import Input from './Input';
+import InputTitle from './InputTitle';
+import InputTags from './InputTags';
 import TextEditor from './TextEditor';
 import styled from 'styled-components';
 import AskPageMainNotice from './AskPageMainNotice';
@@ -46,7 +47,7 @@ function AskPageContents() {
         <AskPageMainNotice />
       </div>
       <InputSet>
-        <Input title={ask.title} desc={ask.desc} />
+        <InputTitle title={ask.title} desc={ask.desc} />
         <AskPageSideNotice
           noticeTitle={ask.noticeTitle}
           noticeDesc={ask.noticeDesc}
@@ -74,7 +75,7 @@ function AskPageContents() {
         />
       </InputSet> */}
       <InputSet>
-        <Input title={tags.title} desc={tags.desc} />
+        <InputTags title={tags.title} desc={tags.desc} />
         <AskPageSideNotice
           noticeTitle={tags.noticeTitle}
           noticeDesc={tags.noticeDesc}
