@@ -42,7 +42,7 @@ public class MemberService {
         Optional.ofNullable(member.getName())
                 .ifPresent(name->findMember.setName(name));
         // 수정 로직 추후 구현.. 수정 가능한 부분(ex : name, password)이 무엇인지 명확하지 않아 일단 나중
-        
+
         return memberRepository.save(findMember);
     }
 
@@ -55,9 +55,8 @@ public class MemberService {
         return memberRepository.findAll(PageRequest.of(page, 36, Sort.by("memberID").descending()));
     }
 
-    public void deleteMember(long memberId) {
-        Member findMember = findVerifiedMember(memberId);
-        memberRepository.delete(findMember);
+    public void deleteMember(Member member) {
+        memberRepository.delete(member);
     }
 
     public void verifyExistsEmail(String email) {
