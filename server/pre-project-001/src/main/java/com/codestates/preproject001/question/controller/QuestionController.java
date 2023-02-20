@@ -21,7 +21,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("") // url 미정으로 비워두기
+@RequestMapping("/questions")
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
@@ -31,7 +31,7 @@ public class QuestionController {
         this.mapper = mapper;
     }
 
-    @PostMapping
+    @PostMapping    // 질문 작성
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
 
         Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto));
@@ -39,8 +39,8 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
-    @PatchMapping("") // url 미정으로 비워두기
-    public ResponseEntity patchQuestion(@PathVariable("") @Positive long questionId,
+    @PatchMapping("/{question-id}") // 질문 수정
+    public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
         Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
@@ -49,8 +49,8 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
-    @GetMapping("") // url 미정으로 비워두기 / 질문 조회
-    public ResponseEntity getQuestion(@PathVariable("") @Positive long questionId) {
+    @GetMapping("/{question-id}") // 질문 조회
+    public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
 
         return new ResponseEntity(
@@ -66,8 +66,8 @@ public class QuestionController {
                 new MultiResponseDto(mapper.questionsToQuestionResponseDtos(content), questions), HttpStatus.OK);
     }
 
-    @DeleteMapping("") // url 미정으로 비워두기 / 질문 삭제
-    public ResponseEntity deleteQuestion(@PathVariable("") @Positive long questionId) {
+    @DeleteMapping("/{question-id}") // 질문 삭제
+    public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
         questionService.deleteQuestion(questionId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
