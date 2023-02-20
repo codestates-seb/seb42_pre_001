@@ -5,10 +5,12 @@ import com.codestates.preproject001.exception.ExceptionCode;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -44,8 +46,18 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    public void deleteMember(Member member) {
-        memberRepository.delete(member);
+    public Member findMember(long memberId) {
+        Member findMember = findVerifiedMember(memberId);
+        return findMember;
+    }
+
+    public Page<Member> findMembers(int page) {
+        return memberRepository.findAll(PageRequest.of(page, 36, Sort.by("memberID").descending()));
+    }
+
+    public void deleteMember(long memberId) {
+        Member findMember = findVerifiedMember(memberId);
+        memberRepository.delete(findMember);
     }
 
     public void verifyExistsEmail(String email) {
@@ -67,6 +79,8 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(email);
         Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
+
+
     }
 
 
