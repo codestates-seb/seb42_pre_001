@@ -52,7 +52,7 @@ public class MemberService {
     }
 
     public Page<Member> findMembers(int page) {
-        return memberRepository.findAll(PageRequest.of(page, 36, Sort.by("memberID").descending()));
+        return memberRepository.findAll(PageRequest.of(page, 36, Sort.by("memberId").descending()));
     }
 
     public void deleteMember(Member member) {
@@ -78,8 +78,6 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(email);
         Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
-
-
     }
 
 
