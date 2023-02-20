@@ -34,14 +34,14 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{}") // path 안 정해서..
+    @PatchMapping // path 안 정해서..
     public ResponseEntity patchMember(@PathVariable("") @Positive long memberId,
                                       @Valid @RequestBody MemberPatchDto memberPatchDto) {
         return null;
     }
 
 
-    @GetMapping({"/get"}) // path 안 정해서..
+    @GetMapping // path 안 정해서..
     public ResponseEntity getMember(@AuthenticationPrincipal MemberDetails memberDetails) {
 
         Member dbMember = memberService.findByEmail(memberDetails.getEmail());
@@ -52,7 +52,7 @@ public class MemberController {
         return new ResponseEntity<> (mapper.memberToMemberResponseDto(dbMember),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{}") // path 안 정해서..
+    @DeleteMapping // path 안 정해서..
     public ResponseEntity deleteMember(@PathVariable("") @Positive long memberId) {
         // delete만 넣으면 되지만 일단 service쪽 하고...
         return null;

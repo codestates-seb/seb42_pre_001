@@ -29,15 +29,15 @@ public class SecurityConfiguration {
                 .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin().disable()
-//                .loginPage("/loginpage")//요청을 컨트롤러단에보냄
-//                .loginProcessingUrl("/login")//요청을 받음
-//                .failureUrl("/fail")//실패했을때
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/")
-//                .and()
+                .formLogin()
+                .loginPage("/login")//요청을 컨트롤러단에보냄
+                .loginProcessingUrl("/login_process")//요청을 받음
+                .failureUrl("/login?error")//실패했을때
+                .and()
+                .logout()
+                .logoutUrl("/logout_process")
+                .logoutSuccessUrl("/")
+                .and()
                 .httpBasic().disable()
                 .apply(new CustomFilterConfigurer())
                 .and()
@@ -54,7 +54,7 @@ public class SecurityConfiguration {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
-            jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
+//            jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer);
 
