@@ -41,25 +41,22 @@ export default function SingUp() {
     const emailRegex =
       /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 
-    // id를 입력하지 않은 경우
-    if (state.signUp.email === null) {
-      dispatch(setErrorMsg1('Email cannot be empty.'));
+    if (state.signUp.email === '') {
+      dispatch(setErrorMsg1(undefined));
     }
+    if (state.signUp.password === '') {
+      dispatch(setErrorMsg2(undefined));
+    }
+
     // id를 입력한 경우
     if (state.signUp.email) {
       if (emailRegex.test(state.signUp.email)) {
-        dispatch(setErrorMsg1(0));
+        dispatch(setErrorMsg1(null));
       } else {
         dispatch(
           setErrorMsg1(`${state.signUp.email} is not a valid email address.`)
         );
       }
-    }
-
-    // password를 입력하지 않은 경우
-    if (state.signUp.password === null) {
-      dispatch(setErrorMsg2('Password cannot be empty.'));
-      return;
     }
 
     // password를 입력한 경우
@@ -92,19 +89,35 @@ export default function SingUp() {
         `)
         );
         return;
+      } else {
+        dispatch(setErrorMsg2(null));
       }
     }
-    dispatch(setErrorMsg2(0));
   };
 
-  const resigerUser = () => {
-    if (state.validation.errMsg1 === 0 && state.validation.errMsg2 === 0) {
+  const registerUser = () => {
+    if (state.signUp.password === null) {
+      dispatch(setErrorMsg2('Password cannot be empty.'));
+    }
+    // id를 입력하지 않은 경우
+    if (state.signUp.email === null) {
+      dispatch(setErrorMsg1('Email cannot be empty.'));
+    }
+    // password를 입력하지 않은 경우
+
+    if (
+      state.validation.errMsg1 === null &&
+      state.validation.errMsg2 === null
+    ) {
       dispatch(setSubmit());
     }
   };
-  // console.log('state', state.validation);
-  // console.log('state', state.signUp.email);
-
+  const activeEnter = (e) => {
+    if (e.key === 'Enter') {
+      console.log('submit test');
+      registerUser();
+    }
+  };
   return (
     <Conatiner>
       <SocialBtn color="white">Login in with Google</SocialBtn>
@@ -115,6 +128,7 @@ export default function SingUp() {
           <InputContainer>
             <Label>Display name</Label>
             <Input
+              onKeyDown={(e) => activeEnter(e)}
               type="text"
               name="display-name"
               onChange={(e) => {
@@ -126,6 +140,7 @@ export default function SingUp() {
           <InputContainer>
             <Label>Email</Label>
             <Input
+              onKeyDown={(e) => activeEnter(e)}
               type="text"
               name="email"
               onChange={(e) => {
@@ -140,6 +155,7 @@ export default function SingUp() {
           <InputContainer>
             <Label>Password</Label>
             <Input
+              onKeyDown={(e) => activeEnter(e)}
               type="password"
               name="password"
               onChange={setPassVal}
@@ -157,7 +173,7 @@ export default function SingUp() {
           <SignUpBtn
             type="submit"
             onClick={() => {
-              resigerUser();
+              registerUser();
             }}
           >
             Sign up
@@ -182,14 +198,15 @@ const Conatiner = styled.div`
   align-items: center;
   justify-content: center;
 `;
-// 로그인 창 묶음
+// 회원가입 창 묶음
 const SignUpContainer = styled.div`
+  max-height: 530px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   background-color: white;
   width: 300px;
-  height: 500px;
+  height: 100%;
   padding: 24px;
   border-radius: 10px;
   margin-top: 20px;
@@ -199,7 +216,7 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
-  height: 80px;
+  margin-bottom: 15px;
 `;
 // label label
 const Label = styled.label`
@@ -210,6 +227,7 @@ const Label = styled.label`
 `;
 
 const FailLabel = styled.div`
+  width: 250px;
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -266,7 +284,6 @@ const SignUpBtn = styled.div`
   color: white;
   font-size: 15px;
   margin-top: 10px;
-
   :hover {
     background-color: hsl(206, 100%, 42%);
     cursor: pointer;
