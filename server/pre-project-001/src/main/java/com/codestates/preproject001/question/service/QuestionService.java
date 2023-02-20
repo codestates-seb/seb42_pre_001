@@ -1,6 +1,6 @@
 package com.codestates.preproject001.question.service;
 
-import com.codestates.preproject001.exception.BussinessLogicException;
+import com.codestates.preproject001.exception.BusinessLogicException;
 import com.codestates.preproject001.exception.ExceptionCode;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.service.MemberService;
@@ -69,14 +69,14 @@ public class QuestionService {
     public void verifyRule(Question question) {
         String content = question.getContent();
         if (content.length() <= 20) {
-            throw new BussinessLogicException(ExceptionCode.POST_NOTENOUGH_LENGTH);
+            throw new BusinessLogicException(ExceptionCode.POST_NOTENOUGH_LENGTH);
         }
     }
 
     public Question findVerifiedQuestion(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question question = optionalQuestion.orElseThrow(
-                () -> new BussinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+                () -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return question;
     }
 }

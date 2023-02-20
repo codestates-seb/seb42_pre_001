@@ -21,7 +21,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("") // url 미정으로 비워두기
+@RequestMapping("/questions") // url 미정으로 비워두기
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
@@ -49,7 +49,7 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
-    @GetMapping("") // url 미정으로 비워두기 / 질문 조회
+    @GetMapping("/{questionId}") // url 미정으로 비워두기 / 질문 조회
     public ResponseEntity getQuestion(@PathVariable("") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
 
