@@ -17,7 +17,7 @@ import javax.validation.constraints.Positive;
 
 
 @RestController
-@RequestMapping("/members") // RequestMapping 설정.. 정하고 넣기
+@RequestMapping("/member")
 @Validated
 public class MemberController {
     private final MemberService memberService;
@@ -41,6 +41,7 @@ public class MemberController {
     }
 
 
+
     @GetMapping // path 안 정해서..
     public ResponseEntity getMember(@AuthenticationPrincipal MemberDetails memberDetails) {
 
@@ -50,11 +51,15 @@ public class MemberController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<> (mapper.memberToMemberResponseDto(dbMember),HttpStatus.OK);
+
     }
 
-    @DeleteMapping // path 안 정해서..
-    public ResponseEntity deleteMember(@PathVariable("") @Positive long memberId) {
+    @DeleteMapping("/{member-id}")
+    public ResponseEntity deleteMember(@PathVariable("member-id") @Positive long memberId) {
+
         // delete만 넣으면 되지만 일단 service쪽 하고...
         return null;
     }
+
+    //getMembers 추가해야함
 }
