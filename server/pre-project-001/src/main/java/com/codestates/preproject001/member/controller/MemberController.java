@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("/member") // RequestMapping 설정.. 정하고 넣기
+@RequestMapping("/member")
 @Validated
 public class MemberController {
     private final MemberService memberService;
@@ -29,20 +29,20 @@ public class MemberController {
         return null;
     }
 
-    @PatchMapping("/{member-id}") // path 안 정해서..
+    @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
                                       @Valid @RequestBody MemberPatchDto memberPatchDto) {
         // 아직 미구현, service 쪽 구현하면서 진행 예정
         return null;
     }
 
-    @GetMapping("/{member-id}") // path 안 정해서..
+    @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId) {
         // 아직 미구현, service 쪽 구현하면서 진행 예정
         return null;
     }
 
-    @DeleteMapping("/{member-id}") // path 안 정해서..
+    @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(@PathVariable("member-id") @Positive long memberId) {
         // delete만 넣으면 되지만 일단 service쪽 하고...
         return null;
