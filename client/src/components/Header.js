@@ -3,32 +3,36 @@ import styled, { css } from 'styled-components';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
 import MainButton from './MainButton';
-import { useState } from 'react';
 // import { HiOutlineXMark } from 'react-icons/hi2';
 import { GoInbox } from 'react-icons/go';
 import { GiDiamondTrophy } from 'react-icons/gi';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsFillChatRightTextFill } from 'react-icons/bs';
 import { InputStyle } from './ask/AskStyle';
+import { useSelector } from 'react-redux';
 
 function Header() {
-  const [isLogin, setIsLogin] = useState(false);
-  const handleLogin = () => {
-    setIsLogin(!isLogin);
-    console.log(isLogin);
-  };
+  const state = useSelector((state) => {
+    return state.login;
+  });
+  console.log(state);
+  // const [isLogin, setIsLogin] = useState(false);
+  // const handleLogin = () => {
+  //   setIsLogin(!isLogin);
+  //   console.log(isLogin);
+  // };
 
   return (
     <HeaderWrapper>
       <Div>
-        <Menu isLogin={isLogin}>
+        <Menu isLogin={state.isLogin}>
           {/* <HiOutlineXMark size="20" /> */}
           <FiMenu size="20" />
         </Menu>
         <LogoLink href="https://stackoverflow.com/">
           <span></span>
         </LogoLink>
-        <Navi isLogin={isLogin}>
+        <Navi isLogin={state.isLogin}>
           <li>
             <a href="https://stackoverflow.co/">About</a>
           </li>
@@ -39,12 +43,12 @@ function Header() {
             <a href="https://stackoverflow.co/teams/">For Teams</a>
           </li>
         </Navi>
-        <SearchBar isLogin={isLogin}>
+        <SearchBar isLogin={state.isLogin}>
           <HeaderInput />
           <CgSearch size="20" color="hsl(210,8%,55%)" />
         </SearchBar>
-        <Topbar isLogin={isLogin}>
-          {isLogin ? (
+        <Topbar isLogin={state.isLogin}>
+          {state.isLogin ? (
             <>
               <li>
                 <Link to="/users/logout">
@@ -78,7 +82,7 @@ function Header() {
           ) : (
             <>
               <li>
-                <Link to="/users/login" onClick={handleLogin}>
+                <Link to="/users/login">
                   <MainButton buttonText="Log in" />
                 </Link>
               </li>
