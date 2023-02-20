@@ -1,5 +1,6 @@
 package com.codestates.preproject001.answer.entity;
 
+import com.codestates.preproject001.audit.auditable;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.question.entity.Question;
 import lombok.Getter;
@@ -13,13 +14,10 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Answer {
+public class Answer extends auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long answerId;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
 
     //length 추가?
     @Column(nullable = false)
@@ -28,7 +26,6 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-
 
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
