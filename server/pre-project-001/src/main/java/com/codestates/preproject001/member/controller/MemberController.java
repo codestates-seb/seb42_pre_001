@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/members")
 @Validated
 public class MemberController {
     private final MemberService memberService;
