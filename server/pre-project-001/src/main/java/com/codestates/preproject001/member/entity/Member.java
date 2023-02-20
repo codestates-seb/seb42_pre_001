@@ -1,5 +1,6 @@
 package com.codestates.preproject001.member.entity;
 
+
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.question.entity.Question;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,9 @@ public class Member {
         this.email = email;
         this.password = password;
         this.name = name;
+    }
+    public Member(Map<String,Object> claims){
+        this.email = claims.get("username").toString();
     }
 
     @OneToMany(mappedBy = "member")

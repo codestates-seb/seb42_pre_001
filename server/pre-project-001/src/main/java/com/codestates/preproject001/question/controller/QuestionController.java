@@ -49,6 +49,7 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
+
     @GetMapping("/{question-id}") // 질문 조회
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
