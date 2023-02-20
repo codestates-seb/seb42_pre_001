@@ -1,20 +1,57 @@
-import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setId, setPassword } from '../../slice/loginSlice';
+import {
+  setId,
+  setPassword,
+  setUserInfo,
+  setIsLogin,
+} from '../../slice/loginSlice';
+import { setErrorMsg3, setErrorMsg4 } from '../../slice/validationSlice';
+import { useEffect } from 'react';
 import stack from '../../assets/stack.png';
+import axios from 'axios';
 
 export default function Login() {
   const dispatch = useDispatch();
   const state = useSelector((state) => {
-    return state.login;
+    return state;
   });
   const navigate = useNavigate();
+  console.log(state);
+  useEffect(() => {
+    checkUser();
+    validationTest();
+  }, [state.login]);
+
+  // 실제 로그인 시에는 Post 메소드로  userName, pass를 바디에 담아 서버로 요청 후 로그인 가능 여부를 응답 받아야 합니다.
+  const getUserData = async (userName, pass) => {
+    await axios
+      .get(
+        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/members.json'
+      )
+      .then((res) => {
+        const filtered = res.data.filter(
+          (info) => info.email === userName && info.password === pass
+        );
+        console.log(filtered);
+
+        if (filtered.length !== 0) {
+          dispatch(setUserInfo(filtered[0]));
+        }
+      });
+  };
+
+  const activeEnter = (e) => {
+    if (e.key === 'Enter') {
+      checkUser(state.login.id, state.login.password);
+    }
+  };
 
   // 로그인 성공 시 Home 화면으로 이동
   const loginHandler = () => {
+    dispatch(setErrorMsg3(null));
     navigate('/');
-    alert('로그인에 성공했습니다.');
   };
 
   // input value를 state로 저장
@@ -24,15 +61,49 @@ export default function Login() {
 
   // input value를 state로 저장
   const setPassVal = (e) => {
-    dispatch(setPassword(e.target.value));
+    dispatch(setPassword(Number(e.target.value)));
   };
 
   //아이디, 패스워드 확인
   const checkUser = (id, pass) => {
-    if (id === 'abc@gmail.com' && pass === '1234') {
+    getUserData(id, pass);
+    if (state.login.userInfo) {
+      dispatch(setId(null));
+      dispatch(setPassword(null));
+      dispatch(setIsLogin(true));
       loginHandler();
+    } else if (
+      !state.login.userInfo &&
+      state.login.id !== null &&
+      state.login.password !== null
+    ) {
+      dispatch(setErrorMsg3('The email or password is incorrect.'));
+    }
+  };
+
+  const validationTest = () => {
+    const emailRegex =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
+    // id를 입력하지 않은 경우
+    if (state.login.id === 0) {
+      dispatch(setErrorMsg3('Email cannot be empty.'));
+    }
+
+    // id를 입력한 경우
+    if (state.login.id) {
+      if (emailRegex.test(state.login.id)) {
+        dispatch(setErrorMsg3(0));
+      } else {
+        dispatch(setErrorMsg3(`The email is not a valid email address.`));
+      }
+    }
+    // password를 입력하지 않은 경우
+    if (state.login.password === 0) {
+      dispatch(setErrorMsg4('Password cannot be empty.'));
+      return;
     } else {
-      alert('비밀번호가 틀렸습니다.');
+      dispatch(setErrorMsg4(0));
     }
   };
 
@@ -43,26 +114,34 @@ export default function Login() {
       <SocialBtn color="black">Login in with Github</SocialBtn>
       <SocialBtn color="hsl(209,100%,26%)">Login in with Facebook</SocialBtn>
       <LoginContainer>
-        <form>
-          <InputContainer>
-            <Label type="text" name="email">
-              Email
-            </Label>
-            <Input onChange={setIdVal}></Input>
-          </InputContainer>
-          <InputContainer>
-            <Label>Password</Label>
-            {/* <Link to="/users/account-recovery"> */}
-            {/* <PassLabel>Forgot password?</PassLabel> */}
-            {/* </Link> */}
-            <Input
-              type="password"
-              name="password"
-              onChange={setPassVal}
-            ></Input>
-          </InputContainer>
-        </form>
-        <LoginBtn onClick={() => checkUser(state.id, state.password)}>
+        <InputContainer>
+          <Label type="text" name="email">
+            Email
+          </Label>
+          <Input onKeyDown={(e) => activeEnter(e)} onChange={setIdVal}></Input>
+          {state.validation.errMsg3 ? (
+            <FailLabel>{state.validation.errMsg3}</FailLabel>
+          ) : null}
+        </InputContainer>
+        <InputContainer>
+          <Label>Password</Label>
+          {/* <Link to="/users/account-recovery"> */}
+          {/* <PassLabel>Forgot password?</PassLabel> */}
+          {/* </Link> */}
+          <Input
+            onKeyDown={(e) => activeEnter(e)}
+            type="password"
+            name="password"
+            onChange={setPassVal}
+          ></Input>
+          {state.validation.errMsg4 ? (
+            <FailLabel>{state.validation.errMsg4}</FailLabel>
+          ) : null}
+        </InputContainer>
+
+        <LoginBtn
+          onClick={() => checkUser(state.login.id, state.login.password)}
+        >
           Log in
         </LoginBtn>
       </LoginContainer>
@@ -88,12 +167,12 @@ const Conatiner = styled.div`
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: white;
   width: 300px;
   height: 250px;
-  padding: 24px;
+  padding: 20px;
   border-radius: 10px;
   margin-top: 20px;
 `;
@@ -127,6 +206,15 @@ const Input = styled.input`
   padding: 8px 9px 8px 9px;
   border: 1px solid hsl(210, 8%, 75%);
   border-radius: 3px;
+  margin-top: 5px;
+`;
+
+const FailLabel = styled.div`
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  color: red;
   margin-top: 5px;
 `;
 
