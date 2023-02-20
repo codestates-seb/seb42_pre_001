@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -33,9 +34,18 @@ public class MemberService {
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
 
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password->findMember.setPassword(password));
+
+        Optional.ofNullable(member.getName())
+                .ifPresent(name->findMember.setName(name));
         // 수정 로직 추후 구현.. 수정 가능한 부분(ex : name, password)이 무엇인지 명확하지 않아 일단 나중
         
         return memberRepository.save(findMember);
+    }
+
+    public void deleteMember(Member member) {
+        memberRepository.delete(member);
     }
 
     public void verifyExistsEmail(String email) {

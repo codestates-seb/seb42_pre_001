@@ -17,7 +17,7 @@ import javax.validation.constraints.Positive;
 
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/members")
 @Validated
 public class MemberController {
     private final MemberService memberService;
@@ -34,31 +34,35 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PatchMapping // path 안 정해서..
-    public ResponseEntity patchMember(@PathVariable("") @Positive long memberId,
+    @PatchMapping
+    public ResponseEntity patchMember(@AuthenticationPrincipal MemberDetails memberDetails,
                                       @Valid @RequestBody MemberPatchDto memberPatchDto) {
-        return null;
+        if(memberDetails.getMemberId()!=memberPatchDto.getMemberId()){
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        Member member = mapper.memberPatchDtoToMember(memberPatchDto);
+        memberService.updateMember(member);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
 
-    @GetMapping // path 안 정해서..
-    public ResponseEntity getMember(@AuthenticationPrincipal MemberDetails memberDetails) {
+    @GetMapping(("/{member-id}"))
+    public ResponseEntity getMember(@PathVariable("member-id") long memberId ) {
 
-        Member dbMember = memberService.findByEmail(memberDetails.getEmail());
-        if (dbMember == null) {
-            System.out.println("no");
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+        Member dbMember = memberService.findVerifiedMember(memberId);
         return new ResponseEntity<> (mapper.memberToMemberResponseDto(dbMember),HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(@PathVariable("member-id") @Positive long memberId) {
+    @DeleteMapping
+    public ResponseEntity deleteMember(@AuthenticationPrincipal MemberDetails memberDetails) {
 
-        // delete만 넣으면 되지만 일단 service쪽 하고...
-        return null;
+        Member dbMember = memberService.findByEmail(memberDetails.getEmail());
+        memberService.deleteMember(dbMember);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //getMembers 추가해야함

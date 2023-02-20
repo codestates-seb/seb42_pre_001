@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemberResponseDto {
+    private long memberId;
     private String email;
     private String name;
 }
