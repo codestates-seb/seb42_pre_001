@@ -6,8 +6,11 @@ const questionSlice = createSlice({
     id: null,
     name: null,
     title: null,
+    titleErrorMsg: null,
     content: null,
-    tags: ['javascript', 'reactjs'],
+    contentErrorMsg: null,
+    tags: [],
+    tagsErrorMsg: null,
   },
   reducers: {
     setName: (state, action) => {
@@ -16,14 +19,31 @@ const questionSlice = createSlice({
     setTitle: (state, action) => {
       state.title = action.payload;
     },
+    setTitleErrorMsg: (state, action) => {
+      state.titleErrorMsg = action.payload;
+    },
     setContent: (state, action) => {
       state.content = action.payload;
     },
+    setContentErrorMsg: (state, action) => {
+      state.contentErrorMsg = action.payload;
+    },
     setTags: (state, action) => {
-      state.tags = action.payload;
+      state.tags.push(action.payload);
+    },
+    setTagsErrorMsg: (state, action) => {
+      state.tagsErrorMsg = action.payload;
     },
   },
 });
 
 export default questionSlice;
-export const { setName, setTitle, setContent, setTags } = questionSlice.actions;
+export const {
+  setName,
+  setTitle,
+  setTitleErrorMsg,
+  setContent,
+  setContentErrorMsg,
+  setTags,
+  setTagsErrorMsg,
+} = questionSlice.actions;

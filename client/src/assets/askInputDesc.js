@@ -65,4 +65,14 @@ const review = {
   ],
 };
 
-export { mainNotice, ask, problem, tryAndExpect, tags, review };
+const body = {
+  title: 'Body',
+  desc: 'The body of your question contains your problem details and results. Minimum 30 characters.',
+  noticeTitle: 'Proof-read before posting',
+  noticeDesc: [
+    'Now that you’re ready to post your question, read through it from start to finish. Does it make sense?',
+    'Add any details you missed and read through it again. Now is a good time to make sure that your title still describes the problem!',
+  ],
+};
+
+export { mainNotice, ask, problem, tryAndExpect, tags, review, body };

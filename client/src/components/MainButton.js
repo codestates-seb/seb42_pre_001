@@ -9,6 +9,7 @@ function MainButton({ buttonText }) {
 }
 
 const Button = styled.button`
+  display: block;
   padding: 8px 10.4px;
   margin: 2px;
   border: 1px solid hsl(205, 41%, 63%);
@@ -36,6 +37,7 @@ const Button = styled.button`
     return (
       (props.text === 'Sign up' ||
         props.text === 'Ask Question' ||
+        props.text === 'Post your question' ||
         props.text === 'Post Your Answer' ||
         props.text === 'Next') &&
       css`

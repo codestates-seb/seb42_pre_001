@@ -1,15 +1,43 @@
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import styled from 'styled-components';
-import { useRef } from 'react';
-import MainButton from '../MainButton';
+import { useRef, useEffect } from 'react';
 import { AskBoxStyle } from './AskStyle';
-function TextEditor({ title, desc }) {
-  const editorRef = useRef(null);
+import { useDispatch, useSelector } from 'react-redux';
+import { setContent, setContentErrorMsg } from '../../slice/questionSlice';
 
-  const showNotice = () => {
-    console.log(editorRef.current?.getInstance().getHTML());
+function TextEditor({ title, desc }) {
+  let editorRef = useRef(null);
+  let dispatch = useDispatch();
+  let state = useSelector((state) => state);
+
+  let setContentText = () => {
+    dispatch(setContent(editorRef.current?.getInstance().getMarkdown()));
+    console.log(state.question.content);
+    editorRef.current?.getInstance().isViewer();
+    // console.log(editorRef.current?.getInstance().getHTML());
   };
+
+  let isContentValid = false;
+  let validationContent = () => {
+    if (!state.question.content?.length) {
+      isContentValid = false;
+      dispatch(setContentErrorMsg('Body is missing.'));
+    } else {
+      isContentValid = true;
+      dispatch(setContentErrorMsg('')); // 이거 없으면 왜 안되지
+    }
+  };
+
+  useEffect(() => {
+    validationContent();
+    // if (state.question.titleErrorMsg) {
+    //   console.log(state.question.titleErrorMsg);
+    //   editorRef.current.getInstance().blur();
+    // } else {
+    //   editorRef.current.getInstance().focus();
+    // }
+  }, [state]);
 
   return (
     <Div>
@@ -21,16 +49,16 @@ function TextEditor({ title, desc }) {
           initialEditType="wysiwyg"
           useCommandShortcut={true}
           ref={editorRef}
-          onFocus={showNotice}
+          onKeydown={setContentText}
         />
       </div>
-      <MainButton buttonText="Next" />
+      {/* <MainButton buttonText="Next" /> */}
+      {isContentValid ? null : <div>{state.question.contentErrorMsg}</div>}
     </Div>
   );
 }
 
 const Div = styled(AskBoxStyle)``;
-
 const EditorBox = styled(Editor)`
   height: 254.664px;
 `;
