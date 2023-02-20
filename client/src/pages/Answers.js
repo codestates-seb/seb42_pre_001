@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import AnswerContent from '../components/answer/AnswerContent';
 import AnswerCount from '../components/answer/AnswerCount';
@@ -10,18 +12,42 @@ import QuestionTitle from '../components/question/QuestionTitle';
 import ViewTags from '../components/ViewTags';
 
 const Answers = () => {
+  const { id } = useParams();
+  const question = useSelector((state) => {
+    return state.question.questions.filter((x) => x.postId === Number(id))[0];
+  });
   return (
     <>
       <Container>
         <LeftSidebar />
         <ContentContainer>
-          <QuestionTitle />
+          <QuestionTitle title={question.title} />
           <ContentWrapper>
             <ViewContent>
-              <QuestionContent />
+              <QuestionContent
+                contents={question.contents}
+                author={question.author}
+              />
               <AnswerContainer>
-                <AnswerCount />
-                <AnswerContent />
+                {question.answers ? (
+                  <>
+                    <AnswerCount length={question.answers.length} />
+                    {question.answers.map((el, idx) => (
+                      <AnswerContent key={idx} answer={el} />
+                    ))}
+                  </>
+                ) : (
+                  <QuestionBottom>
+                    {`Know someone who can answer?Share a link to this `}
+                    <QuestionBottomAsk>{`question`}</QuestionBottomAsk>
+                    {` via `} <QuestionBottomAsk>{`email`}</QuestionBottomAsk>
+                    {`,`}
+                    <QuestionBottomAsk>{`Twitter`}</QuestionBottomAsk>
+                    {`, or `}{' '}
+                    <QuestionBottomAsk>{`Facebook`}</QuestionBottomAsk>
+                    {`.`}
+                  </QuestionBottom>
+                )}
                 <CreateAnswer />
                 <QuestionBottom>
                   {`Not the answer you're looking for? Browse other questions tagged `}

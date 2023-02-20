@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewTags from '../ViewTags';
 import ViewProfile from '../ViewProfile';
-const QuestionContent = () => {
-  let str = `I tried every solution I found online, but nothing worked. I tried to add this : android:orientation="vertical" to the linearLayout, but it changed nothing. I still can't scroll How can I get the scrollView to work?`;
+const QuestionContent = ({ contents, author }) => {
   return (
     <Container>
       <VoteContainer>
@@ -12,9 +11,9 @@ const QuestionContent = () => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <Content>{str}</Content>
+        <Content>{contents}</Content>
         <ViewTags />
-        <ViewProfile />
+        <ViewProfile author={author} />
       </ContentContainer>
     </Container>
   );
@@ -23,7 +22,7 @@ export default QuestionContent;
 
 const Container = styled.div`
   width: 727px;
-  padding-top: 24px;
+  padding: 24px 0px;
   display: flex;
 `;
 const VoteContainer = styled.div`
@@ -49,6 +48,5 @@ const ContentContainer = styled.div`
   flex-direction: column;
 `;
 const Content = styled.div`
-  height: 400px;
   word-break: break-all; // width에 맞게 강제 줄바꿈
 `;

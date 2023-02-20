@@ -3,18 +3,17 @@ import MainButton from '../MainButton';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import { useRef } from 'react';
-const CreateAnswer = ({ title, desc }) => {
+const CreateAnswer = () => {
   const editorRef = useRef(null);
 
   const showNotice = () => {
     console.log(editorRef.current?.getInstance().getHTML());
   };
+
   return (
     <Container>
       <YourAnswer>Your Answer</YourAnswer>
       <EditorContainer>
-        <label>{title}</label>
-        <p>{desc}</p>
         <EditorBox
           previewStyle="vertical"
           initialEditType="wysiwyg"
@@ -36,7 +35,6 @@ const Container = styled.div`
 const YourAnswer = styled.div`
   padding: 20px 0px;
   font-size: 19px;
-  border-top: 1px solid hsl(210deg 8% 90%);
 `;
 const ButtonContainer = styled.div`
   display: flex;

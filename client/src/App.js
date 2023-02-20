@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/questions" element={<Questions />}></Route>
           <Route path="/questions/ask" element={<Ask />}></Route>
-          <Route path="/questions/question" element={<Answers />}></Route>
+          <Route path="/questions/:id" element={<Answers />}></Route>
           <Route path="/tags" element={<Tages />}></Route>
           <Route path="/users" element={<Users />}></Route>
           <Route path="/companies" element={<Companies />}></Route>

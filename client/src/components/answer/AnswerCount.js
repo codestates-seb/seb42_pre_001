@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const AnswerCount = () => {
-  return <Container>1 Answer</Container>;
+const AnswerCount = ({ length }) => {
+  return <Container>{length} Answer</Container>;
 };
 export default AnswerCount;
 
