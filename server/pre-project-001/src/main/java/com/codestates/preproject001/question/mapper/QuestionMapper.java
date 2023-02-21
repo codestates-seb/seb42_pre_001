@@ -19,9 +19,7 @@ public interface QuestionMapper  {
             return null;
         }
         Question question = new Question();
-        Member member = new Member();
 
-        member.setMemberId(questionPostDto.getMId());
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
         return question;
