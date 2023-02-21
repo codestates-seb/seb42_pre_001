@@ -2,17 +2,22 @@ package com.codestates.preproject001.member.controller;
 
 import com.codestates.preproject001.member.dto.MemberPatchDto;
 import com.codestates.preproject001.member.dto.MemberPostDto;
+import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.mapper.MemberMapper;
 import com.codestates.preproject001.member.service.MemberService;
+import com.codestates.preproject001.oath.MemberDetails;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
+
 @RestController
-@RequestMapping // RequestMapping 설정.. 정하고 넣기
+@RequestMapping("/members")
 @Validated
 public class MemberController {
     private final MemberService memberService;
@@ -23,28 +28,41 @@ public class MemberController {
         this.mapper = mapper;
     }
 
-    @PostMapping
+    @PostMapping("/join")
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto memberPostDto) {
-        // 아직 미구현, service 쪽 구현하면서 진행 예정
-        return null;
+        memberService.createMember(mapper.memberPostDtoToMember(memberPostDto));
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{}") // path 안 정해서..
-    public ResponseEntity patchMember(@PathVariable("") @Positive long memberId,
+    @PatchMapping
+    public ResponseEntity patchMember(@AuthenticationPrincipal MemberDetails memberDetails,
                                       @Valid @RequestBody MemberPatchDto memberPatchDto) {
-        // 아직 미구현, service 쪽 구현하면서 진행 예정
-        return null;
+        if(memberDetails.getMemberId()!=memberPatchDto.getMemberId()){
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        Member member = mapper.memberPatchDtoToMember(memberPatchDto);
+
+        return new ResponseEntity(memberService.updateMember(member),HttpStatus.OK);
     }
 
-    @GetMapping("/{}") // path 안 정해서..
-    public ResponseEntity getMember(@PathVariable("") @Positive long memberId) {
-        // 아직 미구현, service 쪽 구현하면서 진행 예정
-        return null;
+
+
+    @GetMapping(("/{member-id}"))
+    public ResponseEntity getMember(@PathVariable("member-id") long memberId ) {
+
+        Member dbMember = memberService.findMember(memberId);
+        return new ResponseEntity<> (mapper.memberToMemberResponseDto(dbMember),HttpStatus.OK);
+
     }
 
-    @DeleteMapping("/{}") // path 안 정해서..
-    public ResponseEntity deleteMember(@PathVariable("") @Positive long memberId) {
-        // delete만 넣으면 되지만 일단 service쪽 하고...
-        return null;
+    @DeleteMapping
+    public ResponseEntity deleteMember(@AuthenticationPrincipal MemberDetails memberDetails) {
+
+        Member dbMember = memberService.findByEmail(memberDetails.getEmail());
+        memberService.deleteMember(dbMember);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //getMembers 추가해야함
 }

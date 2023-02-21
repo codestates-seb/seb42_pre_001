@@ -13,6 +13,8 @@ import SignUp from './pages/SignUp';
 import Logout from './pages/Logout';
 import Ask from './pages/Ask';
 import Answers from './pages/Answers';
+import Footer from './components/Footer';
+import Mypage from './pages/MyPage';
 
 function App() {
   return (
@@ -31,8 +33,10 @@ function App() {
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/signup" element={<SignUp />} />
           <Route path="/users/logout" element={<Logout />} />
+          <Route path="/users/:id/:user/activity" element={<Mypage />} />
         </Routes>
       </PageLayout>
+      <Footer />
     </Provider>
   );
 }

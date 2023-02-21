@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
@@ -10,17 +10,16 @@ import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsFillChatRightTextFill } from 'react-icons/bs';
 import { InputStyle } from './ask/AskStyle';
 import { useSelector } from 'react-redux';
-
 function Header() {
   const state = useSelector((state) => {
     return state.login;
   });
-  console.log(state);
-  // const [isLogin, setIsLogin] = useState(false);
-  // const handleLogin = () => {
-  //   setIsLogin(!isLogin);
-  //   console.log(isLogin);
-  // };
+  const navigate = useNavigate();
+  const moveMypage = () => {
+    const DM = state.userInfo.displayName;
+    const id = state.userInfo.id;
+    navigate(`/users/${id}/${DM}/activity`);
+  };
 
   return (
     <HeaderWrapper>
@@ -29,7 +28,7 @@ function Header() {
           {/* <HiOutlineXMark size="20" /> */}
           <FiMenu size="20" />
         </Menu>
-        <LogoLink href="https://stackoverflow.com/">
+        <LogoLink href="">
           <span></span>
         </LogoLink>
         <Navi isLogin={state.isLogin}>
@@ -50,14 +49,23 @@ function Header() {
         <Topbar isLogin={state.isLogin}>
           {state.isLogin ? (
             <>
+              {/* <li>
+                <img
+                  role="presentation"
+                  onClick={moveMypage}
+                  src={state.userInfo.img}
+                  alt="pic"
+                />
+              </li> */}
               <li>
-                <Link to="/users/logout">
-                  <img
-                    src="https://www.gravatar.com/avatar/?s=32&d=identicon&r=PG&f=1"
-                    alt=""
-                  />
-                </Link>
+                <img
+                  role="presentation"
+                  onClick={moveMypage}
+                  src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
+                  alt="pic"
+                />
               </li>
+
               <li>
                 <Link to="/users/logout">
                   <GoInbox />
@@ -109,6 +117,7 @@ const HeaderWrapper = styled.header`
   width: 100%;
   z-index: 5050;
   background-color: hsl(210deg 8% 98%);
+  min-width: 800px;
   height: 50px;
   border-top: 3px solid #f48024;
 `;
@@ -178,10 +187,12 @@ const Navi = styled.ol`
 
 const Topbar = styled.ol`
   display: flex;
+
   height: 100%;
   img {
-    width: 20px;
-    margin: 6px 15px 0 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
   }
   > li {
     display: flex;

@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setDM,
+  setDN,
   setEmail,
   setPassword,
   setSubmit,
 } from '../../slice/signUpSlice';
 import { setErrorMsg1, setErrorMsg2 } from '../../slice/validationSlice';
 import { useEffect } from 'react';
+import axios from 'axios';
 
 // 회원가입
 export default function SingUp() {
@@ -16,8 +17,34 @@ export default function SingUp() {
     return state;
   });
 
-  const setDMVal = (e) => {
-    dispatch(setDM(e.target.value));
+  const signUp = async (name, email, pass) => {
+    const body = JSON.stringify({
+      name: name,
+      email: email,
+      pass: pass,
+    });
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/members/join',
+        body,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const { data } = response;
+      console.log(data);
+      console.log(body);
+      console.log('회원가입 응답을 받았습니다.');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const setDNVal = (e) => {
+    dispatch(setDN(e.target.value));
   };
 
   const setEmailVal = (e) => {
@@ -110,6 +137,11 @@ export default function SingUp() {
       state.validation.errMsg2 === null
     ) {
       dispatch(setSubmit());
+      signUp(
+        state.signUp.displayName,
+        state.signUp.email,
+        state.signUp.password
+      );
     }
   };
   const activeEnter = (e) => {
@@ -132,7 +164,7 @@ export default function SingUp() {
               type="text"
               name="display-name"
               onChange={(e) => {
-                setDMVal(e);
+                setDNVal(e);
               }}
             ></Input>
             <FailLabel></FailLabel>
