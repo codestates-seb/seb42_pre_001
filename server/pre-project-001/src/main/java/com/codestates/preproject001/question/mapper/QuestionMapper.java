@@ -1,5 +1,6 @@
 package com.codestates.preproject001.question.mapper;
 
+import com.codestates.preproject001.answer.dto.AnswerResponseDto;
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.question.dto.QuestionPatchDto;
@@ -9,6 +10,7 @@ import com.codestates.preproject001.question.entity.Question;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper  {
@@ -50,8 +52,18 @@ public interface QuestionMapper  {
         questionResponseDto.setMemberId(question.getMember().getMemberId());
         questionResponseDto.setMemberName(question.getMember().getName());
         List<Answer> answerList = question.getAnswers();
-        // List<AnswerResponseDto> answerResponseList = answerList.stream().map(answer ->{}).collect(Collectors.toList());
-        // answerResponseDto 만들면 { } 안에 채워넣기...
+        List<AnswerResponseDto> answerResponseList = answerList.stream().map(answer ->{
+            AnswerResponseDto answerResponseDto = new AnswerResponseDto();
+            answerResponseDto.setAnswerId(answer.getAnswerId());
+            answerResponseDto.setQuestionId(question.getQuestionId());
+            answerResponseDto.setMId(answer.getMember().getMemberId());
+            answerResponseDto.setContent(answer.getContent());
+            answerResponseDto.setCreatedAt(answer.getCreatedAt());
+            answerResponseDto.setModifiedAt(answer.getModifiedAt());
+            return answerResponseDto;
+        }).collect(Collectors.toList());
+
+        questionResponseDto.setAnswers(answerResponseList);
 
         return questionResponseDto;
     }

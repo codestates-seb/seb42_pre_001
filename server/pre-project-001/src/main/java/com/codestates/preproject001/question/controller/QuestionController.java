@@ -4,7 +4,6 @@ package com.codestates.preproject001.question.controller;
 import com.codestates.preproject001.dto.MultiResponseDto;
 import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.member.entity.Member;
-import com.codestates.preproject001.member.service.MemberService;
 import com.codestates.preproject001.oath.MemberDetails;
 import com.codestates.preproject001.question.dto.QuestionPatchDto;
 import com.codestates.preproject001.question.dto.QuestionPostDto;
