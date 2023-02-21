@@ -41,6 +41,7 @@ export default function Login() {
       console.log(data);
       console.log('로그인 응답을 받았습니다.');
       dispatch(setUserInfo(data));
+      loginHandler();
       console.log(state);
     } catch (err) {
       console.log(err);
@@ -92,7 +93,6 @@ export default function Login() {
       dispatch(setId(null));
       dispatch(setPassword(null));
       dispatch(setIsLogin(true));
-      loginHandler();
     } else if (
       !state.login.userInfo &&
       state.login.id !== null &&
