@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { setIsLogin, setUserInfo } from '../../slice/loginSlice';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import askubuntu from '../../assets/askubuntu.png';
 import exchange from '../../assets/exchange.png';
@@ -15,24 +14,11 @@ import axios from 'axios';
 export default function Logout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const state = useSelector((state) => {
-    return state;
-  });
 
   // 로그아웃 요청
-  const logout = async (userName) => {
+  const logout = async () => {
     try {
-      const response = await axios.post(
-        'http://localhost:8080/logout',
-        {
-          userName: userName,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await axios.post('http://localhost:8080/logout');
       const { data } = response;
       console.log(data);
       console.log('로그아웃 응답을 받았습니다.');
@@ -45,7 +31,7 @@ export default function Logout() {
   const logoutHandler = () => {
     dispatch(setUserInfo(null));
     dispatch(setIsLogin(false));
-    logout(state.login.userInfo[0].email);
+    logout();
     navigate('/');
   };
   // 로그아웃 취소 시 이전 화면으로 이동

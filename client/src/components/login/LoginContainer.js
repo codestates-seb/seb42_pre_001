@@ -25,20 +25,18 @@ export default function Login() {
 
   //   실제 로그인 시에는 Post 메소드로  userName, pass를 바디에 담아 서버로 요청 후 로그인 가능 여부를 응답 받아야 합니다.
   const login = async (userName, pass) => {
+    const body = JSON.stringify({
+      userName: userName,
+      pass: pass,
+    });
     // 로컬스트 8080포트로 열린 서버에 요청
     try {
-      const response = await axios.post(
-        'http://localhost:8080/login',
-        {
-          userName: userName,
-          pass: pass,
+      const response = await axios.post('http://localhost:8080/login', body, {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      });
+      console.log(body);
       const { data } = response;
       console.log(data);
       console.log('로그인 응답을 받았습니다.');
