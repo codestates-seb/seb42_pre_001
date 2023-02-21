@@ -44,6 +44,20 @@ const InputStyle = styled.input`
   }
 `;
 
+const TagBoxStyle = styled.div`
+  width: 100%;
+  color: hsl(210deg 8% 25%);
+  border: 1px solid hsl(210deg 8% 75%);
+  border-radius: 3px;
+  padding: 0.6em 0.7em;
+  font-size: 13px;
+  :focus {
+    outline: none;
+    border-color: hsl(206deg 90% 70%);
+    box-shadow: 0 0 0 4px hsl(206deg 65% 91%);
+  }
+`;
+
 const NoticeStyle = styled.div`
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
@@ -73,4 +87,4 @@ const NoticeStyle = styled.div`
     }
   }
 `;
-export { AskBoxStyle, InputStyle, NoticeStyle };
+export { AskBoxStyle, InputStyle, TagBoxStyle, NoticeStyle };
