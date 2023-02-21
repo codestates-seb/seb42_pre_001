@@ -7,6 +7,7 @@ import javax.validation.constraints.Positive;
 
 @Getter
 public class QuestionPostDto {
+    private long memberId;
     @NotBlank
     private String title;
 
