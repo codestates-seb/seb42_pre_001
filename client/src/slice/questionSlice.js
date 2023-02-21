@@ -9,7 +9,8 @@ const questionSlice = createSlice({
     titleErrorMsg: null,
     content: null,
     contentErrorMsg: null,
-    tags: [],
+    currentTag: '',
+    allTags: [],
     tagsErrorMsg: null,
   },
   reducers: {
@@ -28,8 +29,11 @@ const questionSlice = createSlice({
     setContentErrorMsg: (state, action) => {
       state.contentErrorMsg = action.payload;
     },
-    setTags: (state, action) => {
-      state.tags = action.payload;
+    setCurrentTag: (state, action) => {
+      state.currentTag = action.payload;
+    },
+    setAllTags: (state, action) => {
+      state.allTags.push(action.payload);
     },
     setTagsErrorMsg: (state, action) => {
       state.tagsErrorMsg = action.payload;
@@ -44,6 +48,7 @@ export const {
   setTitleErrorMsg,
   setContent,
   setContentErrorMsg,
-  setTags,
+  setCurrentTag,
+  setAllTags,
   setTagsErrorMsg,
 } = questionSlice.actions;

@@ -15,6 +15,7 @@ function TextEditor({ title, desc }) {
     dispatch(setContent(editorRef.current?.getInstance().getMarkdown()));
     console.log(state.question.content);
     editorRef.current?.getInstance().isViewer();
+    console.log(editorRef.current?.getInstance().getMarkdown());
     // console.log(editorRef.current?.getInstance().getHTML());
   };
 

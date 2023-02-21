@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import AnswerContent from '../components/answer/AnswerContent';
 import AnswerCount from '../components/answer/AnswerCount';
 import CreateAnswer from '../components/answer/CreateAnswer';
-import Footer from '../components/Footer';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 import QuestionContent from '../components/question/QuestionContent';
@@ -36,7 +35,6 @@ const Answers = () => {
           </ContentWrapper>
         </ContentContainer>
       </Container>
-      <Footer />
     </>
   );
 };
