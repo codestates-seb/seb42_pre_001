@@ -20,8 +20,6 @@ public interface QuestionMapper  {
         }
         Question question = new Question();
         Member member = new Member();
-
-        member.setMemberId(questionPostDto.getMId());
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
         return question;
@@ -49,6 +47,8 @@ public interface QuestionMapper  {
         questionResponseDto.setContent(question.getContent());
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setModifiedAt(question.getModifiedAt());
+        questionResponseDto.setMemberId(question.getMember().getMemberId());
+        questionResponseDto.setMemberName(question.getMember().getName());
         List<Answer> answerList = question.getAnswers();
         // List<AnswerResponseDto> answerResponseList = answerList.stream().map(answer ->{}).collect(Collectors.toList());
         // answerResponseDto 만들면 { } 안에 채워넣기...
