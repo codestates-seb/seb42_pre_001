@@ -4,9 +4,7 @@ import axios from 'axios';
 export const asyncUpFetch = createAsyncThunk(
   'inquirySlice/asyncUpFetch',
   async () => {
-    const response = await axios.get(
-      'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json'
-    );
+    const response = await axios.get(process.env.REACT_APP_API_URL);
     return response.data;
   }
 );

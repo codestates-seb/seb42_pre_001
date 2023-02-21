@@ -14,11 +14,10 @@ import ViewTags from '../components/ViewTags';
 const Answers = () => {
   const { id } = useParams();
   const [question, setQuestion] = useState({});
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const getQuestions = async () => {
-      const response = await axios.get(
-        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json'
-      );
+      const response = await axios.get(apiUrl);
       const { data } = response;
       setQuestion(data[Number(id) - 1]);
     };

@@ -4,13 +4,12 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import { useRef, useState } from 'react';
 import axios from 'axios';
-//questionId, memberId, content : 생성
-//answerId, memberId, content: 수정
+
 const CreateAnswer = ({ question }) => {
   const [text, setText] = useState('');
   const editorRef = useRef(null);
   const { postId } = question;
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   const showNotice = () => {
     console.log(editorRef.current?.getInstance().getMarkdown());
   };
@@ -20,14 +19,11 @@ const CreateAnswer = ({ question }) => {
   const handleClick = () => {
     setText(editorRef.current?.getInstance().getMarkdown());
     axios
-      .post(
-        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json',
-        {
-          postId,
-          author: 'myungju kang',
-          contents: text,
-        }
-      )
+      .post(apiUrl, {
+        postId,
+        author: 'myungju kang',
+        contents: text,
+      })
       .then((res) => console.log(res))
       .catch((error) => console.log(error));
   };

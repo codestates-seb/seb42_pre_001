@@ -6,11 +6,10 @@ import axios from 'axios';
 
 const QuestionList = ({ name }) => {
   const [questions, setQuestions] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const getQuestions = async () => {
-      const response = await axios.get(
-        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json'
-      );
+      const response = await axios.get(apiUrl);
       const { data } = response;
       setQuestions(data);
     };
