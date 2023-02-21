@@ -13,7 +13,7 @@ import SignUp from './pages/SignUp';
 import Logout from './pages/Logout';
 import Ask from './pages/Ask';
 import Answers from './pages/Answers';
-
+import Footer from './components/Footer';
 function App() {
   return (
     <Provider store={store}>
@@ -33,6 +33,7 @@ function App() {
           <Route path="/users/logout" element={<Logout />} />
         </Routes>
       </PageLayout>
+      <Footer />
     </Provider>
   );
 }
