@@ -4,6 +4,7 @@ import com.codestates.preproject001.exception.BusinessLogicException;
 import com.codestates.preproject001.exception.ExceptionCode;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.service.MemberService;
+import com.codestates.preproject001.oath.MemberDetails;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.repository.QuestionRepository;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,7 @@ public class QuestionService {
     }
 
     public Question createQuestion(Question question) {
-        Member member = memberService.findVerifiedMember(question.getMember().getMemberId());
-
         verifyRule(question); // 질문 규격? 에 맞는지?
-        question.setMember(member);
         return questionRepository.save(question);
     }
 
@@ -41,7 +39,6 @@ public class QuestionService {
 
         Optional.ofNullable(question.getContent()) //내용 수정
                 .ifPresent(questionContent->findQuestion.setContent(questionContent));
-        // 단순히 질문을 수정하는 로직정도인데, 질문과 질문 작성자가 맞는지 확인하는 로직.. 을 생각하고 구현해야할 듯
         // 추가로 expecting 부분도 아직 추가할지 안 정했는데, 추가하게 된다면 위에처럼 하나 추가해서 넣어야 할 듯
         verifyRule(findQuestion); // 수정한 질문 내용 규칙 확인
         
@@ -52,9 +49,6 @@ public class QuestionService {
 
     public void deleteQuestion(Long questionId) {
         Question question = findVerifiedQuestion(questionId);
-
-        // 작성자와 question id 일치하는지 확인하는 로직이 필요한지?
-
         questionRepository.delete(question);
     }
 
@@ -66,9 +60,10 @@ public class QuestionService {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
+    // content 길이는 20자 이상
     public void verifyRule(Question question) {
         String content = question.getContent();
-        if (content.length() <= 20) {
+        if (content.length() < 20) {
             throw new BusinessLogicException(ExceptionCode.POST_NOTENOUGH_LENGTH);
         }
     }
@@ -79,4 +74,18 @@ public class QuestionService {
                 () -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return question;
     }
+
+    public Member findMember(long memberId) {
+        return memberService.findMember(memberId);
+    }
+
+    public void memberVerification(MemberDetails memberDetails, long questionId) {
+        long loginedMemberId = memberDetails.getMemberId();
+        long askedMemberId = findQuestion(questionId).getMember().getMemberId();
+        if(loginedMemberId != askedMemberId) {
+            throw new BusinessLogicException(ExceptionCode.REQUEST_NOT_ALLOWED);
+        }
+    }
+
+
 }
