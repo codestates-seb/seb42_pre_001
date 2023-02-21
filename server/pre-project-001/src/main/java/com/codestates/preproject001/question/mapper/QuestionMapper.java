@@ -22,8 +22,13 @@ public interface QuestionMapper  {
         }
         Question question = new Question();
         Member member = new Member();
+
+        member.setMemberId(questionPostDto.getMemberId());
+        question.addMember(member);
+
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
+
         return question;
     }
     default Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto) {
@@ -31,6 +36,11 @@ public interface QuestionMapper  {
             return null;
         }
         Question question = new Question();
+        Member member = new Member();
+
+        member.setMemberId(questionPatchDto.getMemberId());
+        question.addMember(member);
+
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setContent(questionPatchDto.getContent());
         question.setTitle(questionPatchDto.getTitle());
@@ -44,19 +54,18 @@ public interface QuestionMapper  {
         }
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
         questionResponseDto.setQuestionId(question.getQuestionId());
-        questionResponseDto.setAnswered(question.isAnswered());
-        questionResponseDto.setTitle(questionResponseDto.getTitle());
+        questionResponseDto.setTitle(question.getTitle());
+        questionResponseDto.setMemberName(question.getMember().getName());
         questionResponseDto.setContent(question.getContent());
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setModifiedAt(question.getModifiedAt());
         questionResponseDto.setMemberId(question.getMember().getMemberId());
-        questionResponseDto.setMemberName(question.getMember().getName());
         List<Answer> answerList = question.getAnswers();
         List<AnswerResponseDto> answerResponseList = answerList.stream().map(answer ->{
             AnswerResponseDto answerResponseDto = new AnswerResponseDto();
             answerResponseDto.setAnswerId(answer.getAnswerId());
-            answerResponseDto.setQuestionId(question.getQuestionId());
-            answerResponseDto.setMId(answer.getMember().getMemberId());
+            answerResponseDto.setQuestionId(answer.getQuestion().getQuestionId());
+            answerResponseDto.setMemberId(answer.getMember().getMemberId());
             answerResponseDto.setContent(answer.getContent());
             answerResponseDto.setCreatedAt(answer.getCreatedAt());
             answerResponseDto.setModifiedAt(answer.getModifiedAt());
