@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { setIsLogin, setUserInfo } from '../../slice/loginSlice';
 import { useDispatch } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import askubuntu from '../../assets/askubuntu.png';
 import exchange from '../../assets/exchange.png';
@@ -10,15 +10,42 @@ import serverfault from '../../assets/serverfault.png';
 import stackapps from '../../assets/stackapps.png';
 import stack from '../../assets/stack.png';
 import superuser from '../../assets/superuser.png';
+import axios from 'axios';
 
 export default function Logout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const state = useSelector((state) => {
+    return state;
+  });
+
+  // 로그아웃 요청
+  const logout = async (userName) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/logout',
+        {
+          userName: userName,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const { data } = response;
+      console.log(data);
+      console.log('로그아웃 응답을 받았습니다.');
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // 로그아웃 성공 시 홈 화면으로 이동 => 현재 헤더의 state 값을 전역적으로 관리해야함(header 컴포넌트 수정 필요)
   const logoutHandler = () => {
     dispatch(setUserInfo(null));
     dispatch(setIsLogin(false));
+    logout(state.login.userInfo[0].email);
     navigate('/');
   };
   // 로그아웃 취소 시 이전 화면으로 이동
