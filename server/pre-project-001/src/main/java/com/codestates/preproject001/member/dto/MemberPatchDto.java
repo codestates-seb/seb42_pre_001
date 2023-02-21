@@ -8,11 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberPatchDto {
     private long memberId;
-
-    @NotSpace
     private String name;
-
-    @NotSpace
     private String password;
 
     // 임의로 NotSpace 유효성 검증 클래스 만들어서 적용하긴 했는데
