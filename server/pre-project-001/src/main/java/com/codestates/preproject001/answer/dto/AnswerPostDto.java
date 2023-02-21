@@ -7,8 +7,8 @@ import javax.validation.constraints.Positive;
 
 @Getter
 public class AnswerPostDto {
-    private long mId; // memberId, post에서 어떤 member인지, 어떤 question인지 확인하는게 둘다 필요한가 잘 모르겠음..
-
+    private long memberId;
+    private long questionId;
     @NotBlank
     private String content;
 
