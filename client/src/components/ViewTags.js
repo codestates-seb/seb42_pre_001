@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+
 const ViewTags = () => {
-  const tagArr = useSelector((state) => {
-    return state.question.tags;
-  });
+  const tagArr = ['javaScript', 'react'];
   return (
     <Container>
       {tagArr.map((el, idx) => (
@@ -13,6 +11,7 @@ const ViewTags = () => {
   );
 };
 export default ViewTags;
+
 const Container = styled.span`
   list-style-type: none;
 `;

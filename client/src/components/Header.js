@@ -29,7 +29,7 @@ function Header() {
           {/* <HiOutlineXMark size="20" /> */}
           <FiMenu size="20" />
         </Menu>
-        <LogoLink href="https://stackoverflow.com/">
+        <LogoLink href="">
           <span></span>
         </LogoLink>
         <Navi isLogin={state.isLogin}>

@@ -9,7 +9,7 @@ const signUpSlice = createSlice({
     isSubmit: false,
   },
   reducers: {
-    setDM: (state, action) => {
+    setDN: (state, action) => {
       state.displayName = action.payload;
     },
     setEmail: (state, action) => {
@@ -25,4 +25,4 @@ const signUpSlice = createSlice({
 });
 
 export default signUpSlice;
-export const { setDM, setEmail, setPassword, setSubmit } = signUpSlice.actions;
+export const { setDN, setEmail, setPassword, setSubmit } = signUpSlice.actions;

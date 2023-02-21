@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Footer from '../components/Footer';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionList from '../components/inquiry/QuestionList';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
@@ -14,7 +13,6 @@ const Home = () => {
           <QuestionSidebar></QuestionSidebar>
         </HomeContentContainer>
       </HomeContainer>
-      <Footer />
     </>
   );
 };

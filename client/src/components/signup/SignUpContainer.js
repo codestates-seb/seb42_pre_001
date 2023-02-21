@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setDM,
+  setDN,
   setEmail,
   setPassword,
   setSubmit,
@@ -16,15 +16,18 @@ export default function SingUp() {
   const state = useSelector((state) => {
     return state;
   });
-  console.log(state);
-  const signUp = async (email, pass) => {
+
+  const signUp = async (name, email, pass) => {
+    const body = JSON.stringify({
+      name: name,
+      email: email,
+      pass: pass,
+    });
+
     try {
       const response = await axios.post(
         'http://localhost:8080/members/join',
-        {
-          email: email,
-          pass: pass,
-        },
+        body,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -33,14 +36,15 @@ export default function SingUp() {
       );
       const { data } = response;
       console.log(data);
+      console.log(body);
       console.log('회원가입 응답을 받았습니다.');
     } catch (err) {
       console.log(err);
     }
   };
 
-  const setDMVal = (e) => {
-    dispatch(setDM(e.target.value));
+  const setDNVal = (e) => {
+    dispatch(setDN(e.target.value));
   };
 
   const setEmailVal = (e) => {
@@ -133,7 +137,11 @@ export default function SingUp() {
       state.validation.errMsg2 === null
     ) {
       dispatch(setSubmit());
-      signUp(state.signUp.email, state.signUp.password);
+      signUp(
+        state.signUp.displayName,
+        state.signUp.email,
+        state.signUp.password
+      );
     }
   };
   const activeEnter = (e) => {
@@ -156,7 +164,7 @@ export default function SingUp() {
               type="text"
               name="display-name"
               onChange={(e) => {
-                setDMVal(e);
+                setDNVal(e);
               }}
             ></Input>
             <FailLabel></FailLabel>
