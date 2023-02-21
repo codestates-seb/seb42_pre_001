@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuestionPatchDto {
     private long questionId;
+    private long memberId;
     private String title;
     private String content;
 
