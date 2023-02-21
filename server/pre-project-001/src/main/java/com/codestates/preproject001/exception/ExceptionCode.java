@@ -6,6 +6,7 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member Not Found"),
     MEMBER_EXISTS(409, "Member exists"),
     POST_NOTENOUGH_LENGTH(406, "Not Enough Length"), // 질문 내용 20자 이하일 때
+    REQUEST_NOT_ALLOWED(401, "Request Not Allowed"), // CRUD 요청에 권한이 없을때
     QUESTION_NOT_FOUND(404, "Question Not Found");
 
     @Getter
