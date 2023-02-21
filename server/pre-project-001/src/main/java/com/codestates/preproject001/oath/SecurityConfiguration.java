@@ -9,6 +9,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -25,19 +29,21 @@ public class SecurityConfiguration {
         http
                 .headers().frameOptions().sameOrigin()
                 .and()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .csrf().disable()
-                .cors(withDefaults())
+//                .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin()
-                .loginPage("/login")//요청을 컨트롤러단에보냄
-                .loginProcessingUrl("/login_process")//요청을 받음
-                .failureUrl("/login?error")//실패했을때
-                .and()
-                .logout()
-                .logoutUrl("/logout_process")
-                .logoutSuccessUrl("/")
-                .and()
+                .formLogin().disable()
+//                .loginPage("/users/login")//요청을 컨트롤러단에보냄
+//                .loginProcessingUrl("/login_process")//요청을 받음
+//                .failureUrl("/login?error")//실패했을때
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout_process")
+//                .logoutSuccessUrl("/")
+//                .and()
                 .httpBasic().disable()
                 .apply(new CustomFilterConfigurer())
                 .and()
@@ -48,13 +54,14 @@ public class SecurityConfiguration {
     }
 
 
+
     public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
-//            jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
+            jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer);
 
@@ -67,5 +74,19 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedOriginPattern("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
