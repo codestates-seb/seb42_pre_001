@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import AnswerContent from '../components/answer/AnswerContent';
 import AnswerCount from '../components/answer/AnswerCount';
 import CreateAnswer from '../components/answer/CreateAnswer';
-import Footer from '../components/Footer';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 import QuestionContent from '../components/question/QuestionContent';
@@ -13,9 +13,17 @@ import ViewTags from '../components/ViewTags';
 
 const Answers = () => {
   const { id } = useParams();
-  const question = useSelector((state) => {
-    return state.question.questions.filter((x) => x.postId === Number(id))[0];
-  });
+  const [question, setQuestion] = useState({});
+  useEffect(() => {
+    const getQuestions = async () => {
+      const response = await axios.get(
+        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json'
+      );
+      const { data } = response;
+      setQuestion(data[Number(id) - 1]);
+    };
+    getQuestions();
+  }, [question]);
   return (
     <>
       <Container>
@@ -48,7 +56,7 @@ const Answers = () => {
                     {`.`}
                   </QuestionBottom>
                 )}
-                <CreateAnswer />
+                <CreateAnswer question={question} />
                 <QuestionBottom>
                   {`Not the answer you're looking for? Browse other questions tagged `}
                   <ViewTags />
@@ -62,7 +70,6 @@ const Answers = () => {
           </ContentWrapper>
         </ContentContainer>
       </Container>
-      <Footer />
     </>
   );
 };

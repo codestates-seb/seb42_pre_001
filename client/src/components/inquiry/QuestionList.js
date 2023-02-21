@@ -1,19 +1,21 @@
 import styled from 'styled-components';
 import QuestionsItem from './QuestionItem';
 import QuestionListTop from './QuestionListTop';
-import { useDispatch, useSelector } from 'react-redux';
-import { asyncUpFetch } from '../../slice/questionSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const QuestionList = ({ name }) => {
-  const dispatch = useDispatch();
+  const [questions, setQuestions] = useState([]);
   useEffect(() => {
-    dispatch(asyncUpFetch());
-  }, []);
-
-  const questions = useSelector((state) => {
-    return state.question.questions;
-  });
+    const getQuestions = async () => {
+      const response = await axios.get(
+        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json'
+      );
+      const { data } = response;
+      setQuestions(data);
+    };
+    getQuestions();
+  }, [questions]);
 
   return (
     <Container>

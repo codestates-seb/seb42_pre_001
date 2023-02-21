@@ -2,14 +2,35 @@ import styled from 'styled-components';
 import MainButton from '../MainButton';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
-import { useRef } from 'react';
-const CreateAnswer = () => {
+import { useRef, useState } from 'react';
+import axios from 'axios';
+//questionId, memberId, content : 생성
+//answerId, memberId, content: 수정
+const CreateAnswer = ({ question }) => {
+  const [text, setText] = useState('');
   const editorRef = useRef(null);
+  const { postId } = question;
 
   const showNotice = () => {
-    console.log(editorRef.current?.getInstance().getHTML());
+    console.log(editorRef.current?.getInstance().getMarkdown());
   };
-
+  const onChangeEditor = () => {
+    console.log(editorRef.current?.getInstance().getMarkdown());
+  };
+  const handleClick = () => {
+    setText(editorRef.current?.getInstance().getMarkdown());
+    axios
+      .post(
+        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json',
+        {
+          postId,
+          author: 'myungju kang',
+          contents: text,
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
   return (
     <Container>
       <YourAnswer>Your Answer</YourAnswer>
@@ -19,10 +40,12 @@ const CreateAnswer = () => {
           initialEditType="wysiwyg"
           useCommandShortcut={true}
           ref={editorRef}
+          hideModeSwitch={true}
           onFocus={showNotice}
+          onChange={onChangeEditor}
         />
       </EditorContainer>
-      <ButtonContainer>
+      <ButtonContainer onClick={handleClick}>
         <MainButton buttonText="Post Your Answer" />
       </ButtonContainer>
     </Container>

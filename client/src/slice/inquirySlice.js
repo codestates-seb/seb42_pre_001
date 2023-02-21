@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const asyncUpFetch = createAsyncThunk(
-  'questionSlice/asyncUpFetch',
+  'inquirySlice/asyncUpFetch',
   async () => {
     const response = await axios.get(
       'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json'
@@ -11,11 +11,11 @@ export const asyncUpFetch = createAsyncThunk(
   }
 );
 
-const questionSlice = createSlice({
-  name: 'questionSlice',
-  initialState: { questions: [], status: '' },
+const inquirySlice = createSlice({
+  name: 'inquirySlice',
+  initialState: { inquiry: [], status: '' },
   reducers: {
-    setQuestions: (state, action) => {
+    setInquiry: (state, action) => {
       state = action.payload;
     },
   },
@@ -24,9 +24,9 @@ const questionSlice = createSlice({
       state.status = 'Loading';
     });
     builder.addCase(asyncUpFetch.fulfilled, (state, action) => {
-      state.questions = action.payload;
+      state.inquiry = action.payload;
       state.status = 'complete';
-      console.log(state.questions);
+      console.log(state.inquiry);
     });
     builder.addCase(asyncUpFetch.rejected, (state) => {
       state.status = 'fail';
@@ -34,5 +34,5 @@ const questionSlice = createSlice({
   },
 });
 
-export default questionSlice;
-export const { setQuestions } = questionSlice.actions;
+export default inquirySlice;
+export const { setInquiry } = inquirySlice.actions;
