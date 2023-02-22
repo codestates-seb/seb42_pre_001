@@ -16,11 +16,12 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedMethods(
                         HttpMethod.GET.name(),
                         HttpMethod.POST.name(),
-                        HttpMethod.PUT.name(),
-                        HttpMethod.DELETE.name()
+                        HttpMethod.PATCH.name(),
+                        HttpMethod.DELETE.name(),
+                        HttpMethod.OPTIONS.name()
                 )
-                .allowedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials","X-AUTH-TOKEN","Authorization","Refresh")
-                .exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials","X-AUTH-TOKEN","Authorization","Refresh")
+                .allowedHeaders("Vary","Origin","Access-Control-Allow-Methods","Access-Control-Allow-Credentials","X-AUTH-TOKEN","Authorization","Refresh")
+//                .exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Methods","Access-Control-Allow-Credentials","X-AUTH-TOKEN","Authorization","Refresh")
                 .allowCredentials(true);
     }
 }

@@ -33,7 +33,6 @@ public class SecurityConfiguration {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .cors()
-                .configurationSource(corsConfigurationSource())
                 .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -71,33 +70,4 @@ public class SecurityConfiguration {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowCredentials(true);
-//
-////        configuration.addAllowedOrigin("*");
-//        configuration.addAllowedHeader("*");
-//        configuration.addAllowedMethod("*");
-//        configuration.addAllowedOriginPattern("http://localhost:3000");
-//        configuration.addExposedHeader("authorization");
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-        @Bean
-        public CorsConfigurationSource corsConfigurationSource() {
-            CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-            configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-            configuration.setAllowCredentials(true);
-            configuration.setAllowedHeaders(Arrays.asList("Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"));
-            configuration.setExposedHeaders(Arrays.asList("Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"));
-
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            source.registerCorsConfiguration("/**", configuration);
-            return source;
-        }
 }
