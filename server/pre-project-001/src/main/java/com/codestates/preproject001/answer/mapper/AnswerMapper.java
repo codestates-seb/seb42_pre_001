@@ -17,15 +17,6 @@ public interface AnswerMapper {
             return null;
         }
         Answer answer = new Answer();
-        Member member = new Member();
-        Question question = new Question(); // questionId 필드 추가
-
-        member.setMemberId(answerPostDto.getMemberId());
-        answer.addMember(member);
-
-        question.setQuestionId(answerPostDto.getQuestionId()); // questionId 필드 추가
-        answer.addQuestion(question);
-
         answer.setContent(answerPostDto.getContent());
 
         return answer;
@@ -36,16 +27,10 @@ public interface AnswerMapper {
             return null;
         }
         Answer answer = new Answer();
-        Member member = new Member();
-
-        member.setMemberId(answerPatchDto.getMemberId());
-        answer.setMember(member);
-
         answer.setAnswerId(answerPatchDto.getAnswerId());
         answer.setContent(answerPatchDto.getContent());
 
         return answer;
-
     }
 
     default AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
