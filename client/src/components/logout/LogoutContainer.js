@@ -12,6 +12,7 @@ import superuser from '../../assets/superuser.png';
 import axios from 'axios';
 
 export default function Logout() {
+  axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
