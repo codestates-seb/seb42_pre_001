@@ -3,8 +3,8 @@ spring:
     hibernate:
       ddl-auto: create # 스키마 자동 생성
 
-    show-sql: true # SQL 쿼리 출력
+    show-sql: true    # SQL 쿼리 출력
 jwt:
-  key: kjsdijsijigdgijiskjsdijsijiskjsfgfsdijsijiskjsdijsijiskjsdijsijiskjsdijsijiskjsdijsijiskjsdijsijiskkujjiskjsdijsijis
+  key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420

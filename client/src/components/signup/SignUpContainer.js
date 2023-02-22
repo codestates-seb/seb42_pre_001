@@ -18,11 +18,11 @@ export default function SingUp() {
     return state;
   });
 
-  const signUp = async (name, email, password) => {
+  const signUp = async (name, email, pass) => {
     const body = {
-      email: email,
-      password: password,
       name: name,
+      email: email,
+      pass: pass,
     };
 
     try {
@@ -33,7 +33,6 @@ export default function SingUp() {
           headers: {
             'Content-Type': 'application/json',
           },
-          withCredentials: true,
         }
       );
       const { data } = response;
