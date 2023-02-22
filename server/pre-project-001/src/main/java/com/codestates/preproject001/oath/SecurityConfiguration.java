@@ -45,6 +45,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().permitAll()
                 );
+
         return http.build();
     }
 
