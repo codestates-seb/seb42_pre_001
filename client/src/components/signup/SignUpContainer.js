@@ -12,22 +12,23 @@ import axios from 'axios';
 
 // 회원가입
 export default function SingUp() {
+  axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
   });
 
   const signUp = async (name, email, pass) => {
-    const body = JSON.stringify({
+    const body = {
       name: name,
       email: email,
       pass: pass,
-    });
+    };
 
     try {
       const response = await axios.post(
         'http://localhost:8080/members/join',
-        body,
+        JSON.stringify(body),
         {
           headers: {
             'Content-Type': 'application/json',
