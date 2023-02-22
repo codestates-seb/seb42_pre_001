@@ -37,7 +37,7 @@ export default function Login() {
         JSON.stringify(body),
         {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           withCredentials: true,
         }
@@ -90,7 +90,7 @@ export default function Login() {
 
   // input value를 state로 저장
   const setPassVal = (e) => {
-    dispatch(setPassword(Number(e.target.value)));
+    dispatch(setPassword((e.target.value)));
   };
 
   //아이디, 패스워드 확인

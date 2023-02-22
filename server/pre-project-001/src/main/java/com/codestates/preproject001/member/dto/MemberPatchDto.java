@@ -4,11 +4,16 @@ import com.codestates.preproject001.NotSpace.NotSpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @AllArgsConstructor
 public class MemberPatchDto {
+    @NotBlank
     private long memberId;
+
     private String name;
+
     private String password;
 
     // 임의로 NotSpace 유효성 검증 클래스 만들어서 적용하긴 했는데
