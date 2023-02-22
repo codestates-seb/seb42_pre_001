@@ -20,6 +20,7 @@ public interface MemberMapper {
     Member memberPostDtoToMember(MemberPostDto memberPostDto);
     Member memberPatchDtoToMember(MemberPatchDto memberPatchDto);
     MemberResponseDto memberToMemberResponseDto(Member member);
+    List<MemberResponseDto> membersToMemberResponseDtos(List<Member> members);
 
     default MemberMyPageDto memberToMemberMyPageDto(Member member) { // 이 부분이 많이 헷갈려서.. 다시 봐야할 거 같습니다
         if (member == null) {

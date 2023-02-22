@@ -79,10 +79,9 @@ public class QuestionService {
         return memberService.findMember(memberId);
     }
 
-    public void memberVerification(MemberDetails memberDetails, long questionId) {
-        long loginedMemberId = memberDetails.getMemberId();
+    public void memberVerification(long memberId, long questionId) {
         long askedMemberId = findQuestion(questionId).getMember().getMemberId();
-        if(loginedMemberId != askedMemberId) {
+        if(memberId != askedMemberId) {
             throw new BusinessLogicException(ExceptionCode.REQUEST_NOT_ALLOWED);
         }
     }
