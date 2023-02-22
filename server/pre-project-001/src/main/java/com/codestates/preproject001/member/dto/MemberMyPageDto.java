@@ -3,6 +3,7 @@ package com.codestates.preproject001.member.dto;
 import com.codestates.preproject001.answer.dto.AnswerMyPageDto;
 import com.codestates.preproject001.answer.dto.AnswerResponseDto;
 import com.codestates.preproject001.answer.entity.Answer;
+import com.codestates.preproject001.question.dto.QuestionMyPageDto;
 import com.codestates.preproject001.question.dto.QuestionResponseDto;
 import com.codestates.preproject001.question.entity.Question;
 import lombok.Getter;
@@ -16,6 +17,6 @@ public class MemberMyPageDto {
     private long memberId;
     private String email;
     private String name;
-    private List<QuestionResponseDto> questions;
+    private List<QuestionMyPageDto> questions;
     private List<AnswerMyPageDto> answers;
 }

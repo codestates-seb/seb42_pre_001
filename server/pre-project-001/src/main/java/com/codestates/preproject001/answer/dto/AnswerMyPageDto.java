@@ -11,4 +11,5 @@ public class AnswerMyPageDto { // 마이페이지 answer 목록에는 답변한 
     private long questionId;
     private String title;
     private LocalDateTime createdAt;
+    private long answerCount;
 }
