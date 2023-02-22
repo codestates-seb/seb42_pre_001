@@ -13,20 +13,19 @@ import MainButton from '../MainButton';
 
 function AskPageContents() {
   let postQuestion = async () => {
+    console.log('a');
     await axios
       .post(
-        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/questions.json/-NOh832a6kJzFy-8ZFO2',
+        'http://localhost:8080/questions',
         JSON.stringify({
-          answered: '',
-          answers: [],
-          asked: '2023-02-18 오전 9:12:76',
-          author: '함소aaaaaaaapatch',
-          contents: '함소',
-          modified: '',
-          postId: 1000595949,
-          tage: ['new, post'],
-          title: '이거',
-          view: 300,
+          // question_id:
+          // create_at:
+          // last_modified_at:
+          // answered:
+          content:
+            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          title: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat',
+          memberId: 1,
         })
       )
       .then(function (response) {
@@ -93,7 +92,7 @@ function AskPageContents() {
           buttonText="Post your question"
           onClick={postQuestion}
         ></MainButton>
-        <Button>Discard draft</Button>
+        <Button onClick={postQuestion}>Discard draft</Button>
       </PostOrDiscardButtons>
     </Main>
   );
