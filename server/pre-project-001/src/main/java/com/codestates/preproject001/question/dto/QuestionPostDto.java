@@ -7,14 +7,10 @@ import javax.validation.constraints.Positive;
 
 @Getter
 public class QuestionPostDto {
-    @Positive
-    private long mId;
-
+    private long memberId;
     @NotBlank
     private String title;
 
     @NotBlank
     private String content;
-
-
 }

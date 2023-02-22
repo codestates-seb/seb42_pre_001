@@ -13,34 +13,63 @@ import stack from '../../assets/stack.png';
 import axios from 'axios';
 
 export default function Login() {
+  axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
   });
   const navigate = useNavigate();
-  console.log(state);
+
   useEffect(() => {
-    checkUser();
     validationTest();
   }, [state.login]);
 
-  // 실제 로그인 시에는 Post 메소드로  userName, pass를 바디에 담아 서버로 요청 후 로그인 가능 여부를 응답 받아야 합니다.
-  const getUserData = async (userName, pass) => {
-    await axios
-      .get(
-        'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/members.json'
-      )
-      .then((res) => {
-        const filtered = res.data.filter(
-          (info) => info.email === userName && info.password === pass
-        );
-        console.log(filtered);
-
-        if (filtered.length !== 0) {
-          dispatch(setUserInfo(filtered[0]));
+  //   실제 로그인 시에는 Post 메소드로  userName, pass를 바디에 담아 서버로 요청 후 로그인 가능 여부를 응답 받아야 합니다.
+  const login = async (userName, pass) => {
+    const body = {
+      userName: userName,
+      pass: pass,
+    };
+    // 로컬스트 8080포트로 열린 서버에 요청
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/login',
+        JSON.stringify(body),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         }
-      });
+      );
+      console.log(body);
+      const { data } = response;
+      console.log(data);
+      console.log('로그인 응답을 받았습니다.');
+      dispatch(setUserInfo(data));
+      loginHandler();
+      console.log(state);
+    } catch (err) {
+      console.log(err);
+    }
   };
+  //  더미 데이터 불러오기
+
+  // const getUserData = async (userName, pass) => {
+  //   await axios
+  //     .get(
+  //       'https://preproject-3ea3e-default-rtdb.asia-southeast1.firebasedatabase.app/members.json'
+  //     )
+  //     .then((res) => {
+  //       const filtered = res.data.filter(
+  //         (info) => info.email === userName && info.password === pass
+  //       );
+
+  //       if (filtered.length !== 0) {
+  //         dispatch(setUserInfo(filtered[0]));
+  //       }
+  //     });
+  // };
 
   const activeEnter = (e) => {
     if (e.key === 'Enter') {
@@ -61,17 +90,15 @@ export default function Login() {
 
   // input value를 state로 저장
   const setPassVal = (e) => {
-    dispatch(setPassword(Number(e.target.value)));
+    dispatch(setPassword(e.target.value));
   };
 
   //아이디, 패스워드 확인
   const checkUser = (id, pass) => {
-    getUserData(id, pass);
     if (state.login.userInfo) {
       dispatch(setId(null));
       dispatch(setPassword(null));
       dispatch(setIsLogin(true));
-      loginHandler();
     } else if (
       !state.login.userInfo &&
       state.login.id !== null &&
@@ -79,6 +106,7 @@ export default function Login() {
     ) {
       dispatch(setErrorMsg3('The email or password is incorrect.'));
     }
+    login(id, pass);
   };
 
   const validationTest = () => {
