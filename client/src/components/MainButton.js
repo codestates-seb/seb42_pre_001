@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
-function MainButton({ buttonText }) {
+function MainButton({ buttonText, functionHandler = (value) => value }) {
   return (
-    <Button text={buttonText}>
+    <Button text={buttonText} onClick={functionHandler}>
       <div>{buttonText}</div>
     </Button>
   );
@@ -17,8 +17,7 @@ const Button = styled.button`
   box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
   white-space: nowrap;
   cursor: pointer;
-
-  div {
+  > div {
     pointer-events: none;
   }
   ${(props) => {

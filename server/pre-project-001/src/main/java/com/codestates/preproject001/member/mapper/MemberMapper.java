@@ -1,13 +1,13 @@
 package com.codestates.preproject001.member.mapper;
 
 import com.codestates.preproject001.answer.dto.AnswerMyPageDto;
-import com.codestates.preproject001.answer.dto.AnswerResponseDto;
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.member.dto.MemberMyPageDto;
 import com.codestates.preproject001.member.dto.MemberPatchDto;
 import com.codestates.preproject001.member.dto.MemberPostDto;
 import com.codestates.preproject001.member.dto.MemberResponseDto;
 import com.codestates.preproject001.member.entity.Member;
+import com.codestates.preproject001.question.dto.QuestionMyPageDto;
 import com.codestates.preproject001.question.dto.QuestionResponseDto;
 import com.codestates.preproject001.question.entity.Question;
 import org.mapstruct.Mapper;
@@ -36,20 +36,21 @@ public interface MemberMapper {
             answerMyPageDto.setQuestionId(answer.getQuestion().getQuestionId());
             answerMyPageDto.setTitle(answer.getQuestion().getTitle());
             answerMyPageDto.setCreatedAt(answer.getCreatedAt());
-
+            answerMyPageDto.setAnswerCount(answer.getQuestion().getAnswers().size());
             return answerMyPageDto;
         }).collect(Collectors.toList());
         memberMyPageDto.setAnswers(answerMyPageDtoList);
 
         List<Question> questionList = member.getQuestions(); // 질문 리스트
-        List<QuestionResponseDto> questionResponseList = questionList.stream().map(question ->{
-            QuestionResponseDto questionResponseDto = new QuestionResponseDto();
-            questionResponseDto.setQuestionId(question.getQuestionId());
-            questionResponseDto.setTitle(question.getTitle());
-            questionResponseDto.setCreatedAt(question.getCreatedAt());
-            return questionResponseDto;
+        List<QuestionMyPageDto> questionMyPageDtoList = questionList.stream().map(question ->{
+            QuestionMyPageDto questionMyPageDto = new QuestionMyPageDto();
+            questionMyPageDto.setQuestionId(question.getQuestionId());
+            questionMyPageDto.setTitle(question.getTitle());
+            questionMyPageDto.setCreatedAt(question.getCreatedAt());
+            questionMyPageDto.setAnswerCount(question.getAnswers().size());
+            return questionMyPageDto;
         }).collect(Collectors.toList());
-        memberMyPageDto.setQuestions(questionResponseList);
+        memberMyPageDto.setQuestions(questionMyPageDtoList);
 
         return memberMyPageDto;
     }
