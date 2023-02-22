@@ -10,23 +10,28 @@ import { ask, body, tags } from '../../assets/askInputDesc';
 import { ReactComponent as Background } from '../../assets/background.svg';
 import axios from 'axios';
 import MainButton from '../MainButton';
-
+import { useSelector } from 'react-redux';
 function AskPageContents() {
-  let postQuestion = async () => {
-    console.log('a');
+  let { content, title } = useSelector((state) => state.question);
+  // let { id } = useSelector((state) => state.login);
+  console.log(title); // 255자
+  console.log(content); // 1000자
+
+  let postQuestion = async (e) => {
+    console.log(e.target);
     await axios
       .post(
         'http://localhost:8080/questions',
         JSON.stringify({
-          // question_id:
-          // create_at:
-          // last_modified_at:
-          // answered:
-          content:
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          title: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat',
+          content: content,
+          title: title,
           memberId: 1,
-        })
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       )
       .then(function (response) {
         console.log(response);
@@ -59,20 +64,6 @@ function AskPageContents() {
           noticeDesc={body.noticeDesc}
         />
       </InputSet>
-      {/* <InputSet>
-        <TextEditor title={problem.title} desc={problem.desc} />
-        <AskPageSideNotice
-          noticeTitle={problem.noticeTitle}
-          noticeDesc={problem.noticeDesc}
-        />
-      </InputSet> */}
-      {/* <InputSet>
-        <TextEditor title={tryAndExpect.title} desc={tryAndExpect.desc} />
-        <AskPageSideNotice
-          noticeTitle={tryAndExpect.noticeTitle}
-          noticeDesc={tryAndExpect.noticeDesc}
-        />
-      </InputSet> */}
       <InputSet>
         <InputTags title={tags.title} desc={tags.desc} />
         <AskPageSideNotice
@@ -80,19 +71,12 @@ function AskPageContents() {
           noticeDesc={tags.noticeDesc}
         />
       </InputSet>
-      {/* <InputSet>
-        <Input title={review.title} desc={review.desc} />
-        <AskPageSideNotice
-          noticeTitle={review.noticeTitle}
-          noticeDesc={review.noticeDesc}
-        />
-      </InputSet> */}
       <PostOrDiscardButtons>
         <MainButton
           buttonText="Post your question"
-          onClick={postQuestion}
+          functionHandler={postQuestion}
         ></MainButton>
-        <Button onClick={postQuestion}>Discard draft</Button>
+        <Button>Discard draft</Button>
       </PostOrDiscardButtons>
     </Main>
   );
