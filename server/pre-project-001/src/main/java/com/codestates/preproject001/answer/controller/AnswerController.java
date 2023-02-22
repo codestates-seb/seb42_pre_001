@@ -24,7 +24,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/answer") // url 미정으로 비워두기
+@RequestMapping("/answers") // url 미정으로 비워두기
 public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
