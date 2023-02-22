@@ -138,6 +138,7 @@ const HashTagsWrapper = styled(TagBoxStyle)`
 
 const HashTagInput = styled(InputStyle)`
   width: 85px;
+  flex-grow: 1;
   border: none;
   color: hsl(210deg 8% 5%);
   background-color: transparent;
