@@ -20,14 +20,10 @@ public class Question extends auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long questionId;
 
-    //답변여부 (변수명 이대로 괜찮은가)
-    @Column(nullable = false)
-    private boolean answered;
-
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String content;
 
     @ManyToOne
