@@ -35,6 +35,11 @@ const questionSlice = createSlice({
     setAllTags: (state, action) => {
       state.allTags.push(action.payload);
     },
+    setDeleteTag: (state, action) => {
+      state.allTags = state.allTags.filter((el) => {
+        return el !== action.payload;
+      });
+    },
     setTagsErrorMsg: (state, action) => {
       state.tagsErrorMsg = action.payload;
     },
@@ -50,5 +55,6 @@ export const {
   setContentErrorMsg,
   setCurrentTag,
   setAllTags,
+  setDeleteTag,
   setTagsErrorMsg,
 } = questionSlice.actions;
