@@ -30,7 +30,7 @@ export default function Mypage() {
   const deleteContent4 = ` Confirming deletion will only delete your profile on Stack Overflow - it
    will not affect any of your other profiles on the Stack
    Exchange network. If you want to delete multiple profiles,
-   you'll need to visit each site separately and request deletion
+   you'll need to visit each site separately and request deletion``
    of those individual profiles.`;
 
   const deleteContent5 = `I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.`;
