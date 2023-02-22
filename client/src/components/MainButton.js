@@ -18,6 +18,9 @@ const Button = styled.button`
   white-space: nowrap;
   cursor: pointer;
 
+  div {
+    pointer-events: none;
+  }
   ${(props) => {
     return (
       props.text === 'Log in' &&
