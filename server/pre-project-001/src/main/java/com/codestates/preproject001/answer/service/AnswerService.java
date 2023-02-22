@@ -54,6 +54,10 @@ public class AnswerService {
         answerRepository.delete(findAnswer);
     }
 
+    public Answer findAnswer(long answerId) {
+        return findVerifiedAnswer(answerId);
+    }
+
     // getAnswers 수정하게 되면 findAnswers 부분도 수정해야함.
     public Page<Answer> findAnswers(int page, int size) {
         return answerRepository.findAll(PageRequest.of(page, size, Sort.by("answerId").descending()));
@@ -64,5 +68,20 @@ public class AnswerService {
         Answer findAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
         return findAnswer;
+    }
+
+    public Member findMember(long memberId) {
+        return memberService.findMember(memberId);
+    }
+
+    public Question findQuestion(long questionId) {
+        return questionService.findQuestion(questionId);
+    }
+
+    public void memberVerification(long memberId, long answerId) {
+        long answeredMemberId = findAnswer(answerId).getMember().getMemberId();
+        if(memberId != answeredMemberId) {
+            throw new BusinessLogicException(ExceptionCode.REQUEST_NOT_ALLOWED);
+        }
     }
 }

@@ -13,6 +13,7 @@ import stack from '../../assets/stack.png';
 import axios from 'axios';
 
 export default function Login() {
+  axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
@@ -25,17 +26,22 @@ export default function Login() {
 
   //   실제 로그인 시에는 Post 메소드로  userName, pass를 바디에 담아 서버로 요청 후 로그인 가능 여부를 응답 받아야 합니다.
   const login = async (userName, pass) => {
-    const body = JSON.stringify({
+    const body = {
       userName: userName,
       pass: pass,
-    });
+    };
     // 로컬스트 8080포트로 열린 서버에 요청
     try {
-      const response = await axios.post('http://localhost:8080/login', body, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.post(
+        'http://localhost:8080/login',
+        JSON.stringify(body),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
       console.log(body);
       const { data } = response;
       console.log(data);

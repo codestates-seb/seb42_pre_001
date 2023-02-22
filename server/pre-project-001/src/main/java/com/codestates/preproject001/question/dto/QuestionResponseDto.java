@@ -15,7 +15,6 @@ public class QuestionResponseDto {
     private long memberId;
     private String memberName;
     private List<AnswerResponseDto> answers;
-    private boolean answered;
     private LocalDateTime createdAt; // 작성 시간
     private LocalDateTime modifiedAt; // 수정 시간
     private String title;

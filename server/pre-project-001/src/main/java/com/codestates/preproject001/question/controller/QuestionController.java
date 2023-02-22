@@ -5,6 +5,7 @@ import com.codestates.preproject001.dto.MultiResponseDto;
 import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.oath.MemberDetails;
+import com.codestates.preproject001.question.dto.QuestionDeleteDto;
 import com.codestates.preproject001.question.dto.QuestionPatchDto;
 import com.codestates.preproject001.question.dto.QuestionPostDto;
 import com.codestates.preproject001.question.entity.Question;
@@ -34,9 +35,8 @@ public class QuestionController {
     }
 
     @PostMapping    // 질문 작성
-    public ResponseEntity postQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
-                                       @Valid @RequestBody QuestionPostDto questionPostDto) {
-        Member member = questionService.findMember(memberDetails.getMemberId());
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
+        Member member = questionService.findMember(questionPostDto.getMemberId());
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.addMember(member);
         Question response = questionService.createQuestion(question);
@@ -46,9 +46,8 @@ public class QuestionController {
 
     @PatchMapping("/{question-id}") // 질문 수정
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
-                                        @AuthenticationPrincipal MemberDetails memberDetails,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
-        questionService.memberVerification(memberDetails, questionId);
+        questionService.memberVerification(questionPatchDto.getMemberId(), questionId);
         questionPatchDto.setQuestionId(questionId);
         Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
 
@@ -75,9 +74,9 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{question-id}") // 질문 삭제 / 멤버 정보를 어떻게 가져오지?!
-    public ResponseEntity deleteQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
+    public ResponseEntity deleteQuestion(@RequestBody QuestionDeleteDto questionDeleteDto,
                                          @PathVariable("question-id") @Positive long questionId) {
-        questionService.memberVerification(memberDetails, questionId);
+        questionService.memberVerification(questionDeleteDto.getMemberId(), questionId);
         questionService.deleteQuestion(questionId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);

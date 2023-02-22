@@ -1,14 +1,56 @@
 package com.codestates.preproject001.member.mapper;
 
+import com.codestates.preproject001.answer.dto.AnswerMyPageDto;
+import com.codestates.preproject001.answer.dto.AnswerResponseDto;
+import com.codestates.preproject001.answer.entity.Answer;
+import com.codestates.preproject001.member.dto.MemberMyPageDto;
 import com.codestates.preproject001.member.dto.MemberPatchDto;
 import com.codestates.preproject001.member.dto.MemberPostDto;
 import com.codestates.preproject001.member.dto.MemberResponseDto;
 import com.codestates.preproject001.member.entity.Member;
+import com.codestates.preproject001.question.dto.QuestionResponseDto;
+import com.codestates.preproject001.question.entity.Question;
 import org.mapstruct.Mapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
     Member memberPostDtoToMember(MemberPostDto memberPostDto);
     Member memberPatchDtoToMember(MemberPatchDto memberPatchDto);
     MemberResponseDto memberToMemberResponseDto(Member member);
+    List<MemberResponseDto> membersToMemberResponseDtos(List<Member> members);
+
+    default MemberMyPageDto memberToMemberMyPageDto(Member member) { // 이 부분이 많이 헷갈려서.. 다시 봐야할 거 같습니다
+        if (member == null) {
+            return null;
+        }
+        MemberMyPageDto memberMyPageDto = new MemberMyPageDto();
+        memberMyPageDto.setMemberId(member.getMemberId());
+        memberMyPageDto.setEmail(member.getEmail());
+        memberMyPageDto.setName(member.getName());
+        List<Answer> answerList = member.getAnswers(); // 답변 리스트
+        List<AnswerMyPageDto> answerMyPageDtoList = answerList.stream().map(answer ->{
+            AnswerMyPageDto answerMyPageDto = new AnswerMyPageDto();
+            answerMyPageDto.setQuestionId(answer.getQuestion().getQuestionId());
+            answerMyPageDto.setTitle(answer.getQuestion().getTitle());
+            answerMyPageDto.setCreatedAt(answer.getCreatedAt());
+
+            return answerMyPageDto;
+        }).collect(Collectors.toList());
+        memberMyPageDto.setAnswers(answerMyPageDtoList);
+
+        List<Question> questionList = member.getQuestions(); // 질문 리스트
+        List<QuestionResponseDto> questionResponseList = questionList.stream().map(question ->{
+            QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+            questionResponseDto.setQuestionId(question.getQuestionId());
+            questionResponseDto.setTitle(question.getTitle());
+            questionResponseDto.setCreatedAt(question.getCreatedAt());
+            return questionResponseDto;
+        }).collect(Collectors.toList());
+        memberMyPageDto.setQuestions(questionResponseList);
+
+        return memberMyPageDto;
+    }
 }

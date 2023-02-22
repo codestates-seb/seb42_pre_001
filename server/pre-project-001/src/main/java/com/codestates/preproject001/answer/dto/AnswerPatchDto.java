@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class AnswerPatchDto {
     private long answerId;
-
+    private long memberId;
     @NotBlank
     private String content;
 }
