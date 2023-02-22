@@ -30,10 +30,6 @@ public class AnswerService {
     }
 
     public Answer createAnswer(Answer answer) {
-        Member member = memberService.findVerifiedMember(answer.getMember().getMemberId());
-        Question question = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
-        answer.addMember(member);
-        answer.addQuestion(question);
 
         return answerRepository.save(answer);
     }
@@ -42,10 +38,7 @@ public class AnswerService {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
         Optional.ofNullable(answer.getContent())
                 .ifPresent(content -> findAnswer.setContent(content));
-        Answer savedAnswer = answerRepository.save(findAnswer);
-
-        return savedAnswer;
-
+        return answerRepository.save(findAnswer);
     }
 
     public void deleteAnswer(long answerId) {
