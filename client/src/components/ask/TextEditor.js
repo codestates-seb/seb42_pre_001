@@ -14,8 +14,6 @@ function TextEditor({ title, desc }) {
   let setContentText = () => {
     dispatch(setContent(editorRef.current?.getInstance().getMarkdown()));
     console.log(state.question.content);
-    editorRef.current?.getInstance().isViewer();
-    console.log(editorRef.current?.getInstance().getMarkdown());
     // console.log(editorRef.current?.getInstance().getHTML());
   };
 
@@ -50,7 +48,7 @@ function TextEditor({ title, desc }) {
           initialEditType="wysiwyg"
           useCommandShortcut={true}
           ref={editorRef}
-          onKeydown={setContentText}
+          onKeyup={setContentText}
         />
       </div>
       {/* <MainButton buttonText="Next" /> */}
