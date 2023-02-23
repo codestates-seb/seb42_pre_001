@@ -1,7 +1,6 @@
 package com.codestates.preproject001.question.dto;
 
 import com.codestates.preproject001.answer.dto.AnswerResponseDto;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +18,6 @@ public class QuestionResponseDto {
     private LocalDateTime modifiedAt; // 수정 시간
     private String title;
     private String content;
-    private long view;
+    private int view;
 
 }
