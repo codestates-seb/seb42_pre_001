@@ -4,11 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setEmailForPass } from '../../slice/loginSlice';
 import { setErrorMsg5 } from '../../slice/validationSlice';
 import { useRef } from 'react';
-// import { useEffect } from 'react';
 import axios from 'axios';
-// import { useCookies } from 'react-cookie';
 import Complete from './Complete';
-export default function Login() {
+export default function FindPass() {
   const inputRef = useRef();
 
   axios.defaults.withCredentials = true;
@@ -18,10 +16,6 @@ export default function Login() {
   });
   console.log(state);
   const navigate = useNavigate();
-  //   const [cookies, setCookie] = useCookies();
-  //   useEffect(() => {
-
-  //   }, [state.login]);
 
   // 로그인 POST 요청 => 유저 인증 성공 시 access, refresh 토큰을 쿠키에 저장
   const SendEmail = async (email) => {
@@ -30,7 +24,7 @@ export default function Login() {
     };
     try {
       const response = await axios.post(
-        // 'http://localhost:8080/login',
+        'http://localhost:8080/pwchange',
         JSON.stringify(body),
         {
           headers: {
