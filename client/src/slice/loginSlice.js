@@ -8,6 +8,8 @@ const loginSlice = createSlice({
     userInfo: null,
     isLogin: false,
     emailForPass: null,
+    newPass: null,
+    newPassConfirm: null,
   },
   reducers: {
     setId: (state, action) => {
@@ -25,9 +27,22 @@ const loginSlice = createSlice({
     setEmailForPass: (state, action) => {
       state.emailForPass = action.payload;
     },
+    setNewPass: (state, action) => {
+      state.newPass = action.payload;
+    },
+    setNewPassConfirm: (state, action) => {
+      state.newPassConfirm = action.payload;
+    },
   },
 });
 
 export default loginSlice;
-export const { setId, setPassword, setUserInfo, setIsLogin, setEmailForPass } =
-  loginSlice.actions;
+export const {
+  setId,
+  setPassword,
+  setUserInfo,
+  setIsLogin,
+  setEmailForPass,
+  setNewPass,
+  setNewPassConfirm,
+} = loginSlice.actions;
