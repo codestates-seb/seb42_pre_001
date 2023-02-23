@@ -6,10 +6,11 @@ import { setErrorMsg6, setErrorMsg7 } from '../../slice/validationSlice';
 // import { useRef } from 'react';
 import LeftSidebar from '../inquiry/LeftSidebar';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRef } from 'react';
 
 export default function Recovery() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
@@ -38,6 +39,7 @@ export default function Recovery() {
         }
       );
       console.log(response);
+      navigate('/');
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +53,6 @@ export default function Recovery() {
     }
     if (state.login.newPass === state.login.newPassConfirm) {
       console.log('confirmed');
-      updatePass(state.login.newPass);
     }
   };
 
@@ -111,7 +112,7 @@ export default function Recovery() {
 
   const activeEnter = (e) => {
     if (e.key === 'Enter') {
-      console.log('submit test');
+      updatePass(state.login.newPass);
     }
   };
 

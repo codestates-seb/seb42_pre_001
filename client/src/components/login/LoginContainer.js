@@ -7,20 +7,22 @@ import {
   setUserInfo,
   setIsLogin,
 } from '../../slice/loginSlice';
+import { useCookies } from 'react-cookie';
 import { setErrorMsg3, setErrorMsg4 } from '../../slice/validationSlice';
 import stack from '../../assets/stack.png';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
 import { useRef } from 'react';
 
 export default function Login() {
   axios.defaults.withCredentials = true;
+
   const id = useRef();
   const password = useRef();
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
   });
+
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies();
   console.log(state);
@@ -38,6 +40,7 @@ export default function Login() {
           headers: {
             'Content-Type': 'application/json',
           },
+
           withCredentials: true,
         }
       );
