@@ -19,7 +19,7 @@ export default function Logout() {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const logout = async () => {
-    setCookie('null', null);
+    console.log(setCookie);
     if (cookies) {
       removeCookie('accessToken');
       removeCookie('refreshToken');
