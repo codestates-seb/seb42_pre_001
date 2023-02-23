@@ -9,6 +9,7 @@ import { ReactComponent as Background } from '../../assets/background.svg';
 import axios from 'axios';
 import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 function AskPageContents() {
   let { content, title, allTags, titleFocus, contentFocus, tagsFocus } =
     useSelector((state) => state.question);
@@ -38,6 +39,20 @@ function AskPageContents() {
         console.log(error);
       });
   };
+
+  let isValid = () => {
+    return (
+      title?.length >= 15 &&
+      content?.length &&
+      allTags?.length &&
+      allTags?.length <= 5
+    );
+  };
+
+  useEffect(() => {
+    isValid();
+  }, [title, content, allTags]);
+  console.log(isValid());
 
   return (
     <Main>
@@ -83,13 +98,19 @@ function AskPageContents() {
           ></MainButton>
           <Button>Discard draft</Button>
         </PostOrDiscardButtons>
+        {!isValid() ? (
+          <div>
+            Your question couldn&apos;t be submitted. Please see the error
+            above.
+          </div>
+        ) : null}
       </div>
     </Main>
   );
 }
 
 const Main = styled.div`
-  padding: 0 24px 24px 24px;
+  padding: 0 24px 50px 24px;
   max-width: 1264px;
   flex-grow: 1;
 
