@@ -6,9 +6,9 @@ import { setErrorMsg5 } from '../../slice/validationSlice';
 import { useRef } from 'react';
 import axios from 'axios';
 import Complete from './Complete';
+
 export default function findPass() {
   const inputRef = useRef();
-
   axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const state = useSelector((state) => {
