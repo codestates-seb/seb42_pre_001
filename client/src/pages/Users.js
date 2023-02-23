@@ -4,7 +4,7 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 const Users = () => {
   return (
     <UsersContainer>
-      <LeftSidebar />
+      <LeftSidebar pageName="users" />
       <UsersContentContainer>
         <h1>Users</h1>
       </UsersContentContainer>
@@ -14,7 +14,6 @@ const Users = () => {
 export default Users;
 
 const UsersContainer = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;

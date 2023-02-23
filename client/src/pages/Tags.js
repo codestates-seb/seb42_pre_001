@@ -4,7 +4,7 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 const Tages = () => {
   return (
     <TagesContainer>
-      <LeftSidebar />
+      <LeftSidebar pageName="tages" />
       <TagesContentContainer>
         <h1>Tages</h1>
       </TagesContentContainer>
@@ -14,7 +14,6 @@ const Tages = () => {
 export default Tages;
 
 const TagesContainer = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;

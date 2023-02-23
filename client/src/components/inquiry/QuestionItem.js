@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import profile from '../../assets/profile.png';
 import ViewTags from '../ViewTags';
-const QuestionsItems = () => {
+const QuestionsItem = ({ question }) => {
+  const { title, memberName, questionId } = question;
+  const navigate = useNavigate();
+
   return (
     <Container>
       <LeftContainer>
@@ -20,14 +23,14 @@ const QuestionsItems = () => {
         </LeftWrapper>
       </LeftContainer>
       <RightContainer>
-        <TitleLink to="/questions/question">
-          <RightTop>Typescript specific string value in the array</RightTop>
-        </TitleLink>
+        <RightTop onClick={() => navigate(`/questions/${questionId}`)}>
+          {title}
+        </RightTop>
         <RightBottom>
           <ViewTags />
           <NameContainer>
             <NameImage src={profile} />
-            <Name>myungju kang</Name>
+            <Name>{memberName}</Name>
             <Num>1</Num>
             <Time>asked 5 min ago</Time>
           </NameContainer>
@@ -36,7 +39,7 @@ const QuestionsItems = () => {
     </Container>
   );
 };
-export default QuestionsItems;
+export default QuestionsItem;
 
 const Container = styled.div`
   display: flex;
@@ -130,7 +133,4 @@ const Time = styled.div`
   :hover {
     color: black;
   }
-`;
-const TitleLink = styled(Link)`
-  text-decoration: none;
 `;
