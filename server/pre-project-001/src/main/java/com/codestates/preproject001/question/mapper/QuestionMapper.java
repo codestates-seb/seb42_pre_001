@@ -29,6 +29,7 @@ public interface QuestionMapper  {
 
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
+        question.setTags(questionPostDto.getTags());
 
         return question;
     }
@@ -45,6 +46,7 @@ public interface QuestionMapper  {
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setContent(questionPatchDto.getContent());
         question.setTitle(questionPatchDto.getTitle());
+        question.setTags(questionPatchDto.getTags());
 
         return question;
     }
@@ -74,9 +76,8 @@ public interface QuestionMapper  {
             answerResponseDto.setModifiedAt(answer.getModifiedAt());
             return answerResponseDto;
         }).collect(Collectors.toList());
-
         questionResponseDto.setAnswers(answerResponseList);
-
+        questionResponseDto.setTags(question.getTags());
         return questionResponseDto;
     }
 

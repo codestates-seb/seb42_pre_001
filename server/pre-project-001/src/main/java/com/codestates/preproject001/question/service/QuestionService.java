@@ -4,7 +4,6 @@ import com.codestates.preproject001.exception.BusinessLogicException;
 import com.codestates.preproject001.exception.ExceptionCode;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.service.MemberService;
-import com.codestates.preproject001.oath.MemberDetails;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.repository.QuestionRepository;
 import org.springframework.data.domain.Page;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,12 +39,14 @@ public class QuestionService {
 
         Optional.ofNullable(question.getContent()) //내용 수정
                 .ifPresent(questionContent->findQuestion.setContent(questionContent));
+
+        Optional.ofNullable(question.getTags())
+                .ifPresent(questionTags -> findQuestion.setTags(questionTags));
         // 추가로 expecting 부분도 아직 추가할지 안 정했는데, 추가하게 된다면 위에처럼 하나 추가해서 넣어야 할 듯
         verifyRule(findQuestion); // 수정한 질문 내용 규칙 확인
         
-        Question savedQuestion = questionRepository.save(findQuestion);
+        return questionRepository.save(findQuestion);
 
-        return savedQuestion;
     }
 
     public void deleteQuestion(Long questionId) {
@@ -75,6 +77,7 @@ public class QuestionService {
         if (content.length() < 20) {
             throw new BusinessLogicException(ExceptionCode.POST_NOTENOUGH_LENGTH);
         }
+        tagCountCheck(question.getTags());
     }
 
     public Question findVerifiedQuestion(long questionId) {
@@ -95,5 +98,10 @@ public class QuestionService {
         }
     }
 
+    public void tagCountCheck(List<String> tags) {
+        if(tags.size() < 1 || tags.size() > 5) {
+            throw new BusinessLogicException(ExceptionCode.NUMBER_OF_TAGS_NOT_CORRECT);
+        }
+    }
 
 }
