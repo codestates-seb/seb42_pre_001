@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewTags from '../ViewTags';
 import ViewProfile from '../ViewProfile';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 const QuestionContent = ({ content, user }) => {
   return (
     <Container>
@@ -11,7 +13,7 @@ const QuestionContent = ({ content, user }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <Content>{content}</Content>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         <ViewTags />
         <ViewProfile user={user} />
       </ContentContainer>
@@ -28,7 +30,6 @@ const Container = styled.div`
 const VoteContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 10px;
 `;
 const VoteUpButton = styled(GoTriangleUp)`
   color: hsl(210deg 8% 75%);
@@ -47,7 +48,5 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-`;
-const Content = styled.div`
-  word-break: break-all; // width에 맞게 강제 줄바꿈
+  padding-right: 25px;
 `;

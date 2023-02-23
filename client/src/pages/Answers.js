@@ -93,8 +93,9 @@ const Answers = () => {
                   <YourAnswer>Your Answer</YourAnswer>
                   <EditorContainer>
                     <EditorBox
-                      previewStyle="vertical"
-                      initialEditType="wysiwyg"
+                      previewStyle="tab"
+                      initialEditType="markdown"
+                      hideModeSwitch={true}
                       useCommandShortcut={true}
                       ref={editorRef}
                       onChange={onChangeEditor}
