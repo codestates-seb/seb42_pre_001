@@ -40,11 +40,8 @@ public class MemberController {
     @PatchMapping
     public ResponseEntity patchMember(@AuthenticationPrincipal MemberDetails memberDetails,
                                       @Valid @RequestBody MemberPatchDto memberPatchDto) {
-        if(memberDetails.getMemberId()!=memberPatchDto.getMemberId()){
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-        }
-
         Member member = mapper.memberPatchDtoToMember(memberPatchDto);
+        member.setMemberId(memberDetails.getMemberId());
 
         return new ResponseEntity(memberService.updateMember(member),HttpStatus.OK);
     }

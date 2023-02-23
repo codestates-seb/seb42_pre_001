@@ -15,13 +15,13 @@ public class JoinController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/join/registerEmail/{email}/{mailKey}")
+    @GetMapping("/join/registeremail/{email}/{mailKey}")
     public ResponseEntity emailConfirmForJoin(@PathVariable("email") String email, @PathVariable("mailKey") String mailKey){
         memberService.authorizeEmailForJoin(email, mailKey);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PatchMapping("/pwChange/registerEmail/{email}/{mailKey}")
+    @PatchMapping("/pwchange/registeremail/{email}/{mailKey}")
     public ResponseEntity emailConfirmForPwChange(@PathVariable("email") String email, @PathVariable("mailKey") String mailKey,
                                                   @RequestBody String pass){
         memberService.authorizeEmailForPwChange(email, mailKey,pass);

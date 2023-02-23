@@ -50,7 +50,7 @@ public class MemberService {
             sendMail.setSubject("[인증메일발송]");
             sendMail.setText(
                     "메일인증"+
-                            "<br><a href ='http://localhost:8080/join/registerEmail?email=" + member.getEmail()+
+                            "<br><a href ='http://localhost:3000/join/registeremail?email=" + member.getEmail()+
                             "&mail_key=" + member.getMailKey() +
                             "' target='_blank'>이메일 인증 확인</a>"
             );
@@ -66,12 +66,17 @@ public class MemberService {
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
 
-        Optional.ofNullable(member.getPassword())
-                .ifPresent(password->findMember.setPassword(password));
-
         Optional.ofNullable(member.getName())
                 .ifPresent(name->findMember.setName(name));
-        // 수정 로직 추후 구현.. 수정 가능한 부분(ex : name, password)이 무엇인지 명확하지 않아 일단 나중
+
+        Optional.ofNullable(member.getLocation())
+                .ifPresent(location->findMember.setLocation(location));
+
+        Optional.ofNullable(member.getTitle())
+                .ifPresent(title->findMember.setTitle(title));
+
+        Optional.ofNullable(member.getAboutMe())
+                .ifPresent(aboutMe->findMember.setAboutMe(aboutMe));
 
         return memberRepository.save(findMember);
     }
@@ -144,7 +149,7 @@ public class MemberService {
                 sendMail.setSubject("[인증메일발송]");
                 sendMail.setText(
                         "메일인증"+
-                                "<br><a href ='http://localhost:8080/pwchange/registerEmail?email=" + member.getEmail()+
+                                "<br><a href ='http://localhost:3000/pwchange/registeremail?email=" + member.getEmail()+
                                 "&mail_key=" + member.getMailKey() +
                                 "' target='_blank'>이메일 인증 확인</a>"
                 );

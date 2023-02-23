@@ -38,15 +38,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {
-//        String jws = request.getHeader("Authorization").replace("Bearer ", "");
-        Cookie[] cookies = request.getCookies();
-        String jws = null;
-        if(cookies == null) return null;
-        for ( Cookie c : cookies) {
-            String name = c.getName();
-            String value = c.getValue();
-            if(name.equals("accessToken")) jws = value; // 쿠키에서 이름넣어서 빼오기
-        }
+        String jws = request.getHeader("Authorization").replace("Bearer ", "");
+        System.out.println("===========================================================token : "+jws);
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
 

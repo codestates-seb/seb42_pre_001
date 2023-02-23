@@ -31,6 +31,15 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private String location;
+
+    @Column
+    private String title;
+
+    @Column
+    private String aboutMe;
+
     @Enumerated(value=EnumType.STRING)
     @Column(nullable = false)
     private MemberStatus memberStatus;

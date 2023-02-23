@@ -11,15 +11,7 @@ import { ReactComponent as Background } from '../../assets/background.svg';
 import axios from 'axios';
 import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
-<<<<<<< HEAD
 
-function AskPageContents() {
-  let { content, title } = useSelector((state) => state.question);
-  console.log(content);
-  console.log(title);
-  // console.log(state.question.content);
-  let postQuestion = async () => {
-=======
 function AskPageContents() {
   let { content, title } = useSelector((state) => state.question);
 
@@ -29,18 +21,10 @@ function AskPageContents() {
 
   let postQuestion = async (e) => {
     console.log(e.target);
->>>>>>> fe19f0ca11b766ebff71859613d939fdcb3298f6
     await axios
       .post(
         'http://localhost:8080/questions',
         JSON.stringify({
-<<<<<<< HEAD
-          // question_id:
-          // create_at:
-          // last_modified_at:
-          // answered: '',
-=======
->>>>>>> fe19f0ca11b766ebff71859613d939fdcb3298f6
           content: content,
           title: title,
           memberId: 1,
