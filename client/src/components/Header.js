@@ -9,16 +9,37 @@ import { GiDiamondTrophy } from 'react-icons/gi';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsFillChatRightTextFill } from 'react-icons/bs';
 import { InputStyle } from './ask/AskStyle';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+// import { useCookies } from 'react-cookie';
+import { setUserInfo } from '../slice/loginSlice';
+
+import axios from 'axios';
+
 function Header() {
+  // const [cookie] = useCookies();
+  const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state.login;
   });
   const navigate = useNavigate();
   const moveMypage = () => {
+    getUserData();
     const DM = state.userInfo.displayName;
     const id = state.userInfo.id;
     navigate(`/users/${id}/${DM}/activity`);
+  };
+
+  // 토큰을 포함시켜  멤버 id 1번 정보 가져오기
+  const getUserData = async () => {
+    const response = await axios.get('http://localhost:8080/members/1', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const { data } = response;
+    console.log(data);
+    dispatch(setUserInfo(data));
+    console.log(state);
   };
 
   return (

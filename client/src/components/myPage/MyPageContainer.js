@@ -2,18 +2,20 @@ import LeftSidebar from '../inquiry/LeftSidebar';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { BsFillPencilFill } from 'react-icons/bs';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import CreateAboutMe from './CreateAboutMe';
 
 export default function Mypage() {
+  const checkBox = useRef();
   const state = useSelector((state) => {
     return state.login.userInfo;
   });
   const [page, setPage] = useState('act');
-  const [displayName, setName] = useState(state[0].displayName);
-  const [location, setLocation] = useState(state[0].location);
-  const [title, setTitle] = useState(state[0].title);
-  const [about, setAbout] = useState(state[0].about);
+  const [displayName, setName] = useState(state.name);
+  const [location, setLocation] = useState('');
+  const [title, setTitle] = useState('');
+  const [about, setAbout] = useState('');
+  const [isChecked, setIsChecked] = useState(null);
   console.log(page, displayName, location, title);
 
   const deleteContent1 = ` Before confirming that you would like your profile deleted,
@@ -34,6 +36,10 @@ export default function Mypage() {
    of those individual profiles.`;
 
   const deleteContent5 = `I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.`;
+
+  const userDelete = () => {
+    console.log('delete test');
+  };
 
   const displayNameHandler = (e) => {
     setName(e.target.value);
@@ -57,8 +63,8 @@ export default function Mypage() {
     setPage(e.target.id);
   };
 
-  const getCheckboxValue = (e) => {
-    console.log(e.target);
+  const checkboxHandler = () => {
+    setIsChecked(checkBox.current.checked);
   };
 
   return (
@@ -72,12 +78,10 @@ export default function Mypage() {
               src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
               alt="pic"
             />
-            <UserName>{state.displayName}</UserName>
-            <EditBtn>
-              <BsFillPencilFill size={12}></BsFillPencilFill>
-              <Text id="set" onClick={movePage}>
-                Edit profile
-              </Text>
+            <UserName>{displayName}</UserName>
+            <EditBtn id="set" onClick={movePage}>
+              <BsFillPencilFill id="set" size={12}></BsFillPencilFill>
+              <Text id="set">Edit profile</Text>
             </EditBtn>
           </UserInfoContainer>
           <UlContainer>
@@ -97,14 +101,16 @@ export default function Mypage() {
               <SubContent>
                 <Text2>Answers</Text2>
                 <div className="answers">
-                  {state.anwers ? (
-                    <div>
-                      {state.anwers &&
-                        state.anwers.map((answer, idx) => {
+                  {state.answers ? (
+                    <div className="container">
+                      {state.answers &&
+                        state.answers.map((answer, idx) => {
                           return (
                             <>
-                              <Vote key={idx}>{answer.vote}</Vote>
-                              <Text3>{answer.title}</Text3>
+                              <div className="inner">
+                                <Vote key={idx}>{answer.vote}</Vote>
+                                <Text3>{answer.title}</Text3>
+                              </div>
                             </>
                           );
                         })}
@@ -180,13 +186,26 @@ export default function Mypage() {
                 <Text6>{deleteContent4}</Text6>
                 <TextContainer>
                   <Checkbox
+                    ref={checkBox}
                     type="checkbox"
                     value="null"
-                    onClick={getCheckboxValue}
+                    onClick={checkboxHandler}
                   ></Checkbox>
                   <Text6>{deleteContent5}</Text6>
                 </TextContainer>
-                <DeleteBtn>Delete profile</DeleteBtn>
+                {isChecked ? (
+                  <DeleteBtn
+                    onClick={userDelete}
+                    type="button"
+                    value="Delete profile"
+                  ></DeleteBtn>
+                ) : (
+                  <DeleteBtn
+                    disabled
+                    type="button"
+                    value="Delete profile"
+                  ></DeleteBtn>
+                )}
               </PublicInfoConatiner>
             </div>
           )}
@@ -285,13 +304,13 @@ const SubContainer = styled.div`
 
   .answers {
     width: 450px;
-    height: 100px;
+    min-height: 100px;
     border: 1px solid hsl(210, 8%, 75%);
     border-radius: 5px;
   }
   .questions {
     width: 450px;
-    height: 100px;
+    min-height: 100px;
     border: 1px solid hsl(210, 8%, 75%);
     border-radius: 5px;
   }
@@ -505,7 +524,7 @@ const CancelBtn = styled.div`
   }
 `;
 
-const DeleteBtn = styled.div`
+const DeleteBtn = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -514,9 +533,11 @@ const DeleteBtn = styled.div`
   padding: 8px 9px 8px 9px;
   background-color: hsl(358, 62%, 52%);
   border-radius: 3px;
+  border: none;
   color: white;
   font-size: 15px;
   margin: 15px 0 20px 0;
+  opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   :hover {
     background-color: hsl(358, 62%, 70%);
     cursor: pointer;
