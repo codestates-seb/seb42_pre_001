@@ -13,6 +13,7 @@ import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
 function AskPageContents() {
   let { content, title } = useSelector((state) => state.question);
+
   // let { id } = useSelector((state) => state.login);
   console.log(title); // 255자
   console.log(content); // 1000자
