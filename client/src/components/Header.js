@@ -3,20 +3,19 @@ import styled, { css } from 'styled-components';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
 import MainButton from './MainButton';
-// import { HiOutlineXMark } from 'react-icons/hi2';
 import { GoInbox } from 'react-icons/go';
 import { GiDiamondTrophy } from 'react-icons/gi';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsFillChatRightTextFill } from 'react-icons/bs';
 import { InputStyle } from './ask/AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import { setUserInfo } from '../slice/loginSlice';
 
 import axios from 'axios';
 
 function Header() {
-  // const [cookie] = useCookies();
+  const [cookie] = useCookies();
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state.login;
@@ -24,16 +23,18 @@ function Header() {
   const navigate = useNavigate();
   const moveMypage = () => {
     getUserData();
-    const DM = state.userInfo.displayName;
+
     const id = state.userInfo.id;
-    navigate(`/users/${id}/${DM}/activity`);
+    navigate(`/users/${id}`);
   };
 
-  // 토큰을 포함시켜  멤버 id 1번 정보 가져오기
+  // 토큰을 포함시켜서 요청
   const getUserData = async () => {
     const response = await axios.get('http://localhost:8080/members/1', {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: cookie.accessToken,
+        Refresh: cookie.refreshToken,
       },
     });
     const { data } = response;

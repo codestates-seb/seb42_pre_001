@@ -32,6 +32,7 @@ export default function Logout() {
     dispatch(setIsLogin(false));
     logout();
     navigate('/');
+    window.location.reload();
   };
   // 로그아웃 취소 시 이전 화면으로 이동
   const cancelHandler = () => {
