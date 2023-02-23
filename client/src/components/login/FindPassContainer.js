@@ -4,33 +4,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setEmailForPass } from '../../slice/loginSlice';
 import { setErrorMsg5 } from '../../slice/validationSlice';
 import { useRef } from 'react';
-// import { useEffect } from 'react';
 import axios from 'axios';
-// import { useCookies } from 'react-cookie';
 import Complete from './Complete';
-export default function Login() {
-  const inputRef = useRef();
 
+export default function findPass() {
+  const inputRef = useRef();
   axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
   });
-  console.log(state);
+
   const navigate = useNavigate();
-  //   const [cookies, setCookie] = useCookies();
-  //   useEffect(() => {
 
-  //   }, [state.login]);
-
-  // 로그인 POST 요청 => 유저 인증 성공 시 access, refresh 토큰을 쿠키에 저장
-  const SendEmail = async (email) => {
+  const sendEmail = async (email) => {
     const body = {
       email: email,
     };
     try {
       const response = await axios.post(
-        // 'http://localhost:8080/login',
+        'http://localhost:8080/pwchange',
         JSON.stringify(body),
         {
           headers: {
@@ -53,7 +46,6 @@ export default function Login() {
       dispatch(setErrorMsg5(undefined));
     }
 
-    // id를 입력한 경우
     if (state.login.emailForPass) {
       if (emailRegex.test(state.login.emailForPass)) {
         inputRef.current.classList.remove('active');
@@ -69,12 +61,13 @@ export default function Login() {
   const activeEnter = (e) => {
     if (e.key === 'Enter') {
       validationTest();
-      SendEmail();
+      sendEmail(state.login.emailForPass);
     }
   };
 
   const sendEmailHandler = () => {
     validationTest();
+    sendEmail(state.login.emailForPass);
     navigate('/users/account-recovery');
   };
 

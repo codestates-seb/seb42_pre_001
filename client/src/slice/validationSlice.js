@@ -8,6 +8,8 @@ const validationSlice = createSlice({
     errMsg3: undefined,
     errMsg4: undefined,
     errMsg5: undefined,
+    errMsg6: undefined,
+    errMsg7: undefined,
   },
   reducers: {
     // 회원가입 에러 메시지
@@ -28,6 +30,13 @@ const validationSlice = createSlice({
     setErrorMsg5: (state, action) => {
       state.errMsg5 = action.payload;
     },
+    // 새운 비밀번 검증 시 에러 메시지
+    setErrorMsg6: (state, action) => {
+      state.errMsg6 = action.payload;
+    },
+    setErrorMsg7: (state, action) => {
+      state.errMsg7 = action.payload;
+    },
   },
 });
 
@@ -38,4 +47,6 @@ export const {
   setErrorMsg3,
   setErrorMsg4,
   setErrorMsg5,
+  setErrorMsg6,
+  setErrorMsg7,
 } = validationSlice.actions;
