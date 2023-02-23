@@ -26,7 +26,7 @@ const Paragraph = styled.p`
 `;
 const Text2 = styled.div`
   font-size: 14px;
-  margin: 10px 25px 5px 70px;
+  margin: 10px 25px 5px 62px;
   line-height: 18px;
 `;
 
@@ -37,10 +37,9 @@ export default function FindPass() {
   return (
     <Conatiner>
       <Text>
-        <BsCheckLg size="50" color="#27ae60"></BsCheckLg>ㅤ
+        <BsCheckLg size="25" color="#27ae60"></BsCheckLg>ㅤ
         <Paragraph>
-          Registration email sent to {state.signUp.email} Open this email to
-          finish signup.
+          Account recovery email sent to {state.login.emailForPass}
         </Paragraph>
       </Text>
 
