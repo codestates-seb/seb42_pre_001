@@ -2,33 +2,55 @@ import styled from 'styled-components';
 import MainButton from '../MainButton';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setContent } from '../../slice/answerSlice';
 const CreateAnswer = ({ question }) => {
   const [text, setText] = useState('');
-  const editorRef = useRef(null);
-  const { postId } = question;
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const { questionId, memberId, answers } = question;
+  const [answerArr, setAnswerArr] = useState([]);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const editorRef = useRef(state.answer.content);
+  const apiUrl = `http://localhost:8080/answers`;
   const showNotice = () => {
     console.log(editorRef.current?.getInstance().getMarkdown());
   };
+  useEffect(() => console.log(state), []);
   const onChangeEditor = () => {
     console.log(editorRef.current?.getInstance().getMarkdown());
+    dispatch(setContent(editorRef.current?.getInstance().getMarkdown()));
+    console.log(state);
+    setText(editorRef.current?.getInstance().getMarkdown());
+    console.log(answerArr);
   };
   const handleClick = () => {
-    setText(editorRef.current?.getInstance().getMarkdown());
+    setAnswerArr([...answers, text]);
     axios
-      .post(apiUrl, {
-        postId,
-        author: 'myungju kang',
-        contents: text,
+      .post(
+        apiUrl,
+        JSON.stringify({
+          questionId,
+          memberId,
+          content: text,
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setText('');
+        // dispatch(setContent(''));
       })
-      .then((res) => console.log(res))
       .catch((error) => console.log(error));
   };
+
   return (
-    <Container>
+    <CreateAnswerContainer>
       <YourAnswer>Your Answer</YourAnswer>
       <EditorContainer>
         <EditorBox
@@ -44,11 +66,11 @@ const CreateAnswer = ({ question }) => {
       <ButtonContainer onClick={handleClick}>
         <MainButton buttonText="Post Your Answer" />
       </ButtonContainer>
-    </Container>
+    </CreateAnswerContainer>
   );
 };
 export default CreateAnswer;
-const Container = styled.div`
+const CreateAnswerContainer = styled.div`
   width: 727px;
 `;
 const YourAnswer = styled.div`

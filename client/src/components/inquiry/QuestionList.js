@@ -6,15 +6,16 @@ import axios from 'axios';
 
 const QuestionList = ({ name }) => {
   const [questions, setQuestions] = useState([]);
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = `http://localhost:8080/questions?page=1&size=10`;
   useEffect(() => {
     const getQuestions = async () => {
       const response = await axios.get(apiUrl);
       const { data } = response;
-      setQuestions(data);
+      setQuestions(data.data);
+      console.log(data.data);
     };
     getQuestions();
-  }, [questions]);
+  }, []);
 
   return (
     <Container>

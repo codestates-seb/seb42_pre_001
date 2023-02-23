@@ -1,23 +1,79 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaGlobeAmericas } from 'react-icons/fa';
-const LeftSidebar = () => {
+const LeftSidebar = ({ text }) => {
+  const navigate = useNavigate();
+  const handleHomeClick = () => {
+    if (text) {
+      if (confirm('변경사항이 저장되지 않을 수 있습니다.')) {
+        navigate('/');
+      } else {
+        return false;
+      }
+    } else {
+      navigate('/');
+    }
+  };
+  const handleQuestionsClick = () => {
+    if (text) {
+      if (confirm('변경사항이 저장되지 않을 수 있습니다.')) {
+        navigate('/questions');
+      } else {
+        return false;
+      }
+    } else {
+      navigate('/questions');
+    }
+  };
+  const handleTagesClick = () => {
+    if (text) {
+      if (confirm('변경사항이 저장되지 않을 수 있습니다.')) {
+        navigate('/tags');
+      } else {
+        return false;
+      }
+    } else {
+      navigate('/tags');
+    }
+  };
+  const handleUsersClick = () => {
+    if (text) {
+      if (confirm('변경사항이 저장되지 않을 수 있습니다.')) {
+        navigate('/users');
+      } else {
+        return false;
+      }
+    } else {
+      navigate('/users');
+    }
+  };
+  const handleCompaniesClick = () => {
+    if (text) {
+      if (confirm('변경사항이 저장되지 않을 수 있습니다.')) {
+        navigate('/companies');
+      } else {
+        return false;
+      }
+    } else {
+      navigate('/companies');
+    }
+  };
   return (
     <Container>
       <Wrapper>
-        <CustomLink to="/">Home</CustomLink>
+        <LickBox onClick={handleHomeClick}>Home</LickBox>
         <PublicWrapper>PUBLIC</PublicWrapper>
-        <CustomLink to="/questions">
+        <LickBox onClick={handleQuestionsClick}>
           <IconWrapper>
             <GlobeIcon>
               <FaGlobeAmericas size="18" />
             </GlobeIcon>
             Questions
           </IconWrapper>
-        </CustomLink>
-        <CustomLink to="/tags">Tages</CustomLink>
-        <CustomLink to="/users">Users</CustomLink>
-        <CustomLink to="/companies">Companies</CustomLink>
+        </LickBox>
+        <LickBox onClick={handleTagesClick}>Tages</LickBox>
+        <LickBox onClick={handleUsersClick}>Users</LickBox>
+        <LickBox onClick={handleCompaniesClick}>Companies</LickBox>
       </Wrapper>
     </Container>
   );
@@ -51,11 +107,12 @@ const PublicWrapper = styled.div`
   color: gray;
   padding: 1.5em 0.5em 0.5em 0.5em;
 `;
-const CustomLink = styled(Link)`
+const LickBox = styled.div`
   color: gray;
   text-decoration: none;
   font-size: 13px;
   padding: 0.5em;
+  cursor: pointer;
   :hover {
     color: black;
   }

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewTags from '../ViewTags';
 import ViewProfile from '../ViewProfile';
-const QuestionContent = ({ contents, author }) => {
+const QuestionContent = ({ content, user }) => {
   return (
     <Container>
       <VoteContainer>
@@ -11,9 +11,9 @@ const QuestionContent = ({ contents, author }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <Content>{contents}</Content>
+        <Content>{content}</Content>
         <ViewTags />
-        <ViewProfile author={author} />
+        <ViewProfile user={user} />
       </ContentContainer>
     </Container>
   );
@@ -46,6 +46,7 @@ const VoteDownButton = styled(GoTriangleDown)`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 const Content = styled.div`
   word-break: break-all; // width에 맞게 강제 줄바꿈

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import profile from '../../assets/profile.png';
 import ViewTags from '../ViewTags';
 const QuestionsItem = ({ question }) => {
-  const { title, author, postId } = question;
+  const { title, memberName, questionId } = question;
   const navigate = useNavigate();
 
   return (
@@ -23,14 +23,14 @@ const QuestionsItem = ({ question }) => {
         </LeftWrapper>
       </LeftContainer>
       <RightContainer>
-        <RightTop onClick={() => navigate(`/questions/${postId}`)}>
+        <RightTop onClick={() => navigate(`/questions/${questionId}`)}>
           {title}
         </RightTop>
         <RightBottom>
           <ViewTags />
           <NameContainer>
             <NameImage src={profile} />
-            <Name>{author}</Name>
+            <Name>{memberName}</Name>
             <Num>1</Num>
             <Time>asked 5 min ago</Time>
           </NameContainer>

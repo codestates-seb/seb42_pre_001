@@ -10,8 +10,8 @@ const AnswerContent = ({ answer }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <Content>{answer.contents}</Content>
-        <ViewProfile author={answer.author} />
+        <Content>{answer.content}</Content>
+        <ViewProfile user={answer.memberName} />
       </ContentContainer>
     </Container>
   );
@@ -44,6 +44,7 @@ const VoteDownButton = styled(GoTriangleDown)`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 const Content = styled.div`
   word-break: break-all; // width에 맞게 강제 줄바꿈
