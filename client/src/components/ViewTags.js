@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-
 const ViewTags = () => {
-  const tagArr = ['javaScript', 'react'];
+  const tagArr = ['javascript', 'reactjs'];
+
   return (
     <Container>
       {tagArr.map((el, idx) => (
@@ -13,6 +13,7 @@ const ViewTags = () => {
 export default ViewTags;
 
 const Container = styled.span`
+  margin-top: 20px;
   list-style-type: none;
 `;
 const Tag = styled.span`

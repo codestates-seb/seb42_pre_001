@@ -11,6 +11,7 @@ import com.codestates.preproject001.question.dto.QuestionPostDto;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.mapper.QuestionMapper;
 import com.codestates.preproject001.question.service.QuestionService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +40,8 @@ public class QuestionController {
         Member member = questionService.findMember(questionPostDto.getMemberId());
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.addMember(member);
-        Question response = questionService.createQuestion(question);
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(response)), HttpStatus.CREATED);
+        questionService.createQuestion(question);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{question-id}") // 질문 수정
@@ -49,10 +49,8 @@ public class QuestionController {
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionService.memberVerification(questionPatchDto.getMemberId(), questionId);
         questionPatchDto.setQuestionId(questionId);
-        Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
+        questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
