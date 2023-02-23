@@ -7,7 +7,7 @@ const Questions = () => {
   return (
     <>
       <QuestionsContainer>
-        <LeftSidebar />
+        <LeftSidebar pageName="questions" />
         <QuestionsContentContainer>
           <QuestionList name="All Questions"></QuestionList>
           <QuestionSidebar></QuestionSidebar>
@@ -20,7 +20,6 @@ const Questions = () => {
 export default Questions;
 
 const QuestionsContainer = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;

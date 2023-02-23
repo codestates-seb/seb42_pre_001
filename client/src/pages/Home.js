@@ -5,22 +5,19 @@ import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 
 const Home = () => {
   return (
-    <>
-      <HomeContainer>
-        <LeftSidebar />
-        <HomeContentContainer>
-          <QuestionList name="Top Questions"></QuestionList>
-          <QuestionSidebar></QuestionSidebar>
-        </HomeContentContainer>
-      </HomeContainer>
-    </>
+    <HomeContainer>
+      <LeftSidebar pageName="home" />
+      <HomeContentContainer>
+        <QuestionList name="Top Questions"></QuestionList>
+        <QuestionSidebar></QuestionSidebar>
+      </HomeContentContainer>
+    </HomeContainer>
   );
 };
 
 export default Home;
 
 const HomeContainer = styled.div`
-  height: 150vh;
   display: flex;
   flex-direction: row;
   justify-content: center;

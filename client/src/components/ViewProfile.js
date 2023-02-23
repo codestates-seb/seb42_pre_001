@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FaCircle } from 'react-icons/fa';
 import profile from '../assets/profile.png';
-const ViewProfile = () => {
+const ViewProfile = ({ user }) => {
   return (
     <UserContiner>
       <UserWrapper>
@@ -9,7 +9,7 @@ const ViewProfile = () => {
         <UserWrapperBottom>
           <Image src={profile} />
           <NameContainer>
-            <Name>myungju Kang</Name>
+            <Name>{user}</Name>
             <NameWrapperBottom>
               <FirstNum>206</FirstNum>
               <Circle />

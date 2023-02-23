@@ -4,7 +4,7 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 const Companies = () => {
   return (
     <CompaniesContainer>
-      <LeftSidebar />
+      <LeftSidebar pageName="companies" />
       <CompaniesContentContainer>
         <h1>Companies</h1>
       </CompaniesContentContainer>
@@ -14,7 +14,6 @@ const Companies = () => {
 export default Companies;
 
 const CompaniesContainer = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
