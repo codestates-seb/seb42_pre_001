@@ -49,11 +49,18 @@ public class QuestionService {
 
     public void deleteQuestion(Long questionId) {
         Question question = findVerifiedQuestion(questionId);
+        noAnswerYet(question);
         questionRepository.delete(question);
     }
 
     public Question findQuestion(long questionId) {
         return findVerifiedQuestion(questionId);
+    }
+
+    private void noAnswerYet(Question question) {
+        if(question.getAnswers().size() != 0) {
+            throw new BusinessLogicException(ExceptionCode.ANSWER_EXISTS);
+        }
     }
 
     public Page<Question> findQuestions(int page, int size) { // 질문 목록 페이지네이션으로
