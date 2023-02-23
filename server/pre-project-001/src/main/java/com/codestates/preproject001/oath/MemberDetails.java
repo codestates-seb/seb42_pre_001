@@ -12,6 +12,7 @@ public class MemberDetails extends Member implements UserDetails {
 
     MemberDetails(Member member) { // 생성자
         setMemberId(member.getMemberId());
+        setPassword(member.getPassword());
         setEmail(member.getEmail());
         setName(member.getName());
     }
