@@ -61,6 +61,7 @@ public interface QuestionMapper  {
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setModifiedAt(question.getModifiedAt());
         questionResponseDto.setMemberId(question.getMember().getMemberId());
+        questionResponseDto.setView(question.getView());
         List<Answer> answerList = question.getAnswers();
         List<AnswerResponseDto> answerResponseList = answerList.stream().map(answer ->{
             AnswerResponseDto answerResponseDto = new AnswerResponseDto();

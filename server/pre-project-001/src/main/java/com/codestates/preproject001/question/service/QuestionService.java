@@ -54,7 +54,9 @@ public class QuestionService {
     }
 
     public Question findQuestion(long questionId) {
-        return findVerifiedQuestion(questionId);
+        Question question = findVerifiedQuestion(questionId);
+        question.plusView();
+        return question;
     }
 
     private void noAnswerYet(Question question) {
@@ -87,7 +89,7 @@ public class QuestionService {
     }
 
     public void memberVerification(long memberId, long questionId) {
-        long askedMemberId = findQuestion(questionId).getMember().getMemberId();
+        long askedMemberId = findVerifiedQuestion(questionId).getMember().getMemberId();
         if(memberId != askedMemberId) {
             throw new BusinessLogicException(ExceptionCode.REQUEST_NOT_ALLOWED);
         }

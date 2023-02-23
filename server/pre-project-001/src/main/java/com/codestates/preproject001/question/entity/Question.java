@@ -30,6 +30,9 @@ public class Question extends auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Column(nullable = false)
+    private long view = 0;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
@@ -47,4 +50,7 @@ public class Question extends auditable {
         }
     }
 
+    public void plusView() {
+        view++;
+    }
 }

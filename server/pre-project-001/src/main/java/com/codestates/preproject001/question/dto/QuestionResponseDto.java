@@ -19,5 +19,6 @@ public class QuestionResponseDto {
     private LocalDateTime modifiedAt; // 수정 시간
     private String title;
     private String content;
+    private long view;
 
 }
