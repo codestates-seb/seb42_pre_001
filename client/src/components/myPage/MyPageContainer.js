@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useState, useRef } from 'react';
 import CreateAboutMe from './CreateAboutMe';
+import axios from 'axios';
 
 export default function Mypage() {
   const checkBox = useRef();
@@ -37,32 +38,79 @@ export default function Mypage() {
 
   const deleteContent5 = `I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.`;
 
-  const userDelete = () => {
-    console.log('delete test');
+  // 회원 삭제 구현
+  // 삭제 버튼 클릭
+  const userDelete = async () => {
+    try {
+      const response = await axios.delete(
+        'http://localhost:8080/members',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
+      console.log('delete test');
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+      console.log('회원 삭제에 실패 했습니다.');
+    }
   };
 
+  // 회원정보 수정
+  //   updateUserInfo = async () => {
+  //     try {
+  //       const response = await axios.patch(
+  //         'http://localhost:8080/members',
+  //         {},
+  //         {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       console.log('delete test');
+  //       console.log(response);
+  //     } catch (err) {
+  //       console.log(err);
+  //       console.log('회원 삭제에 실패 했습니다.');
+  //     }
+  //   };
+
+  // 저장 버튼 클릭
+  const saveHandler = () => {
+    setPage('act');
+    // updateUserInfo()
+  };
+  // 취소 버튼 클릭
+  const cancelHandler = () => {
+    setPage('act');
+  };
+
+  // input value를 state로 저장
+  const titleHandler = (e) => {
+    setTitle(e.target.value);
+  };
+
+  // input value를 state로 저장
   const displayNameHandler = (e) => {
     setName(e.target.value);
   };
 
-  const saveHandler = () => {
-    setPage('act');
-  };
-  const cancelHandler = () => {
-    setPage('act');
-  };
+  // input value를 state로 저장
   const locationHandler = (e) => {
     setLocation(e.target.value);
-  };
-
-  const titleHandler = (e) => {
-    setTitle(e.target.value);
   };
 
   const movePage = (e) => {
     setPage(e.target.id);
   };
 
+  // 체크박스 클릭
   const checkboxHandler = () => {
     setIsChecked(checkBox.current.checked);
   };
@@ -217,7 +265,7 @@ export default function Mypage() {
 
 const HomeContainer = styled.div`
   width: 100%;
-  height: 200vh;
+  height: 250vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -230,6 +278,7 @@ const Main = styled.div`
 const MyPageContentContainer = styled.div`
   max-width: 1100px;
   min-width: 600px;
+
   width: calc(100% - 164px);
   display: flex;
   flex-direction: row;
@@ -299,7 +348,7 @@ const SubContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 1000px;
-  height: 100vh;
+  height: 200vh;
   padding: 15px;
 
   .answers {
@@ -328,7 +377,7 @@ const PublicInfoConatiner = styled.div`
   flex-direction: column;
   font-size: 19px;
   width: 1000px;
-  height: 1370px;
+  min-height: 1370px;
   margin: 10px 0 15px 0;
   padding: 20px;
   border: 1px solid hsl(210, 8%, 85%);
@@ -456,7 +505,7 @@ const SubContent = styled.div`
 `;
 const SettingsTitle = styled.div`
   font-size: 28px;
-  width: 1000px;
+  width: 950px;
   font-weight: 500;
   margin: 15px 0 25px 0;
   padding: 0 0 10px 0;
