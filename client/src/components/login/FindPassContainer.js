@@ -6,7 +6,7 @@ import { setErrorMsg5 } from '../../slice/validationSlice';
 import { useRef } from 'react';
 import axios from 'axios';
 import Complete from './Complete';
-export default function FindPass() {
+export default function findPass() {
   const inputRef = useRef();
 
   axios.defaults.withCredentials = true;
@@ -14,11 +14,10 @@ export default function FindPass() {
   const state = useSelector((state) => {
     return state;
   });
-  console.log(state);
+
   const navigate = useNavigate();
 
-  // 로그인 POST 요청 => 유저 인증 성공 시 access, refresh 토큰을 쿠키에 저장
-  const SendEmail = async (email) => {
+  const sendEmail = async (email) => {
     const body = {
       email: email,
     };
@@ -47,7 +46,6 @@ export default function FindPass() {
       dispatch(setErrorMsg5(undefined));
     }
 
-    // id를 입력한 경우
     if (state.login.emailForPass) {
       if (emailRegex.test(state.login.emailForPass)) {
         inputRef.current.classList.remove('active');
@@ -63,12 +61,13 @@ export default function FindPass() {
   const activeEnter = (e) => {
     if (e.key === 'Enter') {
       validationTest();
-      SendEmail();
+      sendEmail(state.login.emailForPass);
     }
   };
 
   const sendEmailHandler = () => {
     validationTest();
+    sendEmail(state.login.emailForPass);
     navigate('/users/account-recovery');
   };
 
