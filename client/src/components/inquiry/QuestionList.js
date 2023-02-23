@@ -32,7 +32,7 @@ const QuestionList = ({ name }) => {
       ))}
       <PaginationContainer>
         {page.map((el, idx) => (
-          <Pagination key={idx} pageNum={el} />
+          <Pagination key={idx} pageNum={el} num={num} />
         ))}
       </PaginationContainer>
     </Container>
