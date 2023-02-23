@@ -15,6 +15,7 @@ import Ask from './pages/Ask';
 import Answers from './pages/Answers';
 import Footer from './components/Footer';
 import Mypage from './pages/MyPage';
+import FindPass from './pages/FindPass';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/users/signup" element={<SignUp />} />
           <Route path="/users/logout" element={<Logout />} />
           <Route path="/users/:id/:user/activity" element={<Mypage />} />
+          <Route path="/users/account-recovery" element={<FindPass />} />
         </Routes>
       </PageLayout>
       <Footer />

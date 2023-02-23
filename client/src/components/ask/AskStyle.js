@@ -87,4 +87,50 @@ const NoticeStyle = styled.div`
     }
   }
 `;
-export { AskBoxStyle, InputStyle, TagBoxStyle, NoticeStyle };
+
+const HashTags = styled.span`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  > span {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    color: hsl(205deg 47% 42%);
+    margin: 2px;
+    padding: 0 4px;
+    font-size: 12px;
+    cursor: text;
+    background-color: hsl(205deg 46% 92%);
+    height: 24.5px;
+    border-radius: 3px;
+    :hover {
+      background-color: hsl(205deg 53% 88%);
+    }
+  }
+  button {
+    display: flex;
+    margin: 0 0 0 4px;
+    border: none;
+    background-color: transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    :hover {
+      background-color: hsl(205deg 47% 42%);
+      path {
+        fill: hsl(205deg 46% 92%);
+      }
+    }
+  }
+  svg {
+    pointer-events: none;
+    width: 14px;
+    height: 14px;
+    overflow-clip-margin: content-box;
+    overflow: hidden;
+  }
+  path {
+    fill: hsl(205deg 47% 42%);
+  }
+`;
+export { AskBoxStyle, InputStyle, TagBoxStyle, NoticeStyle, HashTags };
