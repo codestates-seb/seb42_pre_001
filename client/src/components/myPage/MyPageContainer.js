@@ -5,7 +5,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { useState, useRef } from 'react';
 import CreateAboutMe from './CreateAboutMe';
 import axios from 'axios';
-
+import { useCookies } from 'react-cookie';
 export default function Mypage() {
   const checkBox = useRef();
   const state = useSelector((state) => {
@@ -17,6 +17,7 @@ export default function Mypage() {
   const [title, setTitle] = useState('');
   const [about, setAbout] = useState('');
   const [isChecked, setIsChecked] = useState(null);
+  const [cookie] = useCookies();
   console.log(page, displayName, location, title);
 
   const deleteContent1 = ` Before confirming that you would like your profile deleted,
@@ -48,6 +49,8 @@ export default function Mypage() {
         {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
           },
           withCredentials: true,
         }
@@ -154,12 +157,12 @@ export default function Mypage() {
                       {state.answers &&
                         state.answers.map((answer, idx) => {
                           return (
-                            <>
+                            <div key={idx}>
                               <div className="inner">
                                 <Vote key={idx}>{answer.vote}</Vote>
                                 <Text3>{answer.title}</Text3>
                               </div>
-                            </>
+                            </div>
                           );
                         })}
                     </div>
@@ -176,12 +179,12 @@ export default function Mypage() {
                       {state.questions &&
                         state.questions.map((question, idx) => {
                           return (
-                            <>
+                            <div key={idx}>
                               <div className="inner">
-                                <Vote key={idx}>{question.vote}</Vote>
+                                <Vote>{question.vote}</Vote>
                                 <Text3>{question.title}</Text3>
                               </div>
-                            </>
+                            </div>
                           );
                         })}
                     </div>
