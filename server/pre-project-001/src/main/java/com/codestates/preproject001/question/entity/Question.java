@@ -31,6 +31,9 @@ public class Question extends auditable {
     private Member member;
 
     private int view = 0;
+    @Column
+    @ElementCollection(targetClass = String.class)
+    private List<String> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
