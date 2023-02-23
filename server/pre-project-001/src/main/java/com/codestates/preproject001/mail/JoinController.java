@@ -15,16 +15,22 @@ public class JoinController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/join/registeremail/{email}/{mailKey}")
-    public ResponseEntity emailConfirmForJoin(@PathVariable("email") String email, @PathVariable("mailKey") String mailKey){
+    @GetMapping("/join/registeremail")
+    public ResponseEntity emailConfirmForJoin(@RequestParam("email") String email, @RequestParam("mail_key") String mailKey){
         memberService.authorizeEmailForJoin(email, mailKey);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PatchMapping("/pwchange/registeremail/{email}/{mailKey}")
-    public ResponseEntity emailConfirmForPwChange(@PathVariable("email") String email, @PathVariable("mailKey") String mailKey,
+    @PatchMapping("/pwchange/registeremail")
+    public ResponseEntity emailConfirmForPwChange(@RequestParam("email") String email, @RequestParam("mail_key") String mailKey,
                                                   @RequestBody String pass){
         memberService.authorizeEmailForPwChange(email, mailKey,pass);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/pwchange") //맨처음 비번바꾸기 버튼누리기 -> 이메일전송 이메일받기
+    public ResponseEntity patchPassword(@RequestBody MailBody mailBody) {
+        memberService.changePassword(memberService.findByEmail(mailBody.getEmail()));
         return new ResponseEntity(HttpStatus.OK);
     }
 }

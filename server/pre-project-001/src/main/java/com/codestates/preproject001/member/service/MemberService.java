@@ -91,7 +91,8 @@ public class MemberService {
     }
 
     public void deleteMember(Member member) {
-        memberRepository.delete(member);
+        member.setMemberStatus(Member.MemberStatus.DELETED_USER);
+        memberRepository.save(member);
     }
 
     public void verifyExistsEmail(String email) {
@@ -122,7 +123,7 @@ public class MemberService {
         if(findMember.getMemberStatus() != Member.MemberStatus.UNAUTHORIZED_USER){
             System.out.println("이미 계정이 생성된 이메일 입니다");
         } else {
-            if(findMember.getMailKey()==mailKey){
+            if(findMember.getMailKey().equals(mailKey)){
                 findMember.setMemberStatus(Member.MemberStatus.ACTIVE_USER);
                 System.out.println("메일 인증 성공");
                 memberRepository.save(findMember);
@@ -161,14 +162,15 @@ public class MemberService {
             }
         }
     }
-    public void authorizeEmailForPwChange (String email, String mailKey, String pass){//이메일을 확인하는코드
+    public void authorizeEmailForPwChange (String email, String mailKey, String pass){//이메일을 확인하는코드 + 실제로 비번바꿈
         //이후에 queryDSL로 짜야됨 그냥 로직만 구현시켜놓겠음 + 예외처리
         Optional<Member> member = memberRepository.findByEmail(email);
         Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         if(findMember.getMemberStatus()== Member.MemberStatus.ACTIVE_USER) {
-            if(findMember.getMailKey()==mailKey) {
+            if(findMember.getMailKey().equals(mailKey)) {
                 System.out.println("메일 인증 성공");
-                findMember.setPassword(pass);
+                String encryptedPassword = passwordEncoder.encode(pass);
+                findMember.setPassword(encryptedPassword);
                 memberRepository.save(findMember);
             } else {
                 System.out.println("메일키값이 다릅니다");

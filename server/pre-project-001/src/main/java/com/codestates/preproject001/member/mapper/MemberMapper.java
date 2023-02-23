@@ -22,7 +22,7 @@ public interface MemberMapper {
     MemberResponseDto memberToMemberResponseDto(Member member);
     List<MemberResponseDto> membersToMemberResponseDtos(List<Member> members);
 
-    default MemberMyPageDto memberToMemberMyPageDto(Member member) { // 이 부분이 많이 헷갈려서.. 다시 봐야할 거 같습니다
+    default MemberMyPageDto memberToMemberMyPageDto(Member member) { // 완료
         if (member == null) {
             return null;
         }
