@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 import { AskBoxStyle, InputStyle, TagBoxStyle, HashTags } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   setTagsErrorMsg,
   setCurrentTag,
   setAllTags,
   setDeleteTag,
+  setTagsFocus,
 } from '../../slice/questionSlice';
 import { tags } from '../../assets/askInputDesc';
 
 function InputTags() {
   let dispatch = useDispatch();
   let state = useSelector((state) => state);
-  let { currentTag, allTags, tagsErrorMsg } = useSelector(
+  let { currentTag, allTags, tagsErrorMsg, tagsFocus } = useSelector(
     (state) => state.question
   );
 
@@ -37,7 +38,6 @@ function InputTags() {
 
   useEffect(() => {
     validationTags();
-    console.log(allTags);
   }, [allTags]);
 
   let handleText = (e) => {
@@ -98,21 +98,24 @@ function InputTags() {
       dispatch(setCurrentTag(''));
     }
   };
-  // 인풋 테두리 이벤트
-  const hashTagsWrapperEl = useRef(null);
-  const onInputFocus = () => {
-    hashTagsWrapperEl.current.classList.add('inputFocus');
+
+  // focus 상태 변경
+  const onTagsFocus = () => {
+    dispatch(setTagsFocus(true));
   };
-  const onInputBlur = () => {
-    hashTagsWrapperEl.current.classList.remove('inputFocus');
+  const onTagsBlur = () => {
+    dispatch(setTagsFocus(false));
   };
 
   return (
-    <Div tagsErrorMsg={state.question.tagsErrorMsg}>
+    <Div>
       <div>
         <label>{tags.title}</label>
         <p>{tags.desc}</p>
-        <HashTagsWrapper className="HashTagsWrapper" ref={hashTagsWrapperEl}>
+        <HashTagsWrapper
+          tagsErrorMsg={state.question.tagsErrorMsg}
+          tagsFocus={tagsFocus}
+        >
           <HashTags className="hashTags">
             {/* <span>             //hashTag
               <span>태그 내용</span>    //tagText
@@ -127,8 +130,8 @@ function InputTags() {
               onKeyPress={pushTag}
               value={currentTag}
               onChange={handleText}
-              onFocus={onInputFocus}
-              onBlur={onInputBlur}
+              onFocus={onTagsFocus}
+              onBlur={onTagsBlur}
             />
           </HashTags>
         </HashTagsWrapper>
@@ -141,15 +144,6 @@ function InputTags() {
 const Div = styled(AskBoxStyle)`
   .inputFocus {
     // input이 focus될 때 HashTagsWrapper에 적용
-    border-color: ${(props) => {
-      console.log(props.tagsErrorMsg);
-      return props.tagsErrorMsg ? 'hsl(358deg 68% 59%)' : 'hsl(206deg 90% 70%)';
-    }};
-    box-shadow: ${(props) => {
-      return props.tagsErrorMsg
-        ? '0 0 0 4px hsl(0deg 46% 92%)'
-        : '0 0 0 4px hsl(206deg 65% 91%)';
-    }};
   }
 `;
 
@@ -158,6 +152,18 @@ const HashTagsWrapper = styled(TagBoxStyle)`
   min-height: 37px;
   height: auto;
   white-space: normal;
+  border-color: ${(props) => {
+    if (props.tagsFocus) {
+      return props.tagsErrorMsg ? 'hsl(358deg 68% 59%)' : 'hsl(206deg 90% 70%)';
+    }
+  }};
+  box-shadow: ${(props) => {
+    if (props.tagsFocus) {
+      return props.tagsErrorMsg
+        ? '0 0 0 4px hsl(0deg 46% 92%)'
+        : '0 0 0 4px hsl(206deg 65% 91%)';
+    }
+  }};
 `;
 
 const HashTagInput = styled(InputStyle)`

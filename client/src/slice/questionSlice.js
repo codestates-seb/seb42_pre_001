@@ -6,12 +6,15 @@ const questionSlice = createSlice({
     id: null,
     name: null,
     title: null,
-    titleErrorMsg: null,
+    titleErrorMsg: null, // X
+    titleFocus: false,
     content: null,
-    contentErrorMsg: null,
-    currentTag: '',
+    contentErrorMsg: null, // X
+    contentFocus: false,
+    currentTag: '', // X
     allTags: [],
-    tagsErrorMsg: null,
+    tagsErrorMsg: null, // X
+    tagsFocus: false,
   },
   reducers: {
     setName: (state, action) => {
@@ -23,11 +26,17 @@ const questionSlice = createSlice({
     setTitleErrorMsg: (state, action) => {
       state.titleErrorMsg = action.payload;
     },
+    setTitleFocus: (state, action) => {
+      state.titleFocus = action.payload;
+    },
     setContent: (state, action) => {
       state.content = action.payload;
     },
     setContentErrorMsg: (state, action) => {
       state.contentErrorMsg = action.payload;
+    },
+    setContentFocus: (state, action) => {
+      state.contentFocus = action.payload;
     },
     setCurrentTag: (state, action) => {
       state.currentTag = action.payload;
@@ -43,6 +52,9 @@ const questionSlice = createSlice({
     setTagsErrorMsg: (state, action) => {
       state.tagsErrorMsg = action.payload;
     },
+    setTagsFocus: (state, action) => {
+      state.tagsFocus = action.payload;
+    },
   },
 });
 
@@ -51,10 +63,13 @@ export const {
   setName,
   setTitle,
   setTitleErrorMsg,
+  setTitleFocus,
   setContent,
   setContentErrorMsg,
+  setContentFocus,
   setCurrentTag,
   setAllTags,
   setDeleteTag,
   setTagsErrorMsg,
+  setTagsFocus,
 } = questionSlice.actions;

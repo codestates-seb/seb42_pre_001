@@ -2,7 +2,11 @@ import styled from 'styled-components';
 // import MainButton from '../MainButton';
 import { AskBoxStyle, InputStyle } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTitle, setTitleErrorMsg } from '../../slice/questionSlice';
+import {
+  setTitle,
+  setTitleErrorMsg,
+  setTitleFocus,
+} from '../../slice/questionSlice';
 import { useEffect } from 'react';
 
 function Input({ title, desc }) {
@@ -34,6 +38,14 @@ function Input({ title, desc }) {
     console.log(isTitleValid);
   }, [state]);
 
+  const onTitleFocus = () => {
+    dispatch(setTitleFocus(true));
+  };
+
+  const onTitleBlur = () => {
+    dispatch(setTitleFocus(false));
+  };
+
   return (
     <Div>
       <div>
@@ -42,6 +54,8 @@ function Input({ title, desc }) {
         <AskPageInput
           onChange={setTitleText}
           titleErrorMsg={state.question.titleErrorMsg}
+          onFocus={onTitleFocus}
+          onBlur={onTitleBlur}
         />
       </div>
       {isTitleValid ? null : <div>{state.question.titleErrorMsg}</div>}

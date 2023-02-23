@@ -12,7 +12,9 @@ import axios from 'axios';
 import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
 function AskPageContents() {
-  let { content, title } = useSelector((state) => state.question);
+  let { content, title, titleFocus, contentFocus, tagsFocus } = useSelector(
+    (state) => state.question
+  );
 
   // let { id } = useSelector((state) => state.login);
   console.log(title); // 255자
@@ -27,6 +29,7 @@ function AskPageContents() {
           content: content,
           title: title,
           memberId: 1,
+          tags: ['fdaf', 'fdsafds', 'dfsafd'],
         }),
         {
           headers: {
@@ -54,24 +57,30 @@ function AskPageContents() {
         </div>
         <InputSet>
           <InputTitle title={ask.title} desc={ask.desc} />
-          <AskPageSideNotice
-            noticeTitle={ask.noticeTitle}
-            noticeDesc={ask.noticeDesc}
-          />
+          {titleFocus ? (
+            <AskPageSideNotice
+              noticeTitle={ask.noticeTitle}
+              noticeDesc={ask.noticeDesc}
+            />
+          ) : null}
         </InputSet>
         <InputSet>
           <TextEditor title={body.title} desc={body.desc} />
-          <AskPageSideNotice
-            noticeTitle={body.noticeTitle}
-            noticeDesc={body.noticeDesc}
-          />
+          {contentFocus ? (
+            <AskPageSideNotice
+              noticeTitle={body.noticeTitle}
+              noticeDesc={body.noticeDesc}
+            />
+          ) : null}
         </InputSet>
         <InputSet>
           <InputTags title={tags.title} desc={tags.desc} />
-          <AskPageSideNotice
-            noticeTitle={tags.noticeTitle}
-            noticeDesc={tags.noticeDesc}
-          />
+          {tagsFocus ? (
+            <AskPageSideNotice
+              noticeTitle={tags.noticeTitle}
+              noticeDesc={tags.noticeDesc}
+            />
+          ) : null}
         </InputSet>
         <PostOrDiscardButtons>
           <MainButton

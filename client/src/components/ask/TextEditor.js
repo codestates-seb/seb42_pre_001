@@ -4,21 +4,27 @@ import styled from 'styled-components';
 import { useRef, useEffect } from 'react';
 import { AskBoxStyle, TagBoxStyle } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { setContent, setContentErrorMsg } from '../../slice/questionSlice';
+import {
+  setContent,
+  setContentErrorMsg,
+  setContentFocus,
+} from '../../slice/questionSlice';
+
 function TextEditor({ title, desc }) {
+  let { content, contentErrorMsg, contentFocus } = useSelector(
+    (state) => state.question
+  );
   let editorRef = useRef(null);
   let dispatch = useDispatch();
-  let state = useSelector((state) => state);
-
   let setContentText = () => {
     dispatch(setContent(editorRef.current?.getInstance().getMarkdown()));
-    console.log(state.question.content);
     // console.log(editorRef.current?.getInstance().getHTML());
   };
 
+  // 유효성 검사
   let isContentValid = false;
   let validationContent = () => {
-    if (!state.question.content?.length) {
+    if (!content?.length) {
       isContentValid = false;
       dispatch(setContentErrorMsg('Body is missing.'));
     } else {
@@ -27,27 +33,25 @@ function TextEditor({ title, desc }) {
     }
   };
 
-  useEffect(() => {
-    validationContent();
-  }, [state]);
+  useEffect(() => validationContent(), [content]);
 
-  // 에디터 테두리 이벤트
-  const editorWrapperEL = useRef(null);
+  // focus 상태 변경
   const onEditorFocus = () => {
-    editorWrapperEL.current.classList.add('editorFocus');
-    console.log(editorWrapperEL.current);
+    dispatch(setContentFocus(true));
   };
   const onEditorBlur = () => {
-    editorWrapperEL.current.classList.remove('editorFocus');
-    console.log(editorWrapperEL.current);
+    dispatch(setContentFocus(false));
   };
 
   return (
-    <Div contentErrorMsg={state.question.contentErrorMsg}>
+    <Div contentErrorMsg={contentErrorMsg}>
       <div>
         <label>{title}</label>
         <p>{desc}</p>
-        <EditorWrapper ref={editorWrapperEL}>
+        <EditorWrapper
+          contentErrorMsg={contentErrorMsg}
+          contentFocus={contentFocus}
+        >
           <EditorBox
             previewStyle="vertical"
             initialEditType="wysiwyg"
@@ -60,27 +64,28 @@ function TextEditor({ title, desc }) {
         </EditorWrapper>
       </div>
       {/* <MainButton buttonText="Next" /> */}
-      {isContentValid ? null : <div>{state.question.contentErrorMsg}</div>}
+      {isContentValid ? null : <div>{contentErrorMsg}</div>}
     </Div>
   );
 }
 
-const Div = styled(AskBoxStyle)`
-  .editorFocus {
-    border-color: ${(props) => {
-      console.log(props.contentErrorMsg);
+const Div = styled(AskBoxStyle)``;
+const EditorWrapper = styled(TagBoxStyle)`
+  border-color: ${(props) => {
+    if (props.contentFocus) {
       return props.contentErrorMsg
         ? 'hsl(358deg 68% 59%)'
         : 'hsl(206deg 90% 70%)';
-    }};
-    box-shadow: ${(props) => {
+    }
+  }};
+  box-shadow: ${(props) => {
+    if (props.contentFocus) {
       return props.contentErrorMsg
         ? '0 0 0 4px hsl(0deg 46% 92%)'
         : '0 0 0 4px hsl(206deg 65% 91%)';
-    }};
-  }
+    }
+  }};
 `;
-const EditorWrapper = styled(TagBoxStyle)``;
 const EditorBox = styled(Editor)`
   height: 254.664px;
 `;
