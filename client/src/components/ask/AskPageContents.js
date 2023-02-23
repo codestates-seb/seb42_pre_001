@@ -45,47 +45,55 @@ function AskPageContents() {
   return (
     <Main>
       <div>
-        <Top>
-          <h1>Ask a public question</h1>
-          <BgImg />
-        </Top>
-        <AskPageMainNotice />
+        <div>
+          <Top>
+            <h1>Ask a public question</h1>
+            <BgImg />
+          </Top>
+          <AskPageMainNotice />
+        </div>
+        <InputSet>
+          <InputTitle title={ask.title} desc={ask.desc} />
+          <AskPageSideNotice
+            noticeTitle={ask.noticeTitle}
+            noticeDesc={ask.noticeDesc}
+          />
+        </InputSet>
+        <InputSet>
+          <TextEditor title={body.title} desc={body.desc} />
+          <AskPageSideNotice
+            noticeTitle={body.noticeTitle}
+            noticeDesc={body.noticeDesc}
+          />
+        </InputSet>
+        <InputSet>
+          <InputTags title={tags.title} desc={tags.desc} />
+          <AskPageSideNotice
+            noticeTitle={tags.noticeTitle}
+            noticeDesc={tags.noticeDesc}
+          />
+        </InputSet>
+        <PostOrDiscardButtons>
+          <MainButton
+            buttonText="Post your question"
+            functionHandler={postQuestion}
+          ></MainButton>
+          <Button>Discard draft</Button>
+        </PostOrDiscardButtons>
       </div>
-      <InputSet>
-        <InputTitle title={ask.title} desc={ask.desc} />
-        <AskPageSideNotice
-          noticeTitle={ask.noticeTitle}
-          noticeDesc={ask.noticeDesc}
-        />
-      </InputSet>
-      <InputSet>
-        <TextEditor title={body.title} desc={body.desc} />
-        <AskPageSideNotice
-          noticeTitle={body.noticeTitle}
-          noticeDesc={body.noticeDesc}
-        />
-      </InputSet>
-      <InputSet>
-        <InputTags title={tags.title} desc={tags.desc} />
-        <AskPageSideNotice
-          noticeTitle={tags.noticeTitle}
-          noticeDesc={tags.noticeDesc}
-        />
-      </InputSet>
-      <PostOrDiscardButtons>
-        <MainButton
-          buttonText="Post your question"
-          functionHandler={postQuestion}
-        ></MainButton>
-        <Button>Discard draft</Button>
-      </PostOrDiscardButtons>
     </Main>
   );
 }
 
 const Main = styled.div`
   padding: 0 24px 24px 24px;
-  max-width: 1240px;
+  max-width: 1264px;
+  flex-grow: 1;
+
+  > div {
+    min-height: 750px;
+    overflow: visible;
+  }
 `;
 
 const Top = styled.div`
@@ -105,7 +113,10 @@ const BgImg = styled(Background)`
 `;
 
 const InputSet = styled.div`
+  position: relative;
   display: flex;
+  width: 100%;
+  row-gap: 16px;
   :not(:last-child) {
     margin-bottom: 12px;
   }
