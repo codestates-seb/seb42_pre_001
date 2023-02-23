@@ -12,9 +12,9 @@ const AnswerContent = ({ answer }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdownContainer remarkPlugins={[remarkGfm]}>
           {answer.content}
-        </ReactMarkdown>
+        </ReactMarkdownContainer>
         <ViewProfile user={answer.memberName} />
       </ContentContainer>
     </Container>
@@ -49,4 +49,10 @@ const ContentContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   padding-left: 25px;
+  width: 657px;
+  word-wrap: break-word;
+`;
+const ReactMarkdownContainer = styled(ReactMarkdown)`
+  width: 657px;
+  word-wrap: break-word;
 `;

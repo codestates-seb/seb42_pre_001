@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState, createRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -20,7 +20,7 @@ const Answers = () => {
   const [answers, setAnswers] = useState([]);
   const [text, setText] = useState('');
   const { questionId, memberId } = question;
-  const editorRef = createRef();
+  const editorRef = useRef();
   const apiUrl = `http://localhost:8080/questions/${id}`;
   const AnswerapiUrl = `http://localhost:8080/answers`;
   //질문조회
@@ -91,16 +91,14 @@ const Answers = () => {
                 ) : null}
                 <CreateAnswerContainer>
                   <YourAnswer>Your Answer</YourAnswer>
-                  <EditorContainer>
-                    <EditorBox
-                      previewStyle="tab"
-                      initialEditType="markdown"
-                      hideModeSwitch={true}
-                      useCommandShortcut={true}
-                      ref={editorRef}
-                      onChange={onChangeEditor}
-                    />
-                  </EditorContainer>
+                  <EditorBox
+                    previewStyle="tab"
+                    initialEditType="markdown"
+                    hideModeSwitch={true}
+                    useCommandShortcut={true}
+                    ref={editorRef}
+                    onChange={onChangeEditor}
+                  />
                   <ButtonContainer>
                     <ButtonWrapper onClick={handleClick}>
                       <MainButton buttonText="Post Your Answer" />
@@ -180,4 +178,3 @@ const ButtonWrapper = styled.div``;
 const EditorBox = styled(Editor)`
   height: 254.664px;
 `;
-const EditorContainer = styled.div``;
