@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 function Input({ title, desc }) {
   let dispatch = useDispatch();
+
   let state = useSelector((state) => state);
   // Title
   let setTitleText = (e) => {
@@ -25,10 +26,12 @@ function Input({ title, desc }) {
       isTitleValid = true;
       dispatch(setTitleErrorMsg('')); // 이거 없으면 왜 안되지
     }
+    return isTitleValid;
   };
 
   useEffect(() => {
     validationTitle();
+    console.log(isTitleValid);
   }, [state]);
 
   return (
@@ -36,7 +39,10 @@ function Input({ title, desc }) {
       <div>
         <label>{title}</label>
         <p>{desc}</p>
-        <AskPageInput onChange={setTitleText} />
+        <AskPageInput
+          onChange={setTitleText}
+          titleErrorMsg={state.question.titleErrorMsg}
+        />
       </div>
       {isTitleValid ? null : <div>{state.question.titleErrorMsg}</div>}
       {/* <MainButton buttonText="Next" /> */}
@@ -45,5 +51,18 @@ function Input({ title, desc }) {
 }
 
 const Div = styled(AskBoxStyle)``;
-const AskPageInput = styled(InputStyle)``;
+const AskPageInput = styled(InputStyle)`
+  :focus {
+    border-color: ${(props) => {
+      return props.titleErrorMsg
+        ? 'hsl(358deg 68% 59%)'
+        : 'hsl(206deg 90% 70%)';
+    }};
+    box-shadow: ${(props) => {
+      return props.titleErrorMsg
+        ? '0 0 0 4px hsl(0deg 46% 92%)'
+        : '0 0 0 4px hsl(206deg 65% 91%)';
+    }};
+  }
+`;
 export default Input;
