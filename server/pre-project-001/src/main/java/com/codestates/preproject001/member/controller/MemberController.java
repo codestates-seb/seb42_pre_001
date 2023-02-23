@@ -69,4 +69,10 @@ public class MemberController {
         memberService.deleteMember(dbMember);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/pwchange") //맨처음 비번바꾸기 버튼누리기 -> 이메일전송 이메일받기
+    public ResponseEntity patchPassword(@RequestBody String email) {
+        memberService.changePassword(memberService.findByEmail(email));
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

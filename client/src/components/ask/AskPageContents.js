@@ -10,10 +10,14 @@ import { ask, body, tags } from '../../assets/askInputDesc';
 import { ReactComponent as Background } from '../../assets/background.svg';
 import axios from 'axios';
 import MainButton from '../MainButton';
+import { useSelector } from 'react-redux';
 
 function AskPageContents() {
+  let { content, title } = useSelector((state) => state.question);
+  console.log(content);
+  console.log(title);
+  // console.log(state.question.content);
   let postQuestion = async () => {
-    console.log('a');
     await axios
       .post(
         'http://localhost:8080/questions',
@@ -21,12 +25,16 @@ function AskPageContents() {
           // question_id:
           // create_at:
           // last_modified_at:
-          // answered:
-          content:
-            'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          title: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat',
+          // answered: '',
+          content: content,
+          title: title,
           memberId: 1,
-        })
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       )
       .then(function (response) {
         console.log(response);

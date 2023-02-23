@@ -31,6 +31,24 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(value=EnumType.STRING)
+    @Column(nullable = false)
+    private MemberStatus memberStatus;
+
+    @Column
+    private String mailKey;
+
+    public enum MemberStatus {
+        UNAUTHORIZED_USER("이메일이 인증되지 않은 회원"),
+        ACTIVE_USER("활동중인 회원"),
+        DELETED_USER("삭제된 회원");
+        @Getter
+        private String status;
+        MemberStatus(String status){
+            this.status = status;
+        }
+    }
+
     public Member(String email, String password, String name) {
         this.email = email;
         this.password = password;
