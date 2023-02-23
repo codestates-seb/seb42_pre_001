@@ -18,11 +18,11 @@ export default function SingUp() {
     return state;
   });
 
-  const signUp = async (name, email, pass) => {
+  const signUp = async (name, email, password) => {
     const body = {
-      name: name,
       email: email,
-      pass: pass,
+      password: password,
+      name: name,
     };
 
     try {
@@ -33,12 +33,11 @@ export default function SingUp() {
           headers: {
             'Content-Type': 'application/json',
           },
+          withCredentials: true,
         }
       );
       const { data } = response;
       console.log(data);
-      console.log(body);
-      console.log('회원가입 응답을 받았습니다.');
     } catch (err) {
       console.log(err);
     }
@@ -264,7 +263,7 @@ const FailLabel = styled.div`
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 15px;
+  font-size: 14px;
   color: red;
   margin-top: 5px;
 `;

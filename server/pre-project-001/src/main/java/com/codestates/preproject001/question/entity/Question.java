@@ -30,18 +30,19 @@ public class Question extends auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
+
     public void addMember(Member member) {
         this.member = member;
-        if(!member.getQuestions().contains(this)) {
+        if (!member.getQuestions().contains(this)) {
             member.getQuestions().add(this);
         }
     }
 
     public void addAnswer(Answer answer) {
         answers.add(answer);
-        if(answer.getQuestion() != this) {
+        if (answer.getQuestion() != this) {
             answer.addQuestion(this);
         }
     }

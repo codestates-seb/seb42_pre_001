@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-// import MainButton from '../MainButton';
-import { AskBoxStyle, InputStyle, TagBoxStyle } from './AskStyle';
+import { AskBoxStyle, InputStyle, TagBoxStyle, HashTags } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setTagsErrorMsg,
@@ -27,6 +26,8 @@ function InputTags() {
           'Please enter at least one tag; see a list of popular tags.'
         )
       );
+    } else if (allTags.length > 5) {
+      dispatch(setTagsErrorMsg('Please enter no more than 5 tags.'));
     } else {
       isTagsValid = true;
       dispatch(setTagsErrorMsg('')); // 이거 없으면 왜 안되지
@@ -49,11 +50,13 @@ function InputTags() {
       !allTags.includes(currentTag) &&
       !currentTag.split('').every((el) => el === ' ')
     ) {
-      // div 생성
-      const hashTagOuter = document.querySelector('.HashWrapOuter');
-      const hashTagInner = document.createElement('div');
-      const tagText = document.createElement('div');
+      // element 생성
+      const hashTagOuter = document.querySelector('.hashTags');
+      const hashTagInput = document.querySelector('.hashTagInput');
+      const hashTag = document.createElement('span');
+      const tagText = document.createElement('span');
       const buttonWrap = document.createElement('button');
+      tagText.textContent = currentTag;
 
       //삭제 클릭 이벤트 생성
       buttonWrap.addEventListener('click', (e) => {
@@ -68,8 +71,6 @@ function InputTags() {
         'svg'
       );
       buttonSvg.setAttribute('className', 'svg-icon iconClearSm pe-none');
-      buttonSvg.setAttribute('width', '14');
-      buttonSvg.setAttribute('height', '14');
       buttonSvg.setAttribute('viewBox', '0 0 14 14');
       svg.appendChild(buttonSvg);
 
@@ -87,13 +88,11 @@ function InputTags() {
       path.appendChild(svgPath);
 
       //append
-      tagText.textContent = currentTag;
-      hashTagOuter.appendChild(hashTagInner);
-      hashTagInner.appendChild(tagText);
-      hashTagInner.appendChild(buttonWrap);
+      hashTag.appendChild(tagText);
+      hashTag.appendChild(buttonWrap);
       buttonWrap.appendChild(buttonSvg);
       buttonSvg.appendChild(svgPath);
-
+      hashTagInput.before(hashTag);
       dispatch(setAllTags(currentTag));
       dispatch(setCurrentTag(''));
     }
@@ -104,71 +103,48 @@ function InputTags() {
       <div>
         <label>{tags.title}</label>
         <p>{tags.desc}</p>
-        <HashTagWrapper className="HashTagWrapper">
-          <AskPageInput
-            onKeyPress={pushTag}
-            value={currentTag}
-            onChange={handleText}
-          />
-          <Outer className="HashWrapOuter">
-            {/* <div className="HashWrapInner">
-              <div>태그</div>
-              <button>
-                <svg
-                  className="svg-icon iconClearSm pe-none"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                >
-                  <path d="M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z"></path>
+        <HashTagsWrapper className="HashTagsWrapper">
+          <HashTags className="hashTags">
+            {/* <span>             //hashTag
+              <span>태그 내용</span>    //tagText
+              <button>                //buttonWrap
+                <svg>                    //buttonSvg
+                  <path />               // buttonPath
                 </svg>
               </button>
-            </div> */}
-          </Outer>
-        </HashTagWrapper>
+            </span> */}
+            <HashTagInput
+              className="hashTagInput"
+              onKeyPress={pushTag}
+              value={currentTag}
+              onChange={handleText}
+            />
+          </HashTags>
+        </HashTagsWrapper>
       </div>
       {isTagsValid ? null : <div>{tagsErrorMsg}</div>}
-      {/* <MainButton buttonText="Next" /> */}
     </Div>
   );
 }
 
 const Div = styled(AskBoxStyle)``;
 
-const AskPageInput = styled(InputStyle)`
+const HashTagsWrapper = styled(TagBoxStyle)`
+  padding: 2px 9.1px 2px 2px;
+  min-height: 37px;
+  height: auto;
+  white-space: normal;
+`;
+
+const HashTagInput = styled(InputStyle)`
+  width: 85px;
+  flex-grow: 1;
   border: none;
-  padding: 0;
+  color: hsl(210deg 8% 5%);
+  background-color: transparent;
   :focus {
     border: none;
     box-shadow: none;
-  }
-`;
-
-const HashTagWrapper = styled(TagBoxStyle)`
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Outer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > div {
-      white-space: nowrap;
-    }
-    button {
-      display: flex;
-      margin: 0;
-    }
-    svg {
-      pointer-events: none;
-    }
   }
 `;
 

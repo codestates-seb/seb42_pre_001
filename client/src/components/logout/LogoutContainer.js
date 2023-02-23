@@ -10,21 +10,19 @@ import stackapps from '../../assets/stackapps.png';
 import stack from '../../assets/stack.png';
 import superuser from '../../assets/superuser.png';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 export default function Logout() {
   axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
 
-  // 로그아웃 요청
   const logout = async () => {
-    try {
-      const response = await axios.post('http://localhost:8080/logout');
-      const { data } = response;
-      console.log(data);
-      console.log('로그아웃 응답을 받았습니다.');
-    } catch (err) {
-      console.log(err);
+    console.log(setCookie);
+    if (cookies) {
+      removeCookie('accessToken');
+      removeCookie('refreshToken');
     }
   };
 
