@@ -1,47 +1,40 @@
 import styled from 'styled-components';
 import { AskBoxStyle, InputStyle, TagBoxStyle, HashTags } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  setTagsErrorMsg,
-  setCurrentTag,
   setAllTags,
   setDeleteTag,
   setTagsFocus,
 } from '../../slice/questionSlice';
 import { tags } from '../../assets/askInputDesc';
-
 function InputTags() {
+  let [currentTag, setCurrentTag] = useState('');
+  let [tagsErrorMsg, setTagsErrorMsg] = useState(null);
   let dispatch = useDispatch();
-  let state = useSelector((state) => state);
-  let { currentTag, allTags, tagsErrorMsg, tagsFocus } = useSelector(
-    (state) => state.question
-  );
+  let { allTags, tagsFocus } = useSelector((state) => state.question);
 
   // 유효성 검사
   let isTagsValid = false;
   let validationTags = () => {
     if (!allTags?.length) {
       isTagsValid = false;
-      dispatch(
-        setTagsErrorMsg(
-          'Please enter at least one tag; see a list of popular tags.'
-        )
+
+      setTagsErrorMsg(
+        'Please enter at least one tag; see a list of popular tags.'
       );
     } else if (allTags.length > 5) {
-      dispatch(setTagsErrorMsg('Please enter no more than 5 tags.'));
+      setTagsErrorMsg('Please enter no more than 5 tags.');
     } else {
       isTagsValid = true;
-      dispatch(setTagsErrorMsg('')); // 이거 없으면 왜 안되지
+      setTagsErrorMsg(''); // 이거 없으면 왜 안되지
     }
   };
 
-  useEffect(() => {
-    validationTags();
-  }, [allTags]);
+  useEffect(() => validationTags(), [allTags]);
 
   let handleText = (e) => {
-    dispatch(setCurrentTag(e.target.value));
+    setCurrentTag(e.target.value);
   };
 
   // 태그 삽입
@@ -95,7 +88,7 @@ function InputTags() {
       buttonSvg.appendChild(svgPath);
       hashTagInput.before(hashTag);
       dispatch(setAllTags(currentTag));
-      dispatch(setCurrentTag(''));
+      setCurrentTag('');
     }
   };
 
@@ -112,10 +105,7 @@ function InputTags() {
       <div>
         <label>{tags.title}</label>
         <p>{tags.desc}</p>
-        <HashTagsWrapper
-          tagsErrorMsg={state.question.tagsErrorMsg}
-          tagsFocus={tagsFocus}
-        >
+        <HashTagsWrapper tagsErrorMsg={tagsErrorMsg} tagsFocus={tagsFocus}>
           <HashTags className="hashTags">
             {/* <span>             //hashTag
               <span>태그 내용</span>    //tagText
@@ -141,11 +131,7 @@ function InputTags() {
   );
 }
 
-const Div = styled(AskBoxStyle)`
-  .inputFocus {
-    // input이 focus될 때 HashTagsWrapper에 적용
-  }
-`;
+const Div = styled(AskBoxStyle)``;
 
 const HashTagsWrapper = styled(TagBoxStyle)`
   padding: 2px 9.1px 2px 2px;

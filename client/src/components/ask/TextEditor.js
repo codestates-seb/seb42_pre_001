@@ -1,19 +1,14 @@
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import styled from 'styled-components';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { AskBoxStyle, TagBoxStyle } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setContent,
-  setContentErrorMsg,
-  setContentFocus,
-} from '../../slice/questionSlice';
+import { setContent, setContentFocus } from '../../slice/questionSlice';
 
 function TextEditor({ title, desc }) {
-  let { content, contentErrorMsg, contentFocus } = useSelector(
-    (state) => state.question
-  );
+  let [contentErrorMsg, setContentErrorMsg] = useState(null);
+  let { content, contentFocus } = useSelector((state) => state.question);
   let editorRef = useRef(null);
   let dispatch = useDispatch();
   let setContentText = () => {
@@ -26,10 +21,10 @@ function TextEditor({ title, desc }) {
   let validationContent = () => {
     if (!content?.length) {
       isContentValid = false;
-      dispatch(setContentErrorMsg('Body is missing.'));
+      setContentErrorMsg('Body is missing.');
     } else {
       isContentValid = true;
-      dispatch(setContentErrorMsg('')); // 이거 없으면 왜 안되지
+      setContentErrorMsg(''); // 이거 없으면 왜 안되지
     }
   };
 

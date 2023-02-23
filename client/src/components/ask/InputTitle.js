@@ -2,46 +2,38 @@ import styled from 'styled-components';
 // import MainButton from '../MainButton';
 import { AskBoxStyle, InputStyle } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setTitle,
-  setTitleErrorMsg,
-  setTitleFocus,
-} from '../../slice/questionSlice';
-import { useEffect } from 'react';
+import { setTitle, setTitleFocus } from '../../slice/questionSlice';
+import { useEffect, useState } from 'react';
 
-function Input({ title, desc }) {
+function Input({ quseiontTitle, desc }) {
+  let [titleErrorMsg, setTitleErrorMsg] = useState(null);
+  let { title } = useSelector((state) => state.question);
   let dispatch = useDispatch();
-
-  let state = useSelector((state) => state);
-  // Title
   let setTitleText = (e) => {
     dispatch(setTitle(e.target.value));
   };
 
+  // 유효성 검사
   let isTitleValid = false;
   let validationTitle = () => {
-    if (!state.question.title?.length) {
+    if (!title?.length) {
       isTitleValid = false;
-      dispatch(setTitleErrorMsg('Title is missing.'));
-    } else if (state.question.title?.length < 15) {
+      setTitleErrorMsg('Title is missing.');
+    } else if (title?.length < 15) {
       isTitleValid = false;
-      dispatch(setTitleErrorMsg('Title must be at least 15 characters.'));
+      setTitleErrorMsg('Title must be at least 15 characters.');
     } else {
       isTitleValid = true;
-      dispatch(setTitleErrorMsg('')); // 이거 없으면 왜 안되지
+      setTitleErrorMsg(''); // 이거 없으면 왜 안되지
     }
-    return isTitleValid;
   };
 
-  useEffect(() => {
-    validationTitle();
-    console.log(isTitleValid);
-  }, [state]);
+  useEffect(() => validationTitle(), [title]);
 
+  //focus 상태 변경
   const onTitleFocus = () => {
     dispatch(setTitleFocus(true));
   };
-
   const onTitleBlur = () => {
     dispatch(setTitleFocus(false));
   };
@@ -49,16 +41,16 @@ function Input({ title, desc }) {
   return (
     <Div>
       <div>
-        <label>{title}</label>
+        <label>{quseiontTitle}</label>
         <p>{desc}</p>
         <AskPageInput
           onChange={setTitleText}
-          titleErrorMsg={state.question.titleErrorMsg}
+          titleErrorMsg={titleErrorMsg}
           onFocus={onTitleFocus}
           onBlur={onTitleBlur}
         />
       </div>
-      {isTitleValid ? null : <div>{state.question.titleErrorMsg}</div>}
+      {isTitleValid ? null : <div>{titleErrorMsg}</div>}
       {/* <MainButton buttonText="Next" /> */}
     </Div>
   );

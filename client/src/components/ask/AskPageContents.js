@@ -1,5 +1,3 @@
-// title 에서만 받아오기
-//axios 요청
 import InputTitle from './InputTitle';
 import InputTags from './InputTags';
 import TextEditor from './TextEditor';
@@ -12,31 +10,27 @@ import axios from 'axios';
 import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
 function AskPageContents() {
-  let { content, title, titleFocus, contentFocus, tagsFocus } = useSelector(
-    (state) => state.question
-  );
+  let { content, title, allTags, titleFocus, contentFocus, tagsFocus } =
+    useSelector((state) => state.question);
 
   // let { id } = useSelector((state) => state.login);
-  console.log(title); // 255자
-  console.log(content); // 1000자
+  // title 255자, content) 50000자
 
-  let postQuestion = async (e) => {
-    console.log(e.target);
+  let requestBody = {
+    content: content,
+    title: title,
+    memberId: 1,
+    tags: allTags,
+  };
+  console.log(requestBody);
+
+  let postQuestion = async () => {
     await axios
-      .post(
-        'http://localhost:8080/questions',
-        JSON.stringify({
-          content: content,
-          title: title,
-          memberId: 1,
-          tags: ['fdaf', 'fdsafds', 'dfsafd'],
-        }),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      .post('http://localhost:8080/questions', JSON.stringify(requestBody), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then(function (response) {
         console.log(response);
       })
@@ -56,7 +50,7 @@ function AskPageContents() {
           <AskPageMainNotice />
         </div>
         <InputSet>
-          <InputTitle title={ask.title} desc={ask.desc} />
+          <InputTitle quseiontTitle={ask.title} desc={ask.desc} />
           {titleFocus ? (
             <AskPageSideNotice
               noticeTitle={ask.noticeTitle}
