@@ -45,8 +45,11 @@ export default function Login() {
         }
       );
       const { data, headers } = response;
+      console.log(headers);
       const accessToken = headers['authorization'];
       const refreshToken = headers['refresh'];
+      console.log(accessToken);
+      console.log(refreshToken);
       if (!cookies.authorization) {
         setCookie('accessToken', accessToken);
       }

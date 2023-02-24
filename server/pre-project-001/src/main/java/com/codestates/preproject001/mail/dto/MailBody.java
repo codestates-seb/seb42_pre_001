@@ -1,4 +1,4 @@
-package com.codestates.preproject001.mail;
+package com.codestates.preproject001.mail.dto;
 
 import lombok.Getter;
 

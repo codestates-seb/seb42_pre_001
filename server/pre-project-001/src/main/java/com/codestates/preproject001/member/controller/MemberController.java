@@ -61,6 +61,7 @@ public class MemberController { //1차 완료
         List<Member> content = members.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(mapper.membersToMemberResponseDtos(content), members), HttpStatus.OK);
     }
+
     @DeleteMapping //memberStatus를 deleted로 변경(삭제) + 쿼리문으로 이메일찾기+삭제로변경 한번에 날려주기
     public ResponseEntity deleteMember(@AuthenticationPrincipal MemberDetails memberDetails) {
 
