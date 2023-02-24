@@ -24,7 +24,6 @@ public class Question extends auditable {
     private String title;
 
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
-
     private String content;
 
     @ManyToOne

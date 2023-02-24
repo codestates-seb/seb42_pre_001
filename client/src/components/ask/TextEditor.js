@@ -11,8 +11,10 @@ function TextEditor({ title, desc }) {
   let { content, contentFocus } = useSelector((state) => state.question);
   let editorRef = useRef(null);
   let dispatch = useDispatch();
+
   let setContentText = () => {
     dispatch(setContent(editorRef.current?.getInstance().getMarkdown()));
+
     // console.log(editorRef.current?.getInstance().getHTML());
   };
 
@@ -36,6 +38,11 @@ function TextEditor({ title, desc }) {
   };
   const onEditorBlur = () => {
     dispatch(setContentFocus(false));
+
+    // editorRef.current?.getInstance().moveCursorToEnd(true);
+    editorRef.current?.getInstance().reset();
+    // console.log(position);
+    // editorRef.current?.getInstance().deleteSelection([1, 0], position[1]);
   };
 
   return (
@@ -48,8 +55,9 @@ function TextEditor({ title, desc }) {
           contentFocus={contentFocus}
         >
           <EditorBox
-            previewStyle="vertical"
-            initialEditType="wysiwyg"
+            previewStyle="tab"
+            initialEditType="markdown"
+            hideModeSwitch={true}
             useCommandShortcut={true}
             ref={editorRef}
             onKeyup={setContentText}

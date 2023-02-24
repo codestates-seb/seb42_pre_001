@@ -10,8 +10,10 @@ import axios from 'axios';
 import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 
 function AskPageContents() {
+  const [cookie] = useCookies();
   let { content, title, allTags, titleFocus, contentFocus, tagsFocus } =
     useSelector((state) => state.question);
 
@@ -26,11 +28,15 @@ function AskPageContents() {
   };
   console.log(requestBody);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+  console.log(apiUrl);
   let postQuestion = async () => {
     await axios
-      .post('http://localhost:8080/questions', JSON.stringify(requestBody), {
+      .post(`${apiUrl}/questions`, JSON.stringify(requestBody), {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
         },
       })
       .then(function (response) {
