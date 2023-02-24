@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().permitAll()
+//                        .antMatchers(HttpMethod.GET,"/members/{member-id}").authenticated()
                 );
 
         return http.build();
