@@ -1,9 +1,10 @@
-package com.codestates.preproject001.oath;
+package com.codestates.preproject001.oath.memberDetails;
 
 import com.codestates.preproject001.exception.BusinessLogicException;
 import com.codestates.preproject001.exception.ExceptionCode;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.repository.MemberRepository;
+import com.codestates.preproject001.oath.memberDetails.MemberDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

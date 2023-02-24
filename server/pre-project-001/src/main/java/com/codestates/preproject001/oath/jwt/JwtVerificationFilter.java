@@ -1,6 +1,7 @@
-package com.codestates.preproject001.oath;
+package com.codestates.preproject001.oath.jwt;
 
 import com.codestates.preproject001.member.entity.Member;
+import com.codestates.preproject001.oath.memberDetails.MemberDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

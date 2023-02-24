@@ -1,4 +1,4 @@
-package com.codestates.preproject001.oath;
+package com.codestates.preproject001.oath.memberDetails;
 
 import com.codestates.preproject001.member.entity.Member;
 import lombok.Getter;
@@ -10,10 +10,11 @@ import java.util.Collection;
 @Getter
 public class MemberDetails extends Member implements UserDetails {
 
-    MemberDetails(Member member) { // 생성자
+    public MemberDetails(Member member) { // 생성자
         setMemberId(member.getMemberId());
-        setEmail(member.getEmail());
         setPassword(member.getPassword());
+        setEmail(member.getEmail());
+        setName(member.getName());
     }
 
     @Override

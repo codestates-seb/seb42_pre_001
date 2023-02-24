@@ -4,18 +4,15 @@ package com.codestates.preproject001.question.controller;
 import com.codestates.preproject001.dto.MultiResponseDto;
 import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.member.entity.Member;
-import com.codestates.preproject001.oath.MemberDetails;
 import com.codestates.preproject001.question.dto.QuestionDeleteDto;
 import com.codestates.preproject001.question.dto.QuestionPatchDto;
 import com.codestates.preproject001.question.dto.QuestionPostDto;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.mapper.QuestionMapper;
 import com.codestates.preproject001.question.service.QuestionService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +33,7 @@ public class QuestionController {
     }
 
     @PostMapping    // 질문 작성
-    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
+    public ResponseEntity postQuestion(@Valid QuestionPostDto questionPostDto) {
         Member member = questionService.findMember(questionPostDto.getMemberId());
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.addMember(member);
