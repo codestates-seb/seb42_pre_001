@@ -6,6 +6,7 @@ import com.codestates.preproject001.mail.KeyMaker;
 import com.codestates.preproject001.mail.MailHandler;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 public class MemberService {
@@ -109,10 +111,11 @@ public class MemberService {
     }
 
     private void ActiveCheck(Member member) {
-        if(member.getMemberStatus().getStatus().equals("삭제된 회원")) {
+        log.info("Member status : " + member.getMemberStatus().toString());
+        if(member.getMemberStatus().toString().equals("DELETED_USER")) {
             throw new BusinessLogicException(ExceptionCode.DELETED_MEMBER);
         }
-        else if(member.getMemberStatus().getStatus().equals("이메일이 인증되지 않은 회원")) {
+        else if(member.getMemberStatus().toString().equals("UNAUTHORIZED_USER")) {
             throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER);
         }
     }
