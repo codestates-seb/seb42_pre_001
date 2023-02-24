@@ -1,5 +1,7 @@
 package com.codestates.preproject001.mail;
 
+import com.codestates.preproject001.mail.dto.MailBody;
+import com.codestates.preproject001.mail.dto.PassBody;
 import com.codestates.preproject001.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,8 @@ public class JoinController {
 
     @PatchMapping("/pwchange/registeremail")
     public ResponseEntity emailConfirmForPwChange(@RequestParam("email") String email, @RequestParam("mail_key") String mailKey,
-                                                  @RequestBody String pass){
-        memberService.authorizeEmailForPwChange(email, mailKey,pass);
+                                                  @RequestBody PassBody passBody){
+        memberService.authorizeEmailForPwChange(email, mailKey,passBody.getPass());
         return new ResponseEntity(HttpStatus.OK);
     }
 
