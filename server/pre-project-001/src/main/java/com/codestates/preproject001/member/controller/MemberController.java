@@ -7,7 +7,7 @@ import com.codestates.preproject001.member.dto.MemberPostDto;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.mapper.MemberMapper;
 import com.codestates.preproject001.member.service.MemberService;
-import com.codestates.preproject001.oath.MemberDetails;
+import com.codestates.preproject001.oath.memberDetails.MemberDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

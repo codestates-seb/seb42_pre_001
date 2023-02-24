@@ -6,7 +6,6 @@ import com.codestates.preproject001.mail.KeyMaker;
 import com.codestates.preproject001.mail.MailHandler;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.repository.MemberRepository;
-import com.codestates.preproject001.oath.MemberDetails;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.MessagingException;
 import java.util.Optional;
 
 @Service
@@ -86,6 +84,7 @@ public class MemberService {
         return findMember;
     }
 
+    //쿼리로 deleted는 안되게 find
     public Page<Member> findMembers(int page) {
         return memberRepository.findAll(PageRequest.of(page, 36, Sort.by("memberId").descending()));
     }
