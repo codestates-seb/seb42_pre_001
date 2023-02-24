@@ -33,7 +33,7 @@ public class QuestionController {
     }
 
     @PostMapping    // 질문 작성
-    public ResponseEntity postQuestion(@Valid QuestionPostDto questionPostDto) {
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
         Member member = questionService.findMember(questionPostDto.getMemberId());
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.addMember(member);
