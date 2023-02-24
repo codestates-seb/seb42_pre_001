@@ -21,8 +21,8 @@ const Answers = () => {
   const [text, setText] = useState('');
   const { questionId, memberId } = question;
   const editorRef = useRef();
-  const apiUrl = `http://localhost:8080/questions/${id}`;
-  const AnswerapiUrl = `http://localhost:8080/answers`;
+  const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
+  const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
   //질문조회
   useEffect(() => {
     const getQuestion = async () => {
@@ -64,6 +64,7 @@ const Answers = () => {
           },
         ]);
         setText('');
+        editorRef.current?.getInstance().reset();
       })
       .catch((error) => console.log(error));
   };

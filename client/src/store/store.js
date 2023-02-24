@@ -5,6 +5,8 @@ import signUpSlice from '../slice/signUpSlice';
 import validationSlice from '../slice/validationSlice';
 import inquirySlice from '../slice/inquirySlice';
 import questionSlice from '../slice/questionSlice';
+import myInfoSlice from '../slice/myInfoSlice';
+
 const store = configureStore({
   middleware: [...getDefaultMiddleware()],
   reducer: {
@@ -14,6 +16,7 @@ const store = configureStore({
     question: questionSlice.reducer,
     answer: answerSlice.reducer,
     inquiry: inquirySlice.reducer,
+    myInfo: myInfoSlice.reducer,
   },
 });
 

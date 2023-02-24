@@ -39,9 +39,6 @@ export default function Logout() {
     navigate(-1);
   };
 
-  // 로그아웃 시 로그인 유지하는 것을 해제 => 쿠키가 담긴 삭제 필요
-  // const logoutlHandler = () => { };
-
   return (
     <Conatiner>
       <Text2>

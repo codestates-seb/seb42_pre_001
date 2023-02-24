@@ -15,14 +15,13 @@ export default function SignUpConfirm() {
   const getRequest = async () => {
     try {
       // 요청 경로 : http://localhost:8080/pwChange/registerEmail?쿼리^%$^@#!@$#@%
-      const response = axios.get(`http://localhost:8080${url}`, {
+      const response = axios.get(`${process.env.REACT_APP_API_URL}${url}`, {
         headers: {
           'Content-Type': 'application/json',
         },
         withCredentials: true,
       });
       console.log(response);
-      alert('회원가입이 완료되었습니다.');
     } catch (err) {
       console.log(err);
     }

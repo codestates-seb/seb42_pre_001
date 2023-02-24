@@ -11,8 +11,8 @@ const QuestionList = ({ name }) => {
   const [page, setPage] = useState([]);
   const { num } = useParams();
   const apiUrl = num
-    ? `http://localhost:8080/questions?page=${num}&size=10`
-    : `http://localhost:8080/questions?page=1&size=10`;
+    ? `${process.env.REACT_APP_API_URL}/questions?page=${num}&size=10`
+    : `${process.env.REACT_APP_API_URL}/questions?page=1&size=10`;
   useEffect(() => {
     const getQuestions = async () => {
       const response = await axios.get(apiUrl);

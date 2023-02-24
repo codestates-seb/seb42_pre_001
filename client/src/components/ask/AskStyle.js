@@ -65,6 +65,10 @@ const NoticeStyle = styled.div`
   border-radius: 3px;
   height: fit-content;
   background-color: white;
+  position: absolute;
+  left: 72%;
+  width: 20%;
+  min-width: 346.805px;
   > h5 {
     padding: 12px;
     font-size: 1rem;

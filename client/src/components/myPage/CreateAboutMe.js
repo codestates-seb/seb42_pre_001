@@ -1,30 +1,31 @@
 import styled from 'styled-components';
 import '@toast-ui/editor/dist/toastui-editor.css';
+
 import { Editor } from '@toast-ui/react-editor';
 import { useRef } from 'react';
-
-export default function CreateAboutMe({ setAbout, about }) {
+import { useDispatch, useSelector } from 'react-redux';
+import { setAboutMe } from '../../slice/myInfoSlice';
+export default function CreateAboutMe() {
   const editorRef = useRef(null);
   const contentRef = useRef(null);
-
-  console.log(about);
-  const showNotice = () => {
-    setAbout(editorRef.current?.getInstance().getHTML());
-  };
+  const dispatch = useDispatch();
+  const state = useSelector((state) => {
+    return state;
+  });
 
   const setNotice = () => {
-    setAbout(editorRef.current?.getInstance().getHTML());
-    contentRef.cuurent = editorRef.current?.getInstance().getHTML();
+    dispatch(setAboutMe(editorRef.current?.getInstance().getMarkdown()));
+    console.log(state);
   };
   return (
     <Container>
       <EditorContainer>
         <EditorBox
-          previewStyle="vertical"
-          initialEditType="wysiwyg"
+          previewStyle="tab"
+          initialEditType="markdown"
+          hideModeSwitch={true}
           useCommandShortcut={true}
           ref={editorRef}
-          onFocus={showNotice}
           onChange={setNotice}
         />
       </EditorContainer>
