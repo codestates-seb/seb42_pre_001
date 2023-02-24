@@ -23,7 +23,7 @@ export default function findPass() {
     };
     try {
       const response = await axios.post(
-        'http://localhost:8080/pwchange',
+        `${process.env.REACT_APP_API_URL}/pwchange`,
         JSON.stringify(body),
         {
           headers: {

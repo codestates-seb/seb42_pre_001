@@ -30,7 +30,7 @@ export default function SingUp() {
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/members/join',
+        `${process.env.REACT_APP_API_URL}/members/join`,
         JSON.stringify(body),
         {
           headers: {
@@ -159,70 +159,72 @@ export default function SingUp() {
   };
   return (
     <Conatiner>
-      <SocialBtn color="white">Login in with Google</SocialBtn>
-      <SocialBtn color="black">Login in with Github</SocialBtn>
-      <SocialBtn color="hsl(209,100%,26%)">Login in with Facebook</SocialBtn>
-      <SignUpContainer>
-        <InputContainer>
-          <Label>Display name</Label>
-          <Input
-            onKeyDown={(e) => activeEnter(e)}
-            type="text"
-            name="display-name"
-            onChange={(e) => {
-              setDNVal(e);
+      <SubConatiner>
+        <SocialBtn color="white">Login in with Google</SocialBtn>
+        <SocialBtn color="black">Login in with Github</SocialBtn>
+        <SocialBtn color="hsl(209,100%,26%)">Login in with Facebook</SocialBtn>
+        <SignUpContainer>
+          <InputContainer>
+            <Label>Display name</Label>
+            <Input
+              onKeyDown={(e) => activeEnter(e)}
+              type="text"
+              name="display-name"
+              onChange={(e) => {
+                setDNVal(e);
+              }}
+            ></Input>
+            <FailLabel></FailLabel>
+          </InputContainer>
+          <InputContainer>
+            <Label>Email</Label>
+            <Input
+              ref={id}
+              onKeyDown={(e) => activeEnter(e)}
+              type="text"
+              name="email"
+              onChange={(e) => {
+                setEmailVal(e);
+              }}
+            ></Input>
+
+            {state.validation.errMsg1 ? (
+              <FailLabel>{state.validation.errMsg1}</FailLabel>
+            ) : null}
+          </InputContainer>
+          <InputContainer>
+            <Label>Password</Label>
+            <Input
+              ref={pass}
+              onKeyDown={(e) => activeEnter(e)}
+              type="password"
+              name="password"
+              onChange={setPassVal}
+            ></Input>
+
+            {state.validation.errMsg2 ? (
+              <FailLabel>{state.validation.errMsg2}</FailLabel>
+            ) : null}
+          </InputContainer>
+
+          <Text>
+            Passwords must contain at least eight characters, including at least
+            1 letter and 1 number.
+          </Text>
+          <SignUpBtn
+            type="submit"
+            onClick={() => {
+              registerUser();
             }}
-          ></Input>
-          <FailLabel></FailLabel>
-        </InputContainer>
-        <InputContainer>
-          <Label>Email</Label>
-          <Input
-            ref={id}
-            onKeyDown={(e) => activeEnter(e)}
-            type="text"
-            name="email"
-            onChange={(e) => {
-              setEmailVal(e);
-            }}
-          ></Input>
-
-          {state.validation.errMsg1 ? (
-            <FailLabel>{state.validation.errMsg1}</FailLabel>
-          ) : null}
-        </InputContainer>
-        <InputContainer>
-          <Label>Password</Label>
-          <Input
-            ref={pass}
-            onKeyDown={(e) => activeEnter(e)}
-            type="password"
-            name="password"
-            onChange={setPassVal}
-          ></Input>
-
-          {state.validation.errMsg2 ? (
-            <FailLabel>{state.validation.errMsg2}</FailLabel>
-          ) : null}
-        </InputContainer>
-
-        <Text>
-          Passwords must contain at least eight characters, including at least 1
-          letter and 1 number.
-        </Text>
-        <SignUpBtn
-          type="submit"
-          onClick={() => {
-            registerUser();
-          }}
-        >
-          Sign up
-        </SignUpBtn>
-        <Text>
-          By clicking “Sign up”, you agree to our terms of service, privacy
-          policy and cookie policy
-        </Text>
-      </SignUpContainer>
+          >
+            Sign up
+          </SignUpBtn>
+          <Text>
+            By clicking “Sign up”, you agree to our terms of service, privacy
+            policy and cookie policy
+          </Text>
+        </SignUpContainer>
+      </SubConatiner>
     </Conatiner>
   );
 }
@@ -230,8 +232,17 @@ export default function SingUp() {
 // Styled Componetns
 
 // 페이지 묶음
+
 const Conatiner = styled.div`
-  height: 100vh;
+  height: 100%;
+  display: flex;
+  margin-top: 8%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const SubConatiner = styled.div`
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -239,7 +250,6 @@ const Conatiner = styled.div`
 `;
 // 회원가입 창 묶음
 const SignUpContainer = styled.div`
-  max-height: 530px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

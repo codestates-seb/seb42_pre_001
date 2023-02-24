@@ -1,24 +1,22 @@
 import LeftSidebar from '../inquiry/LeftSidebar';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useState, useRef } from 'react';
 import CreateAboutMe from './CreateAboutMe';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { setDisplayName, setTitle, setLocation } from '../../slice/myInfoSlice';
+
 export default function Mypage() {
   const checkBox = useRef();
+  const dispatch = useDispatch();
   const state = useSelector((state) => {
-    return state.login.userInfo;
+    return state;
   });
   const [page, setPage] = useState('act');
-  const [displayName, setName] = useState(state.name);
-  const [location, setLocation] = useState('');
-  const [title, setTitle] = useState('');
-  const [about, setAbout] = useState('');
   const [isChecked, setIsChecked] = useState(null);
   const [cookie] = useCookies();
-  console.log(page, displayName, location, title);
 
   const deleteContent1 = ` Before confirming that you would like your profile deleted,
  we'd like to take a moment to explain the implications of deletion:`;
@@ -44,7 +42,7 @@ export default function Mypage() {
   const userDelete = async () => {
     try {
       const response = await axios.delete(
-        'http://localhost:8080/members',
+        `${process.env.REACT_APP_API_URL}/members`,
         {},
         {
           headers: {
@@ -55,35 +53,13 @@ export default function Mypage() {
           withCredentials: true,
         }
       );
-      console.log('delete test');
       console.log(response);
     } catch (err) {
       console.log(err);
-      console.log('회원 삭제에 실패 했습니다.');
     }
   };
 
-  // 회원정보 수정
-  //   updateUserInfo = async () => {
-  //     try {
-  //       const response = await axios.patch(
-  //         'http://localhost:8080/members',
-  //         {},
-  //         {
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //           withCredentials: true,
-  //         }
-  //       );
-  //       console.log('delete test');
-  //       console.log(response);
-  //     } catch (err) {
-  //       console.log(err);
-  //       console.log('회원 삭제에 실패 했습니다.');
-  //     }
-  //   };
-
+  console.log(state);
   // 저장 버튼 클릭
   const saveHandler = () => {
     setPage('act');
@@ -96,17 +72,17 @@ export default function Mypage() {
 
   // input value를 state로 저장
   const titleHandler = (e) => {
-    setTitle(e.target.value);
+    dispatch(setTitle(e.target.value));
   };
 
   // input value를 state로 저장
   const displayNameHandler = (e) => {
-    setName(e.target.value);
+    dispatch(setDisplayName(e.target.value));
   };
 
   // input value를 state로 저장
   const locationHandler = (e) => {
-    setLocation(e.target.value);
+    dispatch(setLocation(e.target.value));
   };
 
   const movePage = (e) => {
@@ -119,17 +95,17 @@ export default function Mypage() {
   };
 
   return (
-    <HomeContainer>
+    <HomeContainer className="home">
       <LeftSidebar></LeftSidebar>
-      <MyPageContentContainer>
-        <Main>
+      <MyPageContentContainer className="MPC">
+        <Main className="main">
           <UserInfoContainer>
             {/* <UserImg src={state.img} alt="pic" /> */}
             <UserImg
               src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
               alt="pic"
             />
-            <UserName>{displayName}</UserName>
+            <UserName>{state.login.userInfo.name}</UserName>
             <EditBtn id="set" onClick={movePage}>
               <BsFillPencilFill id="set" size={12}></BsFillPencilFill>
               <Text id="set">Edit profile</Text>
@@ -152,10 +128,10 @@ export default function Mypage() {
               <SubContent>
                 <Text2>Answers</Text2>
                 <div className="answers">
-                  {state.answers ? (
+                  {state.login.userInfo.answers ? (
                     <div className="container">
-                      {state.answers &&
-                        state.answers.map((answer, idx) => {
+                      {state.login.userInfo.answers &&
+                        state.login.userInfo.answers.map((answer, idx) => {
                           return (
                             <div key={idx}>
                               <div className="inner">
@@ -174,10 +150,10 @@ export default function Mypage() {
               <SubContent>
                 <Text2>Questions</Text2>
                 <div className="questions">
-                  {state.questions ? (
+                  {state.login.userInfo.questions ? (
                     <div className="container">
-                      {state.questions &&
-                        state.questions.map((question, idx) => {
+                      {state.login.userInfo.questions &&
+                        state.login.userInfo.questions.map((question, idx) => {
                           return (
                             <div key={idx}>
                               <div className="inner">
@@ -195,29 +171,23 @@ export default function Mypage() {
               </SubContent>
             </SubContainer>
           ) : (
-            <div>
+            <div className='"SettingDiv"'>
               <SettingsTitle>Edit your profile</SettingsTitle>
               <SettingsSubTitle>Public information</SettingsSubTitle>
-              <PublicInfoConatiner>
+              <PublicInfoConatiner className="public">
                 <Text5>Profile image</Text5>
                 <UserImg
                   src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
                   alt="pic"
                 />
                 <Text5>Display name</Text5>
-                <Input
-                  onChange={displayNameHandler}
-                  value={displayName}
-                ></Input>
+                <Input onChange={displayNameHandler}></Input>
                 <Text5>Location</Text5>
-                <Input onChange={locationHandler} value={location}></Input>
+                <Input onChange={locationHandler}></Input>
                 <Text5>Title</Text5>
-                <Input onChange={titleHandler} value={title}></Input>
+                <Input onChange={titleHandler}></Input>
                 <Text5>About me</Text5>
-                <CreateAboutMe
-                  setAbout={setAbout}
-                  about={about}
-                ></CreateAboutMe>
+                <CreateAboutMe></CreateAboutMe>
 
                 <BtnContainer>
                   <SaveBtn onClick={saveHandler}>Save profile</SaveBtn>
@@ -268,7 +238,7 @@ export default function Mypage() {
 
 const HomeContainer = styled.div`
   width: 100%;
-  height: 250vh;
+  height: 1800px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -279,9 +249,7 @@ const Main = styled.div`
 `;
 
 const MyPageContentContainer = styled.div`
-  max-width: 1100px;
-  min-width: 600px;
-
+  height: 100%;
   width: calc(100% - 164px);
   display: flex;
   flex-direction: row;
@@ -291,6 +259,7 @@ const MyPageContentContainer = styled.div`
 const UserInfoContainer = styled.div`
   min-width: 1000px;
   display: grid;
+
   grid-template-columns: 1fr 12fr 1fr;
   width: 100%;
   height: 100%;
@@ -303,8 +272,7 @@ const UlContainer = styled.div`
 
 const ActContainer = styled.div`
   display: flex;
-  width: 100px;
-  height: 50px;
+  height: 100%;
   margin-top: 80px;
 
   li {
@@ -327,7 +295,7 @@ const ActContainer = styled.div`
 const SetContainer = styled.div`
   display: flex;
   width: 100px;
-  height: 50px;
+  height: 100%;
   margin-top: 80px;
 
   li {
@@ -351,20 +319,28 @@ const SubContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 1000px;
-  height: 200vh;
+  height: 100%;
   padding: 15px;
 
   .answers {
+    display: flex;
+    align-items: stretch;
     width: 450px;
     min-height: 100px;
+    height: 450px;
     border: 1px solid hsl(210, 8%, 75%);
     border-radius: 5px;
+    overflow: scroll;
   }
   .questions {
+    display: flex;
+    align-items: stretch;
     width: 450px;
     min-height: 100px;
+    height: 450px;
     border: 1px solid hsl(210, 8%, 75%);
     border-radius: 5px;
+    overflow: scroll;
   }
   .container {
     display: flex;
@@ -380,7 +356,7 @@ const PublicInfoConatiner = styled.div`
   flex-direction: column;
   font-size: 19px;
   width: 1000px;
-  min-height: 1370px;
+  height: 100%;
   margin: 10px 0 15px 0;
   padding: 20px;
   border: 1px solid hsl(210, 8%, 85%);
@@ -440,7 +416,7 @@ const Vote = styled.div`
   font-size: 13px;
   font-weight: 500;
   border: 1px solid hsl(210, 8%, 85%);
-  margin: 10px;
+  margin: 0 20px 0 20px;
 `;
 const Text = styled.div`
   display: flex;
@@ -504,6 +480,8 @@ const SubContent = styled.div`
     display: flex;
     align-items: center;
     text-align: left;
+    height: 25px;
+    margin: 10px 10px 10px 5px;
   }
 `;
 const SettingsTitle = styled.div`
@@ -535,7 +513,6 @@ const Checkbox = styled.input`
   height: 15px;
   border: 1px solid;
   border-radius: 5px;
-  background-color: yellow;
   margin-right: 10px;
   margin: 8px;
 `;

@@ -29,7 +29,7 @@ export default function Recovery() {
     try {
       // 요청 경로 : http://localhost:8080/pwChange/registerEmail?쿼리^%$^@#!@$#@%
       const response = axios.patch(
-        `http://localhost:8080${url}`,
+        `${process.env.REACT_APP_API_URL}${url}`,
         JSON.stringify(body),
         {
           headers: {
@@ -107,6 +107,7 @@ export default function Recovery() {
         return;
       }
       dispatch(setErrorMsg6(null));
+      updatePass(state.login.newPass);
     }
   };
 
