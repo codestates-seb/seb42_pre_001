@@ -39,8 +39,10 @@ function TextEditor({ title, desc }) {
   const onEditorBlur = () => {
     dispatch(setContentFocus(false));
 
+    // editorRef.current?.getInstance().reset();
+
     // editorRef.current?.getInstance().moveCursorToEnd(true);
-    editorRef.current?.getInstance().reset();
+
     // console.log(position);
     // editorRef.current?.getInstance().deleteSelection([1, 0], position[1]);
   };

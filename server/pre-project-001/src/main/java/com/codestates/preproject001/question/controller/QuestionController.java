@@ -1,6 +1,5 @@
 package com.codestates.preproject001.question.controller;
 
-
 import com.codestates.preproject001.dto.MultiResponseDto;
 import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.member.entity.Member;
@@ -32,7 +31,7 @@ public class QuestionController {
         this.mapper = mapper;
     }
 
-    @PostMapping    // 질문 작성
+    @PostMapping // 질문 작성
     public ResponseEntity postQuestion(@Valid QuestionPostDto questionPostDto) {
         Member member = questionService.findMember(questionPostDto.getMemberId());
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
@@ -43,13 +42,12 @@ public class QuestionController {
 
     @PatchMapping("/{question-id}") // 질문 수정
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
-                                        @Valid @RequestBody QuestionPatchDto questionPatchDto) {
+            @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionService.memberVerification(questionPatchDto.getMemberId(), questionId);
         questionPatchDto.setQuestionId(questionId);
         questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
     @GetMapping("/{question-id}") // 질문 조회
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
@@ -61,7 +59,7 @@ public class QuestionController {
 
     @GetMapping // 질문 목록
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
-                                       @Positive @RequestParam int size) {
+            @Positive @RequestParam int size) {
         Page<Question> questions = questionService.findQuestions(page - 1, size);
         List<Question> content = questions.getContent();
         return new ResponseEntity(
@@ -70,13 +68,12 @@ public class QuestionController {
 
     @DeleteMapping("/{question-id}") // 질문 삭제 / 멤버 정보를 어떻게 가져오지?!
     public ResponseEntity deleteQuestion(@RequestBody QuestionDeleteDto questionDeleteDto,
-                                         @PathVariable("question-id") @Positive long questionId) {
+            @PathVariable("question-id") @Positive long questionId) {
         questionService.memberVerification(questionDeleteDto.getMemberId(), questionId);
         questionService.deleteQuestion(questionId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
 
     }
-
 
 }
