@@ -1,46 +1,40 @@
 import styled from 'styled-components';
 import { AskBoxStyle, InputStyle, TagBoxStyle, HashTags } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import {
-  setTagsErrorMsg,
-  setCurrentTag,
   setAllTags,
   setDeleteTag,
+  setTagsFocus,
 } from '../../slice/questionSlice';
-import { useEffect } from 'react';
 import { tags } from '../../assets/askInputDesc';
-
 function InputTags() {
+  let [currentTag, setCurrentTag] = useState('');
+  let [tagsErrorMsg, setTagsErrorMsg] = useState(null);
   let dispatch = useDispatch();
-  let { currentTag, allTags, tagsErrorMsg } = useSelector(
-    (state) => state.question
-  );
+  let { allTags, tagsFocus } = useSelector((state) => state.question);
 
   // 유효성 검사
   let isTagsValid = false;
   let validationTags = () => {
     if (!allTags?.length) {
       isTagsValid = false;
-      dispatch(
-        setTagsErrorMsg(
-          'Please enter at least one tag; see a list of popular tags.'
-        )
+
+      setTagsErrorMsg(
+        'Please enter at least one tag; see a list of popular tags.'
       );
     } else if (allTags.length > 5) {
-      dispatch(setTagsErrorMsg('Please enter no more than 5 tags.'));
+      setTagsErrorMsg('Please enter no more than 5 tags.');
     } else {
       isTagsValid = true;
-      dispatch(setTagsErrorMsg('')); // 이거 없으면 왜 안되지
+      setTagsErrorMsg(''); // 이거 없으면 왜 안되지
     }
   };
 
-  useEffect(() => {
-    validationTags();
-    console.log(allTags);
-  }, [allTags]);
+  useEffect(() => validationTags(), [allTags]);
 
   let handleText = (e) => {
-    dispatch(setCurrentTag(e.target.value));
+    setCurrentTag(e.target.value);
   };
 
   // 태그 삽입
@@ -94,8 +88,16 @@ function InputTags() {
       buttonSvg.appendChild(svgPath);
       hashTagInput.before(hashTag);
       dispatch(setAllTags(currentTag));
-      dispatch(setCurrentTag(''));
+      setCurrentTag('');
     }
+  };
+
+  // focus 상태 변경
+  const onTagsFocus = () => {
+    dispatch(setTagsFocus(true));
+  };
+  const onTagsBlur = () => {
+    dispatch(setTagsFocus(false));
   };
 
   return (
@@ -103,7 +105,7 @@ function InputTags() {
       <div>
         <label>{tags.title}</label>
         <p>{tags.desc}</p>
-        <HashTagsWrapper className="HashTagsWrapper">
+        <HashTagsWrapper tagsErrorMsg={tagsErrorMsg} tagsFocus={tagsFocus}>
           <HashTags className="hashTags">
             {/* <span>             //hashTag
               <span>태그 내용</span>    //tagText
@@ -118,6 +120,8 @@ function InputTags() {
               onKeyPress={pushTag}
               value={currentTag}
               onChange={handleText}
+              onFocus={onTagsFocus}
+              onBlur={onTagsBlur}
             />
           </HashTags>
         </HashTagsWrapper>
@@ -134,6 +138,18 @@ const HashTagsWrapper = styled(TagBoxStyle)`
   min-height: 37px;
   height: auto;
   white-space: normal;
+  border-color: ${(props) => {
+    if (props.tagsFocus) {
+      return props.tagsErrorMsg ? 'hsl(358deg 68% 59%)' : 'hsl(206deg 90% 70%)';
+    }
+  }};
+  box-shadow: ${(props) => {
+    if (props.tagsFocus) {
+      return props.tagsErrorMsg
+        ? '0 0 0 4px hsl(0deg 46% 92%)'
+        : '0 0 0 4px hsl(206deg 65% 91%)';
+    }
+  }};
 `;
 
 const HashTagInput = styled(InputStyle)`

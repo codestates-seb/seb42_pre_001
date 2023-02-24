@@ -1,5 +1,3 @@
-// title 에서만 받아오기
-//axios 요청
 import InputTitle from './InputTitle';
 import InputTags from './InputTags';
 import TextEditor from './TextEditor';
@@ -11,30 +9,36 @@ import { ReactComponent as Background } from '../../assets/background.svg';
 import axios from 'axios';
 import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 
 function AskPageContents() {
-  let { content, title } = useSelector((state) => state.question);
+  const [cookie] = useCookies();
+  let { content, title, allTags, titleFocus, contentFocus, tagsFocus } =
+    useSelector((state) => state.question);
 
   // let { id } = useSelector((state) => state.login);
-  console.log(title); // 255자
-  console.log(content); // 1000자
+  // title 255자, content) 50000자
 
-  let postQuestion = async (e) => {
-    console.log(e.target);
+  let requestBody = {
+    content: content,
+    title: title,
+    memberId: 1,
+    tags: allTags,
+  };
+  console.log(requestBody);
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+  console.log(apiUrl);
+  let postQuestion = async () => {
     await axios
-      .post(
-        'http://localhost:8080/questions',
-        JSON.stringify({
-          content: content,
-          title: title,
-          memberId: 1,
-        }),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      .post(`${apiUrl}/questions`, JSON.stringify(requestBody), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+      })
       .then(function (response) {
         console.log(response);
       })
@@ -43,50 +47,84 @@ function AskPageContents() {
       });
   };
 
+  let isValid = () => {
+    return (
+      title?.length >= 15 &&
+      content?.length &&
+      allTags?.length &&
+      allTags?.length <= 5
+    );
+  };
+
+  useEffect(() => {
+    isValid();
+  }, [title, content, allTags]);
+  console.log(isValid());
+
   return (
     <Main>
       <div>
-        <Top>
-          <h1>Ask a public question</h1>
-          <BgImg />
-        </Top>
-        <AskPageMainNotice />
+        <div>
+          <Top>
+            <h1>Ask a public question</h1>
+            <BgImg />
+          </Top>
+          <AskPageMainNotice />
+        </div>
+        <InputSet>
+          <InputTitle quseiontTitle={ask.title} desc={ask.desc} />
+          {titleFocus ? (
+            <AskPageSideNotice
+              noticeTitle={ask.noticeTitle}
+              noticeDesc={ask.noticeDesc}
+            />
+          ) : null}
+        </InputSet>
+        <InputSet>
+          <TextEditor title={body.title} desc={body.desc} />
+          {contentFocus ? (
+            <AskPageSideNotice
+              noticeTitle={body.noticeTitle}
+              noticeDesc={body.noticeDesc}
+            />
+          ) : null}
+        </InputSet>
+        <InputSet>
+          <InputTags title={tags.title} desc={tags.desc} />
+          {tagsFocus ? (
+            <AskPageSideNotice
+              noticeTitle={tags.noticeTitle}
+              noticeDesc={tags.noticeDesc}
+            />
+          ) : null}
+        </InputSet>
+        <PostOrDiscardButtons>
+          <MainButton
+            buttonText="Post your question"
+            functionHandler={postQuestion}
+          ></MainButton>
+          <Button>Discard draft</Button>
+        </PostOrDiscardButtons>
+        {!isValid() ? (
+          <div>
+            Your question couldn&apos;t be submitted. Please see the error
+            above.
+          </div>
+        ) : null}
       </div>
-      <InputSet>
-        <InputTitle title={ask.title} desc={ask.desc} />
-        <AskPageSideNotice
-          noticeTitle={ask.noticeTitle}
-          noticeDesc={ask.noticeDesc}
-        />
-      </InputSet>
-      <InputSet>
-        <TextEditor title={body.title} desc={body.desc} />
-        <AskPageSideNotice
-          noticeTitle={body.noticeTitle}
-          noticeDesc={body.noticeDesc}
-        />
-      </InputSet>
-      <InputSet>
-        <InputTags title={tags.title} desc={tags.desc} />
-        <AskPageSideNotice
-          noticeTitle={tags.noticeTitle}
-          noticeDesc={tags.noticeDesc}
-        />
-      </InputSet>
-      <PostOrDiscardButtons>
-        <MainButton
-          buttonText="Post your question"
-          functionHandler={postQuestion}
-        ></MainButton>
-        <Button>Discard draft</Button>
-      </PostOrDiscardButtons>
     </Main>
   );
 }
 
 const Main = styled.div`
-  padding: 0 24px 24px 24px;
-  max-width: 1240px;
+  padding: 0 24px 50px 24px;
+  max-width: 1264px;
+  flex-grow: 1;
+
+  > div {
+    min-height: 750px;
+    overflow: visible;
+  }
 `;
 
 const Top = styled.div`
@@ -106,7 +144,10 @@ const BgImg = styled(Background)`
 `;
 
 const InputSet = styled.div`
+  position: relative;
   display: flex;
+  width: 100%;
+  row-gap: 16px;
   :not(:last-child) {
     margin-bottom: 12px;
   }

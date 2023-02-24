@@ -6,12 +6,12 @@ const questionSlice = createSlice({
     id: null,
     name: null,
     title: null,
-    titleErrorMsg: null,
+    titleFocus: false,
     content: null,
-    contentErrorMsg: null,
-    currentTag: '',
+    contentFocus: false,
     allTags: [],
-    tagsErrorMsg: null,
+    tagsFocus: false,
+    askPageEditorRef: '',
   },
   reducers: {
     setName: (state, action) => {
@@ -20,17 +20,14 @@ const questionSlice = createSlice({
     setTitle: (state, action) => {
       state.title = action.payload;
     },
-    setTitleErrorMsg: (state, action) => {
-      state.titleErrorMsg = action.payload;
+    setTitleFocus: (state, action) => {
+      state.titleFocus = action.payload;
     },
     setContent: (state, action) => {
       state.content = action.payload;
     },
-    setContentErrorMsg: (state, action) => {
-      state.contentErrorMsg = action.payload;
-    },
-    setCurrentTag: (state, action) => {
-      state.currentTag = action.payload;
+    setContentFocus: (state, action) => {
+      state.contentFocus = action.payload;
     },
     setAllTags: (state, action) => {
       state.allTags.push(action.payload);
@@ -40,8 +37,11 @@ const questionSlice = createSlice({
         return el !== action.payload;
       });
     },
-    setTagsErrorMsg: (state, action) => {
-      state.tagsErrorMsg = action.payload;
+    setTagsFocus: (state, action) => {
+      state.tagsFocus = action.payload;
+    },
+    setAskPageEditorRef: (state, action) => {
+      state.askPageEditorRef = action.payload;
     },
   },
 });
@@ -50,11 +50,11 @@ export default questionSlice;
 export const {
   setName,
   setTitle,
-  setTitleErrorMsg,
+  setTitleFocus,
   setContent,
-  setContentErrorMsg,
-  setCurrentTag,
+  setContentFocus,
   setAllTags,
   setDeleteTag,
-  setTagsErrorMsg,
+  setTagsFocus,
+  setAskPageEditorRef,
 } = questionSlice.actions;
