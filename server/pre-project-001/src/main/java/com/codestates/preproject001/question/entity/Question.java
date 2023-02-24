@@ -23,12 +23,21 @@ public class Question extends auditable {
     @Column(nullable = false)
     private String title;
 
+<<<<<<< HEAD
     @Column(nullable = false, length = 50000)
+=======
+    @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
+>>>>>>> 6df2f3b0181e1cfd0351063acae78b392759e8b8
     private String content;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    private int view = 0;
+    @Column
+    @ElementCollection(targetClass = String.class)
+    private List<String> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
@@ -45,6 +54,10 @@ public class Question extends auditable {
         if (answer.getQuestion() != this) {
             answer.addQuestion(this);
         }
+    }
+
+    public void plusView() {
+        view++;
     }
 
 }

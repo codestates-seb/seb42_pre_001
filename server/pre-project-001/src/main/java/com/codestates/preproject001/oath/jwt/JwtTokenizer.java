@@ -1,4 +1,4 @@
-package com.codestates.preproject001.oath;
+package com.codestates.preproject001.oath.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

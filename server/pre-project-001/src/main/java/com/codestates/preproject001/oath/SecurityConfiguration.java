@@ -1,5 +1,8 @@
 package com.codestates.preproject001.oath;
 
+import com.codestates.preproject001.oath.jwt.JwtAuthenticationFilter;
+import com.codestates.preproject001.oath.jwt.JwtTokenizer;
+import com.codestates.preproject001.oath.jwt.JwtVerificationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,14 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfiguration {
@@ -45,6 +40,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().permitAll()
                 );
+
         return http.build();
     }
 
@@ -58,7 +54,6 @@ public class SecurityConfiguration {
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer);
-
             builder
                     .addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter,JwtAuthenticationFilter.class);

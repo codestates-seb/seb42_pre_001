@@ -68,7 +68,7 @@ public class AnswerService {
     }
 
     public Question findQuestion(long questionId) {
-        return questionService.findQuestion(questionId);
+        return questionService.findVerifiedQuestion(questionId);
     }
 
     public void memberVerification(long memberId, long answerId) {

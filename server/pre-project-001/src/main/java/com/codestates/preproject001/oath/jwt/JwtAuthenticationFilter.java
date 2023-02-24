@@ -1,6 +1,8 @@
-package com.codestates.preproject001.oath;
+package com.codestates.preproject001.oath.jwt;
 
 import com.codestates.preproject001.member.entity.Member;
+import com.codestates.preproject001.oath.LoginDto;
+import com.codestates.preproject001.oath.memberDetails.MemberDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import lombok.SneakyThrows;
@@ -77,22 +79,4 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return refreshToken;
     }
 
-    private Authentication getAuthentication(HttpServletRequest request) {
-
-        String token = request.getHeader("Authorization");
-
-        if (token == null) {
-            return null;
-        }
-
-        Claims claims;
-
-        String jws = request.getHeader("Authorization").replace("Bearer ", "");
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-
-        claims = jwtTokenizer.getClaims(jws,base64EncodedSecretKey).getBody();
-
-
-        return new UsernamePasswordAuthenticationToken(new MemberDetails(new Member(claims)), null, null);
-    }
 }

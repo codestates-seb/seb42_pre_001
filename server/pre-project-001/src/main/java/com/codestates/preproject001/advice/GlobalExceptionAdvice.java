@@ -1,5 +1,6 @@
 package com.codestates.preproject001.advice;
 
+import javax.mail.MessagingException;
 import javax.validation.ConstraintViolationException;
 
 import com.codestates.preproject001.exception.BusinessLogicException;
@@ -76,6 +77,14 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleMailMessagingException (
+            MessagingException e) {
+        final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
+        return response;
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(Exception e) {
         log.error("# handle Exception", e);
@@ -84,4 +93,5 @@ public class GlobalExceptionAdvice {
 
         return response;
     }
+
 }
