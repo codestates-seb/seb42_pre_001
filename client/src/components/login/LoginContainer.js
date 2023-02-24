@@ -34,7 +34,7 @@ export default function Login() {
     };
     try {
       const response = await axios.post(
-        'http://localhost:8080/login',
+        `${process.env.REACT_APP_API_URL}/login`,
         JSON.stringify(body),
         {
           headers: {
@@ -48,8 +48,7 @@ export default function Login() {
       console.log(headers);
       const accessToken = headers['authorization'];
       const refreshToken = headers['refresh'];
-      console.log(accessToken);
-      console.log(refreshToken);
+
       if (!cookies.authorization) {
         setCookie('accessToken', accessToken);
       }
@@ -190,7 +189,7 @@ export default function Login() {
 // 페이지 묶음
 const Conatiner = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 50vw;
   display: flex;
   flex-direction: column;
   align-items: center;
