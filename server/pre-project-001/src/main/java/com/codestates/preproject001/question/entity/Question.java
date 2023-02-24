@@ -23,11 +23,8 @@ public class Question extends auditable {
     @Column(nullable = false)
     private String title;
 
-<<<<<<< HEAD
-    @Column(nullable = false, length = 50000)
-=======
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
->>>>>>> 6df2f3b0181e1cfd0351063acae78b392759e8b8
+
     private String content;
 
     @ManyToOne

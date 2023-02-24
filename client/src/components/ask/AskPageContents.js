@@ -9,11 +9,8 @@ import { ReactComponent as Background } from '../../assets/background.svg';
 import axios from 'axios';
 import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
-<<<<<<< HEAD
 import { useEffect } from 'react';
-=======
 
->>>>>>> 6df2f3b0181e1cfd0351063acae78b392759e8b8
 function AskPageContents() {
   let { content, title, allTags, titleFocus, contentFocus, tagsFocus } =
     useSelector((state) => state.question);
