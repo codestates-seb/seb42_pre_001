@@ -86,7 +86,7 @@ public class MemberService {
 
     //쿼리로 deleted는 안되게 find
     public Page<Member> findMembers(int page) {
-        return memberRepository.findAll(PageRequest.of(page, 36, Sort.by("memberId").descending()));
+        return memberRepository.findAllWhoActive(PageRequest.of(page, 36, Sort.by("memberId").descending()));
     }
 
     public void deleteMember(Member member) {
