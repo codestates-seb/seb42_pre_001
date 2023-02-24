@@ -104,9 +104,17 @@ public class MemberService {
     public Member findVerifiedMember(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        ActiveCheck(findMember);
         return findMember;
+    }
 
-
+    private void ActiveCheck(Member member) {
+        if(member.getMemberStatus().getStatus().equals("삭제된 회원")) {
+            throw new BusinessLogicException(ExceptionCode.DELETED_MEMBER);
+        }
+        else if(member.getMemberStatus().getStatus().equals("이메일이 인증되지 않은 회원")) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER);
+        }
     }
 
     public Member findByEmail (String email){
