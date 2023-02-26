@@ -4,6 +4,8 @@ import lombok.Getter;
 
 public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member Not Found"),
+    DELETED_MEMBER(404, "Deleted Member"), // 삭제한 멤버를 조회했을 때
+    UNAUTHORIZED_MEMBER(404, "Unauthorized Member"), // 이메일 인증을 안한 멤버를 조회했을 때
     MEMBER_EXISTS(409, "Member exists"),
     POST_NOTENOUGH_LENGTH(406, "Not Enough Length"), // 질문 내용 20자 이하일 때
     ANSWER_EXISTS(409, "Answer Exists"), // 질문에 답변이 이미 달려있을 때
