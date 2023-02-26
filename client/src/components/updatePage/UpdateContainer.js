@@ -2,7 +2,7 @@
 import InputTags from '../../components/ask/InputTags';
 import MainButton from '../../components/MainButton';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import InputTitle from '../ask/InputTitle';
@@ -10,10 +10,10 @@ import { useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import TextEditor from '../ask/TextEditor';
-
 // 질문 수정: 질문 title, 질문 content, 질문 tags
 // 답변 수정: 질문 title, 질문 content, 답변 content
 function UpdateContainer() {
+  const navigate = useNavigate();
   const [cookie] = useCookies();
   const { state } = useLocation();
   const { answer, question } = state;
@@ -50,7 +50,13 @@ function UpdateContainer() {
       )}
       {answer ? (
         <>
-          <div>{question.title}</div>
+          <QuestionTitle
+            onClick={() => {
+              navigate(`/questions/${question.questionId}`);
+            }}
+          >
+            {question.title}
+          </QuestionTitle>
           <Preview remarkPlugins={[remarkGfm]}>{question.content}</Preview>
         </>
       ) : null}
@@ -83,6 +89,9 @@ const UpdateContentWrapper = styled.div`
 const Preview = styled(ReactMarkdown)`
   white-space: normal;
   word-wrap: break-word;
+  > p {
+    margin-bottom: 16.5px;
+  }
 `;
 
 const EditTitle = styled(InputTitle)``;
@@ -91,5 +100,12 @@ const EditorBox = styled(TextEditor)``;
 
 const SaveEditsOrCancel = styled.div`
   display: flex;
+`;
+
+const QuestionTitle = styled.a`
+  display: block;
+  margin: 16px 0;
+  color: hsl(209deg 100% 38%);
+  font-size: 1.30769231rem;
 `;
 export default UpdateContainer;

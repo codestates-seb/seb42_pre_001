@@ -59,7 +59,6 @@ function TextEditor({ title, desc = null, initialValue = '' }) {
       <div>
         <label>{title}</label>
         <p>{desc}</p>
-
         <EditorBox
           previewStyle="tab"
           initialEditType="markdown"

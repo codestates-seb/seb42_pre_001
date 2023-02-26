@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 import { useNavigate } from 'react-router-dom';
 import { setContent } from '../../slice/answerSlice';
 import { useDispatch } from 'react-redux';
+import InquiryButtons from '../inquiry/InquiryButtons';
 const AnswerContent = ({ answer, question }) => {
   let dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,12 +26,23 @@ const AnswerContent = ({ answer, question }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <ReactMarkdownContainer remarkPlugins={[remarkGfm]}>
+        <ReactMarkdownContainer
+          remarkPlugins={[remarkGfm]}
+          components={{
+            img: ({ ...props }) => (
+              <img style={{ maxWidth: '100%' }} {...props} alt="" />
+            ),
+          }}
+        >
           {answer.content}
         </ReactMarkdownContainer>
-        <button onClick={editAnswer}>답변 수정 버튼입니다</button>
-        <button onClick={deleteAnswer}>답변 삭제 버튼입니다</button>
-        <ViewProfile user={answer.memberName} />
+        <ButtonsAndProfile>
+          <InquiryButtons
+            editFunction={editAnswer}
+            deleteFunction={deleteAnswer}
+          />
+          <ViewProfile user={answer.memberName} />
+        </ButtonsAndProfile>
       </ContentContainer>
     </Container>
   );
@@ -68,6 +80,13 @@ const ContentContainer = styled.div`
   word-wrap: break-word;
 `;
 const ReactMarkdownContainer = styled(ReactMarkdown)`
-  width: 657px;
+  width: 100%;
+  padding-bottom: 10px;
   word-wrap: break-word;
+`;
+
+const ButtonsAndProfile = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
 `;

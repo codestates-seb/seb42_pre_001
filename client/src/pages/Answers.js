@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
@@ -10,15 +10,13 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 import QuestionContent from '../components/question/QuestionContent';
 import QuestionTitle from '../components/question/QuestionTitle';
-import ViewTags from '../components/ViewTags';
 import MainButton from '../components/MainButton';
-import { useCookies } from 'react-cookie';
-import { setContent } from '../slice/questionSlice';
-import { useDispatch } from 'react-redux';
+import ViewTags from '../components/ViewTags';
+
 //질문 상세 페이지
 const Answers = () => {
-  let dispatch = useDispatch();
   const { id } = useParams();
+  // const [cookie] = useCookies();
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
   console.log(answers);
@@ -27,8 +25,7 @@ const Answers = () => {
   const editorRef = useRef();
   const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
   const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
-  const navigate = useNavigate();
-  const [cookie] = useCookies();
+
   //질문조회
   useEffect(() => {
     const getQuestion = async () => {
@@ -41,7 +38,6 @@ const Answers = () => {
   }, []);
   // 댓글 생성
   const onChangeEditor = () => {
-    console.log(editorRef.current?.getInstance().getMarkdown());
     setText(editorRef.current?.getInstance().getMarkdown());
   };
   const handleClick = () => {
@@ -56,6 +52,8 @@ const Answers = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            // Authorization: cookie.accessToken,
+            // Refresh: cookie.refreshToken,
           },
         }
       )
@@ -75,33 +73,6 @@ const Answers = () => {
       .catch((error) => console.log(error));
   };
 
-  // 질문 수정
-  const editPost = () => {
-    navigate(`/questions/${questionId}/edit`, {
-      state: { question },
-    });
-    dispatch(setContent(question.content));
-  };
-
-  // 질문 삭제
-  const deletePost = async () => {
-    await axios.delete(
-      `${process.env.REACT_APP_API_URL}/questions/${questionId}`,
-      {
-        data: {
-          memberId: 1,
-        },
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookie.accessToken,
-          Refresh: cookie.refreshToken,
-        },
-      }
-    );
-  };
-
   return (
     <>
       <Container>
@@ -111,9 +82,12 @@ const Answers = () => {
           <ContentWrapper>
             <ViewContent>
               <QuestionContent
-                content={question.content}
+                question={question}
                 user={question.memberName}
+                tags={question.tags}
               />
+              {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
+              <button onClick={deletePost}>질문 삭제 버튼입니다</button> */}
               <AnswerContainer>
                 {answers ? (
                   <>
@@ -143,15 +117,15 @@ const Answers = () => {
                     </ButtonWrapper>
                   </ButtonContainer>
                 </CreateAnswerContainer>
+
                 <QuestionBottom>
                   {`Not the answer you're looking for? Browse other questions tagged `}
-                  <ViewTags />
-                  {` or `}
+                  <ViewTags tags={question.tags} />
+
+                  {`or `}
                   <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
                   {`.`}
                 </QuestionBottom>
-                <button onClick={editPost}>질문 수정 버튼입니다</button>
-                <button onClick={deletePost}>질문 삭제 버튼입니다</button>
               </AnswerContainer>
             </ViewContent>
             <QuestionSidebar />

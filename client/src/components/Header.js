@@ -37,9 +37,7 @@ function Header() {
       },
     });
     const { data } = response;
-    console.log(data);
     dispatch(setUserInfo(data));
-    console.log(state);
   };
 
   return (

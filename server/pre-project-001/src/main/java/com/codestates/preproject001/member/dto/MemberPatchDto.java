@@ -4,11 +4,10 @@ import com.codestates.preproject001.NotSpace.NotSpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @AllArgsConstructor
 public class MemberPatchDto {
+    @NotSpace(message = "이름은 공백일 수 없습니다.")
     private String name;
     private String location;
     private String title;
