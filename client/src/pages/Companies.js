@@ -79,7 +79,7 @@ const CompaniesContentContainer = styled.div`
 const Title = styled.div`
   font-size: 27px;
   margin-bottom: 4px;
-  color: hsl(210deg 8% 25%);
+  color: hsl(210deg 8% 15%);
   padding-left: 24px;
 `;
 const Learn = styled.div`

@@ -51,7 +51,7 @@ const UsersContentContainer = styled.div`
 const Title = styled.div`
   font-size: 27px;
   margin-bottom: 16px;
-  color: hsl(210deg 8% 25%);
+  color: hsl(210deg 8% 15%);
 `;
 const InputStyle = styled.input`
   width: 219px;
