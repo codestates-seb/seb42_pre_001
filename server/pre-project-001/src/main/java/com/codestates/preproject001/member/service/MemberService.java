@@ -6,6 +6,7 @@ import com.codestates.preproject001.mail.KeyMaker;
 import com.codestates.preproject001.mail.MailHandler;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 public class MemberService {
@@ -86,7 +88,7 @@ public class MemberService {
 
     //쿼리로 deleted는 안되게 find
     public Page<Member> findMembers(int page) {
-        return memberRepository.findAll(PageRequest.of(page, 36, Sort.by("memberId").descending()));
+        return memberRepository.findAllWhoActive(PageRequest.of(page, 36, Sort.by("memberId").descending()));
     }
 
     public void deleteMember(Member member) {
@@ -104,9 +106,18 @@ public class MemberService {
     public Member findVerifiedMember(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        ActiveCheck(findMember);
         return findMember;
+    }
 
-
+    private void ActiveCheck(Member member) {
+        log.info("Member status : " + member.getMemberStatus().toString());
+        if(member.getMemberStatus().toString().equals("DELETED_USER")) {
+            throw new BusinessLogicException(ExceptionCode.DELETED_MEMBER);
+        }
+        else if(member.getMemberStatus().toString().equals("UNAUTHORIZED_USER")) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER);
+        }
     }
 
     public Member findByEmail (String email){

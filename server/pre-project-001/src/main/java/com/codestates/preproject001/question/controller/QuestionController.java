@@ -48,7 +48,7 @@ public class QuestionController {
 
     @PostMapping    // 질문 작성
     public ResponseEntity postQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
-                                       @Valid QuestionPostDto questionPostDto) {
+                                       @Valid @RequestBody QuestionPostDto questionPostDto) {
         memberService.matchMember(memberDetails.getMemberId(), questionPostDto.getMemberId());
         Member member = memberService.findMember(memberDetails.getMemberId());
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
