@@ -3,6 +3,7 @@ package com.codestates.preproject001.question.entity;
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.audit.auditable;
 import com.codestates.preproject001.member.entity.Member;
+import com.codestates.preproject001.vote.entity.Vote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,10 @@ public class Question extends auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Column
+    private int voteCount =0;
+
+    @Column
     private int view = 0;
     @Column
     @ElementCollection(targetClass = String.class)
@@ -38,6 +43,10 @@ public class Question extends auditable {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Vote> votes = new ArrayList<>();
+
+    //setter가 있는데 왜 해줬는지 한번 물어보기
     public void addMember(Member member) {
         this.member = member;
         if (!member.getQuestions().contains(this)) {

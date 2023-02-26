@@ -4,5 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class QuestionDeleteDto {
+    private long questionId;
     private long memberId;
 }

@@ -9,12 +9,30 @@ import com.codestates.preproject001.question.dto.QuestionResponseDto;
 import com.codestates.preproject001.question.entity.Question;
 import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper  {
-    List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions);
+    //answers, myVote, content는 뺐다 -> question 리스트를 띄우는 화면에 필요가 없다.
+    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions) {
+        if(questions == null) return null;
+        List<QuestionResponseDto> questionResponseDtos = questions.stream().map(question -> {
+            QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+            questionResponseDto.setQuestionId(question.getQuestionId());
+            questionResponseDto.setMemberId(question.getMember().getMemberId());
+            questionResponseDto.setMemberName(question.getMember().getName());
+            questionResponseDto.setTags(question.getTags());
+            questionResponseDto.setCreatedAt(question.getCreatedAt());
+            questionResponseDto.setModifiedAt(question.getModifiedAt());
+            questionResponseDto.setTitle(question.getTitle());
+            questionResponseDto.setView(question.getView());
+            questionResponseDto.setVoteCount(question.getVoteCount());
+            return questionResponseDto;
+        }).collect(Collectors.toList());
+        return questionResponseDtos;
+    }
 
     default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
         if (questionPostDto == null ) {
@@ -64,6 +82,7 @@ public interface QuestionMapper  {
         questionResponseDto.setModifiedAt(question.getModifiedAt());
         questionResponseDto.setMemberId(question.getMember().getMemberId());
         questionResponseDto.setView(question.getView());
+        questionResponseDto.setVoteCount(question.getVoteCount());
         List<Answer> answerList = question.getAnswers();
         List<AnswerResponseDto> answerResponseList = answerList.stream().map(answer ->{
             AnswerResponseDto answerResponseDto = new AnswerResponseDto();
@@ -74,6 +93,7 @@ public interface QuestionMapper  {
             answerResponseDto.setContent(answer.getContent());
             answerResponseDto.setCreatedAt(answer.getCreatedAt());
             answerResponseDto.setModifiedAt(answer.getModifiedAt());
+            answerResponseDto.setVoteCount(answer.getVoteCount());
             return answerResponseDto;
         }).collect(Collectors.toList());
         questionResponseDto.setAnswers(answerResponseList);

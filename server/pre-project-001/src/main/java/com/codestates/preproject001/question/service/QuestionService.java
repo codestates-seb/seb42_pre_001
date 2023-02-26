@@ -18,11 +18,9 @@ import java.util.Optional;
 @Service
 @Transactional
 public class QuestionService {
-    private final MemberService memberService;
     private final QuestionRepository questionRepository;
 
-    public QuestionService(MemberService memberService, QuestionRepository questionRepository) {
-        this.memberService = memberService;
+    public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
@@ -61,6 +59,7 @@ public class QuestionService {
         return question;
     }
 
+    //cascade해줬는데 필요한지?
     private void noAnswerYet(Question question) {
         if(question.getAnswers().size() != 0) {
             throw new BusinessLogicException(ExceptionCode.ANSWER_EXISTS);
@@ -71,7 +70,8 @@ public class QuestionService {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
-    // content 길이는 20자 이상
+    // content 길이는 20자 이상 -> 유효성처리 했으면 필요가 없을거같음(프론트에서 20자 밑에서는 post하는 버튼이 안들어오게 할듯하다
+    //postman같은걸로 직접주는거는 유효성에서 처리가능
     public void verifyRule(Question question) {
         String content = question.getContent();
         if (content.length() < 20) {
@@ -87,14 +87,10 @@ public class QuestionService {
         return question;
     }
 
-    public Member findMember(long memberId) {
-        return memberService.findMember(memberId);
-    }
-
     public void memberVerification(long memberId, long questionId) {
         long askedMemberId = findVerifiedQuestion(questionId).getMember().getMemberId();
         if(memberId != askedMemberId) {
-            throw new BusinessLogicException(ExceptionCode.REQUEST_NOT_ALLOWED);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
         }
     }
 
@@ -103,5 +99,4 @@ public class QuestionService {
             throw new BusinessLogicException(ExceptionCode.NUMBER_OF_TAGS_NOT_CORRECT);
         }
     }
-
 }

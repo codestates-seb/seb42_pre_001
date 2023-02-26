@@ -38,8 +38,15 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
+                        .antMatchers(HttpMethod.PATCH,"/members").authenticated()
+                        .antMatchers(HttpMethod.DELETE,"/members").authenticated()
+                        .antMatchers(HttpMethod.POST,"/questions").authenticated()
+                        .antMatchers(HttpMethod.PATCH, "/questions").authenticated()
+                        .antMatchers(HttpMethod.DELETE,"/questions").authenticated()
+                        .antMatchers(HttpMethod.POST,"/answers").authenticated()
+                        .antMatchers(HttpMethod.PATCH, "/answers").authenticated()
+                        .antMatchers(HttpMethod.DELETE,"/answers").authenticated()
                         .anyRequest().permitAll()
-//                        .antMatchers(HttpMethod.GET,"/members/{member-id}").authenticated()
                 );
 
         return http.build();

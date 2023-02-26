@@ -115,8 +115,13 @@ public class MemberService {
         return findMember;
     }
 
+    //memberDetails(token) id와 요청 Body에서의 id비교
+    public void matchMember(long memberId1, long memberId2){
+        if(memberId1 != memberId2) throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
+    }
+
     public void authorizeEmailForJoin (String email,String mailKey){ //회원가입 이메일을 확인하는코드
-        //이후에 queryDSL로 짜야됨 그냥 로직만 구현시켜놓겠음 + 예외처리
+        //예외처리
         Optional<Member> member = memberRepository.findByEmail(email);
         Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         if(findMember.getMemberStatus() != Member.MemberStatus.UNAUTHORIZED_USER){
@@ -140,7 +145,7 @@ public class MemberService {
             System.out.println("삭제된회원 or 인증되지않은 회원");
         } else{
             //메일 인증 key값 넣어주기
-            String mailKey = new KeyMaker().makeKey(30,false);
+            String mailKey = new KeyMaker().makeKey(20,false);
             member.setMailKey(mailKey);
             //인증키 저장
             memberRepository.save(member);
@@ -162,7 +167,7 @@ public class MemberService {
         }
     }
     public void authorizeEmailForPwChange (String email, String mailKey, String pass){//이메일을 확인하는코드 + 실제로 비번바꿈
-        //이후에 queryDSL로 짜야됨 그냥 로직만 구현시켜놓겠음 + 예외처리
+        //예외처리
         Optional<Member> member = memberRepository.findByEmail(email);
         Member findMember = member.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         if(findMember.getMemberStatus()== Member.MemberStatus.ACTIVE_USER) {

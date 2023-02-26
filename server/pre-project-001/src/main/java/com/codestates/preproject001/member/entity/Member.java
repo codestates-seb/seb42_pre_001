@@ -3,6 +3,7 @@ package com.codestates.preproject001.member.entity;
 
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.question.entity.Question;
+import com.codestates.preproject001.vote.entity.Vote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -72,6 +73,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Vote> votes = new ArrayList<>();
 
     public void addAnswer(Answer answer) {
         answers.add(answer);

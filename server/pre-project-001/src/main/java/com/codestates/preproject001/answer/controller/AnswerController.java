@@ -10,11 +10,14 @@ import com.codestates.preproject001.answer.service.AnswerService;
 import com.codestates.preproject001.dto.MultiResponseDto;
 import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.member.entity.Member;
+import com.codestates.preproject001.member.service.MemberService;
+import com.codestates.preproject001.oath.memberDetails.MemberDetails;
 import com.codestates.preproject001.question.dto.QuestionDeleteDto;
 import com.codestates.preproject001.question.entity.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,59 +27,60 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/answers") // url 미정으로 비워두기
+@RequestMapping("/answers")
 public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
+    private final MemberService memberService;
 
-    public AnswerController(AnswerService answerService, AnswerMapper mapper) {
+    public AnswerController(AnswerService answerService, AnswerMapper mapper, MemberService memberService) {
         this.answerService = answerService;
         this.mapper = mapper;
+        this.memberService = memberService;
     }
 
     @PostMapping
-    public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto) {
-        Member member = answerService.findMember(answerPostDto.getMemberId());
+    public ResponseEntity postAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
+                                     @Valid @RequestBody AnswerPostDto answerPostDto) {
+        memberService.matchMember(memberDetails.getMemberId(), answerPostDto.getMemberId());
+        Member member = memberService.findMember(answerPostDto.getMemberId());
         Question question = answerService.findQuestion(answerPostDto.getQuestionId());
         Answer answer = mapper.answerPostDtoToAnswer(answerPostDto);
         answer.addMember(member);
         answer.addQuestion(question);
-        Answer response = answerService.createAnswer(answer);
+        answerService.createAnswer(answer);
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/{answer-id}")
-    public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
+    @PatchMapping
+    public ResponseEntity patchAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto) {
-        answerService.memberVerification(answerPatchDto.getMemberId(), answerId);
-        answerPatchDto.setAnswerId(answerId);
-        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto));
+        memberService.matchMember(memberDetails.getMemberId(), answerPatchDto.getMemberId());
+        answerService.memberVerification(answerPatchDto.getMemberId(), answerPatchDto.getAnswerId());
+        answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto));
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 리스트를 받아오는 게, 답변 리스트를 그냥 받아오는 게 조금 이상한 거 같음..
     // 특정 질문을 검색했을 때 답변 목록이 나오도록 해야 할 거 같은 느낌
-    @GetMapping
-    public ResponseEntity getAnswers(@Positive @RequestParam int page,
-                                     @Positive @RequestParam int size) {
-        Page<Answer> answers = answerService.findAnswers(page - 1, size);
-        List<Answer> content = answers.getContent();
+//    @GetMapping  //페이지네이션 안하는쪽으로 해보기 -> 안하면 삭제
+//    public ResponseEntity getAnswers(@Positive @RequestParam int page,
+//                                     @Positive @RequestParam int size) {
+//        Page<Answer> answers = answerService.findAnswers(page - 1, size);
+//        List<Answer> content = answers.getContent();
+//
+//        return new ResponseEntity<>(new MultiResponseDto<>(mapper.answersToAnswerResponseDtos(content), answers), HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.answersToAnswerResponseDtos(content), answers), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId,
+    @DeleteMapping
+    public ResponseEntity deleteAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
                                        @RequestBody AnswerDeleteDto answerDeleteDto) {
-        answerService.memberVerification(answerDeleteDto.getMemberId(), answerId);
-        answerService.deleteAnswer(answerId);
+        memberService.matchMember(memberDetails.getMemberId(), answerDeleteDto.getMemberId());
+        answerService.memberVerification(answerDeleteDto.getMemberId(), answerDeleteDto.getMemberId());
+        answerService.deleteAnswer(answerDeleteDto.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-
-
 }
