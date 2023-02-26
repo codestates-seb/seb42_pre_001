@@ -3,7 +3,20 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewProfile from '../ViewProfile';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-const AnswerContent = ({ answer }) => {
+import { useNavigate } from 'react-router-dom';
+import { setContent } from '../../slice/answerSlice';
+import { useDispatch } from 'react-redux';
+const AnswerContent = ({ answer, question }) => {
+  let dispatch = useDispatch();
+  const navigate = useNavigate();
+  const editAnswer = () => {
+    navigate(`/answers/${answer.answerId}/edit`, {
+      state: { answer, question },
+    });
+    dispatch(setContent(answer.content));
+  };
+  console.log(answer);
+  const deleteAnswer = () => {};
   return (
     <Container>
       <VoteContainer>
@@ -15,6 +28,8 @@ const AnswerContent = ({ answer }) => {
         <ReactMarkdownContainer remarkPlugins={[remarkGfm]}>
           {answer.content}
         </ReactMarkdownContainer>
+        <button onClick={editAnswer}>답변 수정 버튼입니다</button>
+        <button onClick={deleteAnswer}>답변 삭제 버튼입니다</button>
         <ViewProfile user={answer.memberName} />
       </ContentContainer>
     </Container>

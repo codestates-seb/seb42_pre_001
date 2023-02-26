@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
@@ -12,17 +12,23 @@ import QuestionContent from '../components/question/QuestionContent';
 import QuestionTitle from '../components/question/QuestionTitle';
 import ViewTags from '../components/ViewTags';
 import MainButton from '../components/MainButton';
-
+import { useCookies } from 'react-cookie';
+import { setContent } from '../slice/questionSlice';
+import { useDispatch } from 'react-redux';
 //질문 상세 페이지
 const Answers = () => {
+  let dispatch = useDispatch();
   const { id } = useParams();
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
+  console.log(answers);
   const [text, setText] = useState('');
   const { questionId, memberId } = question;
   const editorRef = useRef();
   const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
   const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
+  const navigate = useNavigate();
+  const [cookie] = useCookies();
   //질문조회
   useEffect(() => {
     const getQuestion = async () => {
@@ -69,6 +75,33 @@ const Answers = () => {
       .catch((error) => console.log(error));
   };
 
+  // 질문 수정
+  const editPost = () => {
+    navigate(`/questions/${questionId}/edit`, {
+      state: { question },
+    });
+    dispatch(setContent(question.content));
+  };
+
+  // 질문 삭제
+  const deletePost = async () => {
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/questions/${questionId}`,
+      {
+        data: {
+          memberId: 1,
+        },
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+      }
+    );
+  };
+
   return (
     <>
       <Container>
@@ -86,7 +119,11 @@ const Answers = () => {
                   <>
                     <AnswerCount answers={answers} />
                     {answers.map((el, idx) => (
-                      <AnswerContent key={idx} answer={el} />
+                      <AnswerContent
+                        key={idx}
+                        answer={el}
+                        question={question}
+                      />
                     ))}
                   </>
                 ) : null}
@@ -113,6 +150,8 @@ const Answers = () => {
                   <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
                   {`.`}
                 </QuestionBottom>
+                <button onClick={editPost}>질문 수정 버튼입니다</button>
+                <button onClick={deletePost}>질문 삭제 버튼입니다</button>
               </AnswerContainer>
             </ViewContent>
             <QuestionSidebar />

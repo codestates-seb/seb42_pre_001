@@ -6,7 +6,7 @@ const Tages = () => {
     <TagesContainer>
       <LeftSidebar pageName="tages" />
       <TagesContentContainer>
-        <h1>Tages</h1>
+        <h1>Tags</h1>
       </TagesContentContainer>
     </TagesContainer>
   );
