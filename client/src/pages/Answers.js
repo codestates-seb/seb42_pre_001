@@ -10,12 +10,13 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 import QuestionContent from '../components/question/QuestionContent';
 import QuestionTitle from '../components/question/QuestionTitle';
-import ViewTags from '../components/ViewTags';
 import MainButton from '../components/MainButton';
-
+// import { useCookies } from 'react-cookie';
+import ViewTags from '../components/ViewTags';
 //질문 상세 페이지
 const Answers = () => {
   const { id } = useParams();
+  // const [cookie] = useCookies();
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
   const [text, setText] = useState('');
@@ -35,7 +36,6 @@ const Answers = () => {
   }, []);
   // 댓글 생성
   const onChangeEditor = () => {
-    console.log(editorRef.current?.getInstance().getMarkdown());
     setText(editorRef.current?.getInstance().getMarkdown());
   };
   const handleClick = () => {
@@ -50,6 +50,8 @@ const Answers = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            // Authorization: cookie.accessToken,
+            // Refresh: cookie.refreshToken,
           },
         }
       )
@@ -80,6 +82,7 @@ const Answers = () => {
               <QuestionContent
                 content={question.content}
                 user={question.memberName}
+                tags={question.tags}
               />
               <AnswerContainer>
                 {answers ? (
@@ -108,8 +111,8 @@ const Answers = () => {
                 </CreateAnswerContainer>
                 <QuestionBottom>
                   {`Not the answer you're looking for? Browse other questions tagged `}
-                  <ViewTags />
-                  {` or `}
+                  <ViewTags tags={question.tags} />
+                  {`or `}
                   <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
                   {`.`}
                 </QuestionBottom>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-const ViewTags = ({ tags }) => {
+const ViewTags = ({ tags = [] }) => {
   return (
     <Container>
       {tags.map((el, idx) => (
