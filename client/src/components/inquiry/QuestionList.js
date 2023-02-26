@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
 import { useParams } from 'react-router-dom';
+import PaginationController from './PaginationController';
 
 const QuestionList = ({ name }) => {
   const [questions, setQuestions] = useState([]);
@@ -31,9 +32,13 @@ const QuestionList = ({ name }) => {
         <QuestionsItem key={idx} question={el}></QuestionsItem>
       ))}
       <PaginationContainer>
+        {num > 1 ? <PaginationController name="Prev" num={num} /> : null}
         {page.map((el, idx) => (
           <Pagination key={idx} pageNum={el} num={num} />
         ))}
+        {page.length > num ? (
+          <PaginationController name="Next" num={num} />
+        ) : null}
       </PaginationContainer>
     </Container>
   );

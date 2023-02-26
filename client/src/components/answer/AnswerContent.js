@@ -12,7 +12,14 @@ const AnswerContent = ({ answer }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <ReactMarkdownContainer remarkPlugins={[remarkGfm]}>
+        <ReactMarkdownContainer
+          remarkPlugins={[remarkGfm]}
+          components={{
+            img: ({ ...props }) => (
+              <img style={{ maxWidth: '100%' }} {...props} alt="" />
+            ),
+          }}
+        >
           {answer.content}
         </ReactMarkdownContainer>
         <ViewProfile user={answer.memberName} />
@@ -53,6 +60,7 @@ const ContentContainer = styled.div`
   word-wrap: break-word;
 `;
 const ReactMarkdownContainer = styled(ReactMarkdown)`
-  width: 657px;
+  width: 100%;
+  padding-bottom: 10px;
   word-wrap: break-word;
 `;

@@ -25,6 +25,7 @@ const Container = styled.div`
 `;
 const Title = styled.span`
   font-size: 27px;
+  color: hsl(210deg 8% 15%);
 `;
 const AskLink = styled(Link)`
   text-decoration: none;
