@@ -141,10 +141,12 @@ const TagsContentContainer = styled.div`
 const Title = styled.div`
   font-size: 27px;
   margin-bottom: 16px;
+  color: hsl(210deg 8% 25%);
 `;
 const Content = styled.div`
   font-size: 15px;
   margin-bottom: 16px;
+  color: hsl(210deg 8% 15%);
 `;
 const Show = styled.div`
   font-size: 13px;
@@ -185,8 +187,9 @@ const SearchBar = styled.div`
   }
 `;
 const TagItemContainer = styled.div`
+  height: 960px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 `;

@@ -15,7 +15,6 @@ const Container = styled.div`
   width: 251px;
   height: 176px;
   padding: 12px;
-  margin: 0px 12px 12px 0px;
   border: 1px solid hsl(210deg 8% 75%);
   border-radius: 3px;
   display: flex;
