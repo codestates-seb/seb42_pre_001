@@ -1,4 +1,4 @@
-package com.codestates.preproject001.oath;
+package com.codestates.preproject001.oath.config;
 
 import com.codestates.preproject001.oath.jwt.JwtAuthenticationFilter;
 import com.codestates.preproject001.oath.jwt.JwtTokenizer;
@@ -38,8 +38,9 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
-                        .anyRequest().permitAll()
-//                        .antMatchers(HttpMethod.GET,"/members/{member-id}").authenticated()
+                        .antMatchers(HttpMethod.GET).permitAll()
+                        .antMatchers(HttpMethod.POST,"/members/join").permitAll()
+                        .anyRequest().authenticated()
                 );
 
         return http.build();

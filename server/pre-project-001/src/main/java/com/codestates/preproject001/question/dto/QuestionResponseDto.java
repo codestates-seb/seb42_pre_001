@@ -20,5 +20,6 @@ public class QuestionResponseDto {
     private String title;
     private String content;
     private int view;
-
+    private int voteCount;
+    private int myVote;
 }

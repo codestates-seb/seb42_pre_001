@@ -1,4 +1,4 @@
-package com.codestates.preproject001.oath;
+package com.codestates.preproject001.oath.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

@@ -18,16 +18,14 @@ import java.util.Optional;
 @Service
 @Transactional
 public class QuestionService {
-    private final MemberService memberService;
     private final QuestionRepository questionRepository;
 
-    public QuestionService(MemberService memberService, QuestionRepository questionRepository) {
-        this.memberService = memberService;
+    public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
     public Question createQuestion(Question question) {
-        verifyRule(question); // 질문 규격? 에 맞는지?
+        tagCountCheck(question.getTags());
         return questionRepository.save(question);
     }
 
@@ -41,9 +39,8 @@ public class QuestionService {
                 .ifPresent(questionContent->findQuestion.setContent(questionContent));
 
         Optional.ofNullable(question.getTags())
-                .ifPresent(questionTags -> findQuestion.setTags(questionTags));
-        // 추가로 expecting 부분도 아직 추가할지 안 정했는데, 추가하게 된다면 위에처럼 하나 추가해서 넣어야 할 듯
-        verifyRule(findQuestion); // 수정한 질문 내용 규칙 확인
+                .ifPresent(questionTags -> {tagCountCheck(questionTags);
+                    findQuestion.setTags(questionTags);});
         
         return questionRepository.save(findQuestion);
 
@@ -71,14 +68,7 @@ public class QuestionService {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
-    // content 길이는 20자 이상
-    public void verifyRule(Question question) {
-        String content = question.getContent();
-        if (content.length() < 20) {
-            throw new BusinessLogicException(ExceptionCode.POST_NOTENOUGH_LENGTH);
-        }
-        tagCountCheck(question.getTags());
-    }
+
 
     public Question findVerifiedQuestion(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
@@ -87,14 +77,10 @@ public class QuestionService {
         return question;
     }
 
-    public Member findMember(long memberId) {
-        return memberService.findMember(memberId);
-    }
-
     public void memberVerification(long memberId, long questionId) {
         long askedMemberId = findVerifiedQuestion(questionId).getMember().getMemberId();
         if(memberId != askedMemberId) {
-            throw new BusinessLogicException(ExceptionCode.REQUEST_NOT_ALLOWED);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
         }
     }
 
@@ -103,5 +89,4 @@ public class QuestionService {
             throw new BusinessLogicException(ExceptionCode.NUMBER_OF_TAGS_NOT_CORRECT);
         }
     }
-
 }

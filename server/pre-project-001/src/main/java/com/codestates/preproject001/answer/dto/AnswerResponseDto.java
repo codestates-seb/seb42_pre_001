@@ -1,9 +1,6 @@
 package com.codestates.preproject001.answer.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -17,5 +14,6 @@ public class AnswerResponseDto {
     private String content;
     private LocalDateTime createdAt; // 작성 시간
     private LocalDateTime modifiedAt; // 수정 시간
-
+    private int voteCount;
+    private int myVote;
 }
