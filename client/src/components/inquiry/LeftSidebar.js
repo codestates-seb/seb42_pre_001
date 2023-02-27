@@ -25,7 +25,7 @@ const LeftSidebar = ({ text, pageName }) => {
       navigate('/questions');
     }
   };
-  const handleTagesClick = () => {
+  const handleTagsClick = () => {
     if (text) {
       if (confirm('변경사항이 저장되지 않을 수 있습니다.')) {
         navigate('/tags');
@@ -87,9 +87,9 @@ const LeftSidebar = ({ text, pageName }) => {
           </LinkBox>
         )}
         {pageName === 'tages' ? (
-          <FocusWrapper onClick={handleTagesClick}>Tages</FocusWrapper>
+          <FocusWrapper onClick={handleTagsClick}>Tags</FocusWrapper>
         ) : (
-          <LinkBox onClick={handleTagesClick}>Tages</LinkBox>
+          <LinkBox onClick={handleTagsClick}>Tags</LinkBox>
         )}
         {pageName === 'users' ? (
           <FocusWrapper onClick={handleUsersClick}>Users</FocusWrapper>

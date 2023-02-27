@@ -11,10 +11,9 @@ import java.util.Collection;
 public class MemberDetails extends Member implements UserDetails {
 
     public MemberDetails(Member member) { // 생성자
-        setMemberId(member.getMemberId());
-        setPassword(member.getPassword());
-        setEmail(member.getEmail());
-        setName(member.getName());
+        this.setMemberId(member.getMemberId());
+        this.setPassword(member.getPassword());
+        this.setEmail(member.getEmail());
     }
 
     @Override

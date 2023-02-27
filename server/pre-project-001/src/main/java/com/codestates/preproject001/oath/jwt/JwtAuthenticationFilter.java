@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -52,11 +53,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
+
+        Cookie idCookie = new Cookie("memberId", member.getMemberId().toString());
+        Cookie nameCookie = new Cookie("name", member.getName());
+        Cookie emailCookie = new Cookie("email", member.getEmail());
+
+        response.addCookie(idCookie);
+        response.addCookie(nameCookie);
+        response.addCookie(emailCookie);
     }
 
     private String delegateAccessToken(Member member) {//access token 생성
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", member.getEmail());
+        claims.put("memberId", member.getMemberId());
 
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
@@ -78,5 +88,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         return refreshToken;
     }
+
+
 
 }

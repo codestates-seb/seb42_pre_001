@@ -12,13 +12,14 @@ public enum ExceptionCode {
     REQUEST_NOT_ALLOWED(401, "Request Not Allowed"), // CRUD 요청에 권한이 없을때
     NUMBER_OF_TAGS_NOT_CORRECT(406, "Number Of Tags Doesn't Correct"), // 태그 갯수 조건을 어겼을 때
     QUESTION_NOT_FOUND(404, "Question Not Found"),
-    ANSWER_NOT_FOUND(404, "Answer Not Found");
+    ANSWER_NOT_FOUND(404, "Answer Not Found"),
+    MEMBER_NOT_MATCH(404, "MemberId Is Different With TokenId");
 
     @Getter
-    private int status;
+    private final int status;
 
     @Getter
-    private String message;
+    private final String message;
 
     ExceptionCode(int status, String message) {
         this.status = status;

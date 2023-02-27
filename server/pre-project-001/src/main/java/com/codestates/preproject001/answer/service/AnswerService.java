@@ -19,18 +19,15 @@ import java.util.Optional;
 @Service
 @Transactional
 public class AnswerService {
-    private final MemberService memberService;
-    private final QuestionService questionService;
+     final QuestionService questionService;
     private final AnswerRepository answerRepository;
 
-    public AnswerService(MemberService memberService, QuestionService questionService, AnswerRepository answerRepository) {
-        this.memberService = memberService;
+    public AnswerService(QuestionService questionService, AnswerRepository answerRepository) {
         this.questionService = questionService;
         this.answerRepository = answerRepository;
     }
 
     public Answer createAnswer(Answer answer) {
-
         return answerRepository.save(answer);
     }
 
@@ -43,7 +40,6 @@ public class AnswerService {
 
     public void deleteAnswer(long answerId) {
         Answer findAnswer = findVerifiedAnswer(answerId);
-
         answerRepository.delete(findAnswer);
     }
 
@@ -63,10 +59,6 @@ public class AnswerService {
         return findAnswer;
     }
 
-    public Member findMember(long memberId) {
-        return memberService.findMember(memberId);
-    }
-
     public Question findQuestion(long questionId) {
         return questionService.findVerifiedQuestion(questionId);
     }
@@ -74,7 +66,7 @@ public class AnswerService {
     public void memberVerification(long memberId, long answerId) {
         long answeredMemberId = findAnswer(answerId).getMember().getMemberId();
         if(memberId != answeredMemberId) {
-            throw new BusinessLogicException(ExceptionCode.REQUEST_NOT_ALLOWED);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
         }
     }
 }

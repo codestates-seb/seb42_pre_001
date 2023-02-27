@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewProfile from '../ViewProfile';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { useNavigate } from 'react-router-dom';
 import { setContent } from '../../slice/answerSlice';
 import { useDispatch } from 'react-redux';
 import InquiryButtons from '../inquiry/InquiryButtons';
+import Markdown from '../Markdown';
 const AnswerContent = ({ answer, question }) => {
   let dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,16 +25,7 @@ const AnswerContent = ({ answer, question }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <ReactMarkdownContainer
-          remarkPlugins={[remarkGfm]}
-          components={{
-            img: ({ ...props }) => (
-              <img style={{ maxWidth: '100%' }} {...props} alt="" />
-            ),
-          }}
-        >
-          {answer.content}
-        </ReactMarkdownContainer>
+        <Markdown content={answer.content} />
         <ButtonsAndProfile>
           <InquiryButtons
             editFunction={editAnswer}
@@ -79,12 +69,6 @@ const ContentContainer = styled.div`
   width: 657px;
   word-wrap: break-word;
 `;
-const ReactMarkdownContainer = styled(ReactMarkdown)`
-  width: 100%;
-  padding-bottom: 10px;
-  word-wrap: break-word;
-`;
-
 const ButtonsAndProfile = styled.div`
   display: flex;
   justify-content: space-between;

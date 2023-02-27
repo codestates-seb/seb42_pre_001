@@ -3,9 +3,11 @@ package com.codestates.preproject001.member.entity;
 
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.question.entity.Question;
+import com.codestates.preproject001.vote.entity.Vote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.Map;
@@ -16,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Slf4j
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +68,9 @@ public class Member {
     }
     public Member(Map<String,Object> claims){
         this.email = claims.get("username").toString();
+        log.info("username : "+claims.get("username").toString());
+        log.info("memberId : "+claims.get("memberId").toString());
+        this.memberId = (long) Integer.parseInt(claims.get("memberId").toString());
     }
 
     @OneToMany(mappedBy = "member")
@@ -73,19 +79,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
 
-    public void addAnswer(Answer answer) {
-        answers.add(answer);
-        if(answer.getMember() != this) {
-            answer.addMember(this);
-        }
-    }
+    @OneToMany(mappedBy = "member")
+    private List<Vote> votes = new ArrayList<>();
 
-    public void addQuestion(Question question) {
-        questions.add(question);
-        if(question.getMember() != this) {
-            question.addMember(this);
-        }
-    }
 
     // (완료) JPA 설정 및 question, answer 클래스 미구현으로 매핑 및 필드 미설정?
     // (완료) List<Question> / List<Answer> 추후 구현
