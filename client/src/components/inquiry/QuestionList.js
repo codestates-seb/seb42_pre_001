@@ -14,6 +14,7 @@ const QuestionList = ({ name }) => {
   const apiUrl = num
     ? `${process.env.REACT_APP_API_URL}/questions?page=${num}&size=10`
     : `${process.env.REACT_APP_API_URL}/questions?page=1&size=10`;
+
   useEffect(() => {
     const getQuestions = async () => {
       const response = await axios.get(apiUrl);
