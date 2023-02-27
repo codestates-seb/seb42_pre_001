@@ -117,7 +117,6 @@ const Answers = () => {
                     </ButtonWrapper>
                   </ButtonContainer>
                 </CreateAnswerContainer>
-
                 <QuestionBottom>
                   {`Not the answer you're looking for? Browse other questions tagged `}
                   <ViewTags tags={question.tags} />
@@ -149,7 +148,6 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
