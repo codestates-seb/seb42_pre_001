@@ -34,13 +34,15 @@ public interface MemberMapper {
         memberMyPageDto.setLocation(member.getLocation());
         memberMyPageDto.setAboutMe(member.getAboutMe());
         List<Answer> answerList = member.getAnswers(); // 답변 리스트
+
         List<AnswerMyPageDto> answerMyPageDtoList = answerList.stream().map(answer ->{
             AnswerMyPageDto answerMyPageDto = new AnswerMyPageDto();
-            answerMyPageDto.setQuestionId(answer.getQuestion().getQuestionId());
+            answerMyPageDto.setAnswerId(answer.getAnswerId());
             answerMyPageDto.setTitle(answer.getQuestion().getTitle());
             answerMyPageDto.setCreatedAt(answer.getCreatedAt());
             answerMyPageDto.setAnswerCount(answer.getQuestion().getAnswers().size());
             return answerMyPageDto;
+
         }).collect(Collectors.toList());
         memberMyPageDto.setAnswers(answerMyPageDtoList);
 

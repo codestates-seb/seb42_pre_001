@@ -17,12 +17,9 @@ public class MemberPatchDto {
     @NotSpace(message = "이름은 공백일 수 없습니다.")
     private String name;
     @ApiModelProperty
-    @NotSpace
     private String location;
     @ApiModelProperty
-    @NotSpace
     private String title;
     @ApiModelProperty
-    @NotSpace
     private String aboutMe;
 }
