@@ -10,6 +10,7 @@ import { setErrorMsg1, setErrorMsg2 } from '../../slice/validationSlice';
 import axios from 'axios';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 // 회원가입
 export default function SingUp() {
   axios.defaults.withCredentials = true;
@@ -242,7 +243,7 @@ const Conatiner = styled.div`
   justify-content: center;
 `;
 const SubConatiner = styled.div`
-  min-height: 600px;
+  min-height: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;

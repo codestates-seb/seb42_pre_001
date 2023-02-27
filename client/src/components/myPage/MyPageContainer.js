@@ -17,7 +17,7 @@ export default function Mypage() {
   const [page, setPage] = useState('act');
   const [isChecked, setIsChecked] = useState(null);
   const [cookie] = useCookies();
-
+  console.log('MP', state);
   const deleteContent1 = ` Before confirming that you would like your profile deleted,
  we'd like to take a moment to explain the implications of deletion:`;
 
@@ -36,7 +36,7 @@ export default function Mypage() {
    of those individual profiles.`;
 
   const deleteContent5 = `I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.`;
-
+  window.scrollTo(0, 0);
   // 회원 삭제 구현
   // 삭제 버튼 클릭
   const userDelete = async () => {
@@ -59,15 +59,47 @@ export default function Mypage() {
     }
   };
 
-  console.log(state);
+  // 회원 정보 수정구현
+  // 저장 버튼 클릭
+  const userUpdate = async (name, location, title, aboutMe) => {
+    const body = {
+      name,
+      location,
+      title,
+      aboutMe,
+    };
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_API_URL}/members`,
+        JSON.stringify(body),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response);
+      dispatch(setPage('act'));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // 저장 버튼 클릭
   const saveHandler = () => {
-    setPage('act');
-    // updateUserInfo()
+    // name, location, title, aboutMe
+    const name = state.myInfo.displayName;
+    const location = state.myInfo.location;
+    const title = state.myInfo.title;
+    const aboutMe = state.myInfo.aboutMe;
+    userUpdate(name, location, title, aboutMe);
   };
   // 취소 버튼 클릭
   const cancelHandler = () => {
-    setPage('act');
+    dispatch(setPage('act'));
   };
 
   // input value를 state로 저장
@@ -105,7 +137,10 @@ export default function Mypage() {
               src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
               alt="pic"
             />
-            <UserName>{state.login.userInfo.name}</UserName>
+            {state.login.userInfo && state.login.userInfo.data.name ? (
+              <UserName>{state.login.userInfo.data.name}</UserName>
+            ) : null}
+
             <EditBtn id="set" onClick={movePage}>
               <BsFillPencilFill id="set" size={12}></BsFillPencilFill>
               <Text id="set">Edit profile</Text>
@@ -128,10 +163,11 @@ export default function Mypage() {
               <SubContent>
                 <Text2>Answers</Text2>
                 <div className="answers">
-                  {state.login.userInfo.answers ? (
+                  {state.login.userInfo &&
+                  state.login.userInfo.data.answers.length !== 0 ? (
                     <div className="container">
-                      {state.login.userInfo.answers &&
-                        state.login.userInfo.answers.map((answer, idx) => {
+                      {state.login.userInfo.data.answers &&
+                        state.login.userInfo.data.answers.map((answer, idx) => {
                           return (
                             <div key={idx}>
                               <div className="inner">
@@ -150,19 +186,22 @@ export default function Mypage() {
               <SubContent>
                 <Text2>Questions</Text2>
                 <div className="questions">
-                  {state.login.userInfo.questions ? (
+                  {state.login.userInfo &&
+                  state.login.userInfo.data.questions.length !== 0 ? (
                     <div className="container">
-                      {state.login.userInfo.questions &&
-                        state.login.userInfo.questions.map((question, idx) => {
-                          return (
-                            <div key={idx}>
-                              <div className="inner">
-                                <Vote>{question.vote}</Vote>
-                                <Text3>{question.title}</Text3>
+                      {state.login.userInfo.data.questions &&
+                        state.login.userInfo.data.questions.map(
+                          (question, idx) => {
+                            return (
+                              <div key={idx}>
+                                <div className="inner">
+                                  <Vote>{question.vote}</Vote>
+                                  <Text3>{question.title}</Text3>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          }
+                        )}
                     </div>
                   ) : (
                     <Text4>You have not asked any questions</Text4>
@@ -237,10 +276,9 @@ export default function Mypage() {
 }
 
 const HomeContainer = styled.div`
-  width: 100%;
-  height: 1800px;
+  width: 100vw;
+  height: 2200px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
 `;
 const Main = styled.div`
@@ -250,19 +288,16 @@ const Main = styled.div`
 
 const MyPageContentContainer = styled.div`
   height: 100%;
-  width: calc(100% - 164px);
+  width: 1100px;
   display: flex;
   flex-direction: row;
   padding: 25px;
 `;
 
 const UserInfoContainer = styled.div`
-  min-width: 1000px;
+  min-width: 950px;
   display: grid;
-
   grid-template-columns: 1fr 12fr 1fr;
-  width: 100%;
-  height: 100%;
   padding: 15px;
 `;
 
@@ -272,8 +307,6 @@ const UlContainer = styled.div`
 
 const ActContainer = styled.div`
   display: flex;
-  height: 100%;
-  margin-top: 80px;
 
   li {
     display: flex;
@@ -294,9 +327,6 @@ const ActContainer = styled.div`
 
 const SetContainer = styled.div`
   display: flex;
-  width: 100px;
-  height: 100%;
-  margin-top: 80px;
 
   li {
     display: flex;
@@ -305,7 +335,7 @@ const SetContainer = styled.div`
     float: left;
     height: 30px;
     margin: 10px;
-    padding: 10px;
+    padding: 5px;
     font-size: 15px;
     border: 1px solid none;
     border-radius: 100px;
@@ -319,25 +349,24 @@ const SubContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 1000px;
-  height: 100%;
   padding: 15px;
 
   .answers {
     display: flex;
-    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
     width: 450px;
-    min-height: 100px;
-    height: 450px;
+    min-height: 150px;
     border: 1px solid hsl(210, 8%, 75%);
     border-radius: 5px;
     overflow: scroll;
   }
   .questions {
     display: flex;
-    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
     width: 450px;
-    min-height: 100px;
-    height: 450px;
+    min-height: 150px;
     border: 1px solid hsl(210, 8%, 75%);
     border-radius: 5px;
     overflow: scroll;
@@ -446,6 +475,7 @@ const Text4 = styled.label`
   width: 100%;
   color: hsl(210, 8%, 55%);
   text-align: center;
+  margin-top: 65px;
 `;
 
 const Text5 = styled.label`
