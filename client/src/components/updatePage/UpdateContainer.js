@@ -107,5 +107,7 @@ const QuestionTitle = styled.a`
   margin: 16px 0;
   color: hsl(209deg 100% 38%);
   font-size: 1.30769231rem;
+  cursor: pointer;
 `;
+
 export default UpdateContainer;
