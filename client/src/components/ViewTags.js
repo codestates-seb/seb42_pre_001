@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-const ViewTags = () => {
-  const tagArr = ['javascript', 'reactjs'];
-
+const ViewTags = ({ tags = [] }) => {
   return (
     <Container>
-      {tagArr.map((el, idx) => (
+      {tags.map((el, idx) => (
         <Tag key={idx}>{el}</Tag>
       ))}
     </Container>

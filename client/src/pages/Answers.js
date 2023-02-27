@@ -10,19 +10,22 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 import QuestionContent from '../components/question/QuestionContent';
 import QuestionTitle from '../components/question/QuestionTitle';
-import ViewTags from '../components/ViewTags';
 import MainButton from '../components/MainButton';
+import ViewTags from '../components/ViewTags';
 
 //질문 상세 페이지
 const Answers = () => {
   const { id } = useParams();
+  // const [cookie] = useCookies();
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
+  console.log(answers);
   const [text, setText] = useState('');
   const { questionId, memberId } = question;
   const editorRef = useRef();
   const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
   const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
+
   //질문조회
   useEffect(() => {
     const getQuestion = async () => {
@@ -35,7 +38,6 @@ const Answers = () => {
   }, []);
   // 댓글 생성
   const onChangeEditor = () => {
-    console.log(editorRef.current?.getInstance().getMarkdown());
     setText(editorRef.current?.getInstance().getMarkdown());
   };
   const handleClick = () => {
@@ -50,6 +52,8 @@ const Answers = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            // Authorization: cookie.accessToken,
+            // Refresh: cookie.refreshToken,
           },
         }
       )
@@ -78,15 +82,22 @@ const Answers = () => {
           <ContentWrapper>
             <ViewContent>
               <QuestionContent
-                content={question.content}
+                question={question}
                 user={question.memberName}
+                tags={question.tags}
               />
+              {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
+              <button onClick={deletePost}>질문 삭제 버튼입니다</button> */}
               <AnswerContainer>
                 {answers ? (
                   <>
                     <AnswerCount answers={answers} />
                     {answers.map((el, idx) => (
-                      <AnswerContent key={idx} answer={el} />
+                      <AnswerContent
+                        key={idx}
+                        answer={el}
+                        question={question}
+                      />
                     ))}
                   </>
                 ) : null}
@@ -106,10 +117,12 @@ const Answers = () => {
                     </ButtonWrapper>
                   </ButtonContainer>
                 </CreateAnswerContainer>
+
                 <QuestionBottom>
                   {`Not the answer you're looking for? Browse other questions tagged `}
-                  <ViewTags />
-                  {` or `}
+                  <ViewTags tags={question.tags} />
+
+                  {`or `}
                   <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
                   {`.`}
                 </QuestionBottom>

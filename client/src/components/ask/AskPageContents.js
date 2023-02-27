@@ -11,6 +11,7 @@ import MainButton from '../MainButton';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function AskPageContents() {
   const [cookie] = useCookies();
@@ -19,7 +20,7 @@ function AskPageContents() {
 
   // let { id } = useSelector((state) => state.login);
   // title 255자, content) 50000자
-
+  let navigate = useNavigate();
   let requestBody = {
     content: content,
     title: title,
@@ -41,6 +42,7 @@ function AskPageContents() {
       })
       .then(function (response) {
         console.log(response);
+        navigate('/');
       })
       .catch(function (error) {
         console.log(error);

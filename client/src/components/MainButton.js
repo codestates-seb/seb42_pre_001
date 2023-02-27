@@ -41,7 +41,8 @@ const Button = styled.button`
         props.text === 'Ask Question' ||
         props.text === 'Post your question' ||
         props.text === 'Post Your Answer' ||
-        props.text === 'Next') &&
+        props.text === 'Next' ||
+        props.text === 'Save edits') &&
       css`
         height: ${(props) =>
           props.text === 'Ask Question' || props.text === 'Post Your Answer'

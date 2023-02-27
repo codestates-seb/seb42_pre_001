@@ -1,10 +1,48 @@
 import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
-import ViewTags from '../ViewTags';
 import ViewProfile from '../ViewProfile';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-const QuestionContent = ({ content, user }) => {
+import ViewTags from '../ViewTags';
+import { setContent } from '../../slice/questionSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import InquiryButtons from '../inquiry/InquiryButtons';
+import Markdown from '../Markdown';
+const QuestionContent = ({ question, user, tags }) => {
+  const [cookie] = useCookies();
+  const state = useSelector((state) => state.login);
+  console.log(state);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { questionId } = question;
+  // 질문 수정
+  const editPost = () => {
+    navigate(`/questions/${questionId}/edit`, {
+      state: { question },
+    });
+    dispatch(setContent(question.content));
+  };
+
+  // 질문 삭제
+  const deletePost = async () => {
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/questions/${questionId}`,
+      {
+        data: {
+          memberId: 1,
+        },
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+      }
+    );
+  };
+
   return (
     <Container>
       <VoteContainer>
@@ -13,9 +51,12 @@ const QuestionContent = ({ content, user }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-        <ViewTags />
-        <ViewProfile user={user} />
+        <Markdown content={question.content} />
+        <ViewTags tags={tags} />
+        <ButtonsAndProfile>
+          <InquiryButtons editFunction={editPost} deleteFunction={deletePost} />
+          <ViewProfile user={user} />
+        </ButtonsAndProfile>
       </ContentContainer>
     </Container>
   );
@@ -45,8 +86,16 @@ const VoteDownButton = styled(GoTriangleDown)`
   cursor: pointer;
 `;
 const ContentContainer = styled.div`
+  width: 657px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding-left: 25px;
+  word-wrap: break-word;
+`;
+
+const ButtonsAndProfile = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
 `;

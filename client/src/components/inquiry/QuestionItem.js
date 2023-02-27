@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import profile from '../../assets/profile.png';
 import ViewTags from '../ViewTags';
 const QuestionsItem = ({ question }) => {
-  const { title, memberName, questionId } = question;
+  const { title, memberName, questionId, view, answers, tags } = question;
   const navigate = useNavigate();
 
   return (
@@ -13,13 +13,27 @@ const QuestionsItem = ({ question }) => {
           <LeftVotesNum>0</LeftVotesNum>
           <LeftVotes>votes</LeftVotes>
         </LeftWrapper>
+        {answers.length > 0 ? (
+          <LeftWrapper>
+            <FocusLeftWrapper>
+              <LeftAnswersNum>{answers.length}</LeftAnswersNum>
+              {answers.length === 1 ? (
+                <LeftAnswers>answer</LeftAnswers>
+              ) : (
+                <LeftAnswers>answers</LeftAnswers>
+              )}
+            </FocusLeftWrapper>
+          </LeftWrapper>
+        ) : (
+          <LeftWrapper>
+            <LeftNum>{answers.length}</LeftNum>
+            <Left>answers</Left>
+          </LeftWrapper>
+        )}
+
         <LeftWrapper>
-          <LeftAnswersNum>0</LeftAnswersNum>
-          <LeftAnswers>answers</LeftAnswers>
-        </LeftWrapper>
-        <LeftWrapper>
-          <LeftViewsNum>0</LeftViewsNum>
-          <LeftViews>views</LeftViews>
+          <LeftNum>{view}</LeftNum>
+          <Left>views</Left>
         </LeftWrapper>
       </LeftContainer>
       <RightContainer>
@@ -27,7 +41,7 @@ const QuestionsItem = ({ question }) => {
           {title}
         </RightTop>
         <RightBottom>
-          <ViewTags />
+          <ViewTags tags={tags} />
           <NameContainer>
             <NameImage src={profile} />
             <Name>{memberName}</Name>
@@ -60,11 +74,17 @@ const LeftWrapper = styled.div`
   justify-content: right;
   padding-bottom: 4px;
 `;
+const FocusLeftWrapper = styled.div`
+  padding: 2px 4px;
+  display: flex;
+  border: 1px solid hsl(140deg 41% 31%);
+  border-radius: 3px;
+`;
 const LeftVotes = styled.div``;
 const LeftAnswers = styled.div`
-  color: gray;
+  color: hsl(140deg 41% 31%);
 `;
-const LeftViews = styled.div`
+const Left = styled.div`
   color: gray;
 `;
 const LeftVotesNum = styled.div`
@@ -72,9 +92,9 @@ const LeftVotesNum = styled.div`
 `;
 const LeftAnswersNum = styled.div`
   padding: 0em 0.2em 0em 0em;
-  color: gray;
+  color: hsl(140deg 41% 31%);
 `;
-const LeftViewsNum = styled.div`
+const LeftNum = styled.div`
   padding: 0em 0.2em 0em 0em;
   color: gray;
 `;
@@ -84,6 +104,8 @@ const RightContainer = styled.div`
   flex-grow: 1;
 `;
 const RightTop = styled.div`
+  width: 593px;
+  word-wrap: break-word;
   cursor: pointer;
   padding-bottom: 6px;
   color: hsl(206deg 100% 40%);

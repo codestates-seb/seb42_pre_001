@@ -96,13 +96,13 @@ public class QuestionController {
     @ApiOperation(value = "질문목록(홈)")
     @GetMapping // 질문 목록
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
-                                       @Positive @RequestParam int size) {
+            @Positive @RequestParam int size) {
         Page<Question> questions = questionService.findQuestions(page - 1, size);
         List<Question> content = questions.getContent();
         return new ResponseEntity(
                 new MultiResponseDto(mapper.questionsToQuestionResponseDtos(content), questions), HttpStatus.OK);
     }
-
+    
     @ApiOperation(value = "질문삭제")
     @DeleteMapping // 질문 삭제
     public ResponseEntity deleteQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
@@ -110,10 +110,8 @@ public class QuestionController {
         memberService.matchMember(memberDetails.getMemberId(), questionDeleteDto.getMemberId());
         questionService.memberVerification(questionDeleteDto.getMemberId(), questionDeleteDto.getQuestionId());
         questionService.deleteQuestion(questionDeleteDto.getQuestionId());
-
         return new ResponseEntity(HttpStatus.NO_CONTENT);
 
     }
-
 
 }
