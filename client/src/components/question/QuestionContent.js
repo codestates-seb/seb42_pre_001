@@ -18,7 +18,7 @@ const QuestionContent = ({ question, user, tags }) => {
   const navigate = useNavigate();
   const { questionId } = question;
   // 질문 수정
-  const editPost = () => {
+  const navigateToEditPage = () => {
     navigate(`/questions/${questionId}/edit`, {
       state: { question },
     });
@@ -32,6 +32,7 @@ const QuestionContent = ({ question, user, tags }) => {
       {
         data: {
           memberId: 1,
+          questionId: questionId,
         },
       },
       {
@@ -57,7 +58,10 @@ const QuestionContent = ({ question, user, tags }) => {
         </ReactMarkdown>
         <ViewTags tags={tags} />
         <ButtonsAndProfile>
-          <InquiryButtons editFunction={editPost} deleteFunction={deletePost} />
+          <InquiryButtons
+            editFunction={navigateToEditPage}
+            deleteFunction={deletePost}
+          />
           <ViewProfile user={user} />
         </ButtonsAndProfile>
       </ContentContainer>

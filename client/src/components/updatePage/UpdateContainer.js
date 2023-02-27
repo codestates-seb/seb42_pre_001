@@ -6,13 +6,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import InputTitle from '../ask/InputTitle';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import TextEditor from '../ask/TextEditor';
+import { setContent, setTitle, setAllTags } from '../../slice/questionSlice';
 // 질문 수정: 질문 title, 질문 content, 질문 tags
 // 답변 수정: 질문 title, 질문 content, 답변 content
 function UpdateContainer() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [cookie] = useCookies();
   const { state } = useLocation();
@@ -20,27 +22,38 @@ function UpdateContainer() {
   let { title, allTags } = useSelector((state) => state.question);
   let Qcontent = useSelector((state) => state.question.content);
   let Acontent = useSelector((state) => state.answer.content);
-
+  console.log(question.content);
+  console.log(Qcontent);
   let requestBody = {
     content: Qcontent,
     title: title,
-    questionId: 39,
+    questionId: question.questionId,
     memberId: 1,
     tags: allTags,
   };
-
+  console.log(requestBody);
   const patchHandler = async () => {
-    await axios.patch(
-      `${process.env.REACT_APP_API_URL}/questions/39`,
-      JSON.stringify(requestBody),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookie.accessToken,
-          Refresh: cookie.refreshToken,
-        },
-      }
-    );
+    await axios
+      .patch(
+        `${process.env.REACT_APP_API_URL}/questions/${question.questionId}`,
+        JSON.stringify(requestBody),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response);
+        dispatch(setContent(null), setTitle(null), setAllTags(null));
+        navigate(`/questions/${question.questionId}`);
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch(setContent(null), setTitle(null), setAllTags(null));
+      });
   };
 
   return (

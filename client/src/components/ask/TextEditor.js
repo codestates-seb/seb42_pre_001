@@ -8,14 +8,15 @@ import { setContent, setContentFocus } from '../../slice/questionSlice';
 import { setContent as setAContent } from '../../slice/answerSlice';
 function TextEditor({ title, desc = null, initialValue = '' }) {
   let [contentErrorMsg, setContentErrorMsg] = useState(null);
-  let { content } = desc
-    ? useSelector((state) => state.question)
-    : useSelector((state) => state.answer);
+  let { content } =
+    title === 'Body'
+      ? useSelector((state) => state.question)
+      : useSelector((state) => state.answer);
   let { contentFocus } = useSelector((state) => state.question);
   let editorRef = useRef(null);
   let dispatch = useDispatch();
   let setContentText = () => {
-    desc
+    title === 'Body'
       ? dispatch(setContent(editorRef.current?.getInstance().getMarkdown()))
       : dispatch(setAContent(editorRef.current?.getInstance().getMarkdown()));
     // console.log(editorRef.current?.getInstance().getHTML());
