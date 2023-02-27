@@ -25,9 +25,6 @@ public class Answer extends auditable {
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String content;
 
-    @Column(nullable=false)
-    private Integer voteCount =0;
-
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;

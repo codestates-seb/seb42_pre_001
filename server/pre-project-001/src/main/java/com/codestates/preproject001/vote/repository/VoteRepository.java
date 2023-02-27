@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface VoteRepository extends JpaRepository<Vote, Long> {
-    Optional<Vote> findByQuestionAndMember(@Param("questionId") long questionId, @Param("memberId") long memberId);
-    Optional<Vote> findByAnswerAndMember(@Param("answerId")long answerId, @Param("memberId") long memberId);
+    Optional<Vote> findByQuestionQuestionIdAndMemberMemberId(long questionId, long memberId);
+    Optional<Vote> findByAnswerAnswerIdAndMemberMemberId(long answerId, long memberId);
 }

@@ -14,7 +14,6 @@ export default function SignUpConfirm() {
 
   const getRequest = async () => {
     try {
-      // 요청 경로 : http://localhost:8080/pwChange/registerEmail?쿼리^%$^@#!@$#@%
       const response = axios.get(`${process.env.REACT_APP_API_URL}${url}`, {
         headers: {
           'Content-Type': 'application/json',
