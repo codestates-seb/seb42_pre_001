@@ -24,7 +24,7 @@ public class VoteService {
         //question일때
         if(voteType == Vote.VoteType.QUESTION){
             Vote myVote = voteRepository.
-                    findByQuestionAndMember(questionIdOrAnswerId, memberId)
+                    findByQuestionQuestionIdAndMemberMemberId(questionIdOrAnswerId, memberId)
                             .orElse(null);
             if(myVote==null) return 0;
             return myVote.getVoteStatus() == Vote.VoteStatus.PLUS ? 1 : -1;
@@ -32,7 +32,7 @@ public class VoteService {
         //answer일때
         if(voteType == Vote.VoteType.ANSWER){
             Vote myVote = voteRepository.
-                    findByAnswerAndMember(questionIdOrAnswerId, memberId).orElse(null);
+                    findByAnswerAnswerIdAndMemberMemberId(questionIdOrAnswerId, memberId).orElse(null);
             if(myVote==null) return 0;
             return myVote.getVoteStatus() == Vote.VoteStatus.PLUS ? 1 : -1;
         }
@@ -44,10 +44,10 @@ public class VoteService {
         Vote myVote = null;
         if(vote.getVoteType()== Vote.VoteType.QUESTION){
             myVote = voteRepository.
-                    findByQuestionAndMember(questionIdOrAnswerId,memberId).orElse(null);
+                    findByQuestionQuestionIdAndMemberMemberId(questionIdOrAnswerId,memberId).orElse(null);
         } else if (vote.getVoteType()== Vote.VoteType.ANSWER){
             myVote = voteRepository.
-                    findByAnswerAndMember(questionIdOrAnswerId,memberId).orElse(null);
+                    findByAnswerAnswerIdAndMemberMemberId(questionIdOrAnswerId,memberId).orElse(null);
         }
         if(myVote==null){
             voteRepository.save(vote);
@@ -63,10 +63,10 @@ public class VoteService {
         Vote myVote = null;
         if(vote.getVoteType()== Vote.VoteType.QUESTION){
             myVote = voteRepository.
-                    findByQuestionAndMember(questionIdOrAnswerId,memberId).orElse(null);
+                    findByQuestionQuestionIdAndMemberMemberId(questionIdOrAnswerId,memberId).orElse(null);
         } else if (vote.getVoteType()== Vote.VoteType.ANSWER){
             myVote = voteRepository.
-                    findByAnswerAndMember(questionIdOrAnswerId,memberId).orElse(null);
+                    findByAnswerAnswerIdAndMemberMemberId(questionIdOrAnswerId,memberId).orElse(null);
         }
         if(myVote==null){
             voteRepository.save(vote);

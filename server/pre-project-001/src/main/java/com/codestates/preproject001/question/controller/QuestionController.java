@@ -102,7 +102,7 @@ public class QuestionController {
         return new ResponseEntity(
                 new MultiResponseDto(mapper.questionsToQuestionResponseDtos(content), questions), HttpStatus.OK);
     }
-    
+
     @ApiOperation(value = "질문삭제")
     @DeleteMapping // 질문 삭제
     public ResponseEntity deleteQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
