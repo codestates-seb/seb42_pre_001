@@ -28,7 +28,7 @@ public interface QuestionMapper  {
             questionResponseDto.setModifiedAt(question.getModifiedAt());
             questionResponseDto.setTitle(question.getTitle());
             questionResponseDto.setView(question.getView());
-            questionResponseDto.setVoteCount(question.getVoteCount());
+            questionResponseDto.setVoteCount(question.getVotes().size());
             return questionResponseDto;
         }).collect(Collectors.toList());
         return questionResponseDtos;
@@ -82,7 +82,7 @@ public interface QuestionMapper  {
         questionResponseDto.setModifiedAt(question.getModifiedAt());
         questionResponseDto.setMemberId(question.getMember().getMemberId());
         questionResponseDto.setView(question.getView());
-        questionResponseDto.setVoteCount(question.getVoteCount());
+        questionResponseDto.setVoteCount(question.getVotes().size());
         List<Answer> answerList = question.getAnswers();
         List<AnswerResponseDto> answerResponseList = answerList.stream().map(answer ->{
             AnswerResponseDto answerResponseDto = new AnswerResponseDto();
@@ -93,7 +93,7 @@ public interface QuestionMapper  {
             answerResponseDto.setContent(answer.getContent());
             answerResponseDto.setCreatedAt(answer.getCreatedAt());
             answerResponseDto.setModifiedAt(answer.getModifiedAt());
-            answerResponseDto.setVoteCount(answer.getVoteCount());
+            answerResponseDto.setVoteCount(answer.getVotes().size());
             return answerResponseDto;
         }).collect(Collectors.toList());
         questionResponseDto.setAnswers(answerResponseList);

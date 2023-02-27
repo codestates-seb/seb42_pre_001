@@ -31,9 +31,6 @@ public class Question extends auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @Column(nullable = false)
-    private Integer voteCount =0;
-
     @Column
     private int view = 0;
     @Column

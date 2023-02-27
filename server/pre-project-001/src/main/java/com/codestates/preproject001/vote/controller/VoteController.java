@@ -45,6 +45,8 @@ public class VoteController {
         questionService.memberVerification(memberDetails.getMemberId(), questionVoteDto.getQuestionId());
         Vote vote = voteMapper.questionVoteDtoToVote(questionVoteDto);
         vote.setVoteStatus(Vote.VoteStatus.PLUS);
+        questionService.findQuestion(questionVoteDto.getQuestionId()).getVotes().add(vote);
+
         voteService.voteUp(vote.getQuestion().getQuestionId(), vote.getMember().getMemberId(), vote);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -57,6 +59,8 @@ public class VoteController {
         questionService.memberVerification(memberDetails.getMemberId(), questionVoteDto.getQuestionId());
         Vote vote = voteMapper.questionVoteDtoToVote(questionVoteDto);
         vote.setVoteStatus(Vote.VoteStatus.MINUS);
+        questionService.findQuestion(questionVoteDto.getQuestionId()).getVotes().add(vote);
+
         voteService.voteDown(vote.getQuestion().getQuestionId(), vote.getMember().getMemberId(), vote);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -69,6 +73,8 @@ public class VoteController {
         answerService.memberVerification(memberDetails.getMemberId(), answerVoteDto.getAnswerId());
         Vote vote = voteMapper.answerVoteDtoToVote(answerVoteDto);
         vote.setVoteStatus(Vote.VoteStatus.PLUS);
+        answerService.findAnswer(answerVoteDto.getAnswerId()).getVotes().add(vote);
+
         voteService.voteUp(vote.getAnswer().getAnswerId(), vote.getMember().getMemberId(), vote);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -81,6 +87,8 @@ public class VoteController {
         answerService.memberVerification(memberDetails.getMemberId(), answerVoteDto.getAnswerId());
         Vote vote = voteMapper.answerVoteDtoToVote(answerVoteDto);
         vote.setVoteStatus(Vote.VoteStatus.MINUS);
+        answerService.findAnswer(answerVoteDto.getAnswerId()).getVotes().add(vote);
+
         voteService.voteDown(vote.getAnswer().getAnswerId(), vote.getMember().getMemberId(), vote);
         return new ResponseEntity(HttpStatus.OK);
     }
