@@ -11,6 +11,7 @@ import { InputStyle } from './ask/AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { setUserInfo } from '../slice/loginSlice';
+
 import axios from 'axios';
 
 function Header() {
@@ -20,24 +21,35 @@ function Header() {
     return state.login;
   });
   const navigate = useNavigate();
-  const moveMypage = () => {
-    getUserData();
 
-    const id = state.userInfo.id;
-    navigate(`/users/${id}`);
-  };
+  // 토큰이 있을 경우 로그인 유지
+  // if (cookie.accessToken && cookie.refreshToken) {
+  //   dispatch(setIsLogin(true));
+  // }
 
   // 토큰을 포함시켜서 요청
   const getUserData = async () => {
-    const response = await axios.get('http://localhost:8080/members/1', {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookie.accessToken,
-        Refresh: cookie.refreshToken,
-      },
-    });
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/members/1`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+      }
+    );
     const { data } = response;
+    console.log(data);
     dispatch(setUserInfo(data));
+    console.log(state);
+  };
+
+  const moveMypage = () => {
+    getUserData();
+
+    const id = '1';
+    navigate(`/users/${id}`);
   };
 
   return (
@@ -68,14 +80,6 @@ function Header() {
         <Topbar isLogin={state.isLogin}>
           {state.isLogin ? (
             <>
-              {/* <li>
-                <img
-                  role="presentation"
-                  onClick={moveMypage}
-                  src={state.userInfo.img}
-                  alt="pic"
-                />
-              </li> */}
               <li>
                 <img
                   role="presentation"

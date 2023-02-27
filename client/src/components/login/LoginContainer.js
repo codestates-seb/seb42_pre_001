@@ -44,7 +44,9 @@ export default function Login() {
           withCredentials: true,
         }
       );
+
       const { data, headers } = response;
+      console.log('resCookie', document.cookies);
       console.log(headers);
       const accessToken = headers['authorization'];
       const refreshToken = headers['refresh'];
