@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import profile from '../../assets/profile.png';
 import ViewTags from '../ViewTags';
 const QuestionsItem = ({ question }) => {
-  const { title, memberName, questionId, view, answers, tags } = question;
+  const { title, memberName, questionId, view, answerCount, tags } = question;
   const navigate = useNavigate();
-
   return (
     <Container>
       <LeftContainer>
@@ -13,11 +12,12 @@ const QuestionsItem = ({ question }) => {
           <LeftVotesNum>0</LeftVotesNum>
           <LeftVotes>votes</LeftVotes>
         </LeftWrapper>
-        {answers?.length > 0 ? (
+
+        {answerCount > 0 ? (
           <LeftWrapper>
             <FocusLeftWrapper>
-              <LeftAnswersNum>{answers.length}</LeftAnswersNum>
-              {answers?.length === 1 ? (
+              <LeftAnswersNum>{answerCount}</LeftAnswersNum>
+              {answerCount === 1 ? (
                 <LeftAnswers>answer</LeftAnswers>
               ) : (
                 <LeftAnswers>answers</LeftAnswers>
@@ -26,7 +26,7 @@ const QuestionsItem = ({ question }) => {
           </LeftWrapper>
         ) : (
           <LeftWrapper>
-            <LeftNum>{answers?.length}</LeftNum>
+            <LeftNum>0</LeftNum>
             <Left>answers</Left>
           </LeftWrapper>
         )}
