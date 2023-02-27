@@ -102,7 +102,6 @@ const Tags = () => {
   return (
     <TagsContainer>
       <LeftSidebar pageName="tages" />
-
       <TagsContentContainer>
         <Title>Tags</Title>
         <Content>

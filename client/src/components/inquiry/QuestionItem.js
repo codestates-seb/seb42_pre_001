@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import profile from '../../assets/profile.png';
 import ViewTags from '../ViewTags';
 const QuestionsItem = ({ question }) => {
-  const { title, memberName, questionId, view, answerCount, tags } = question;
+  const { title, memberName, questionId, view, answerCount, tags, memberId } =
+    question;
   const navigate = useNavigate();
   return (
     <Container>
@@ -44,8 +45,8 @@ const QuestionsItem = ({ question }) => {
           <NameContainer>
             <NameImage src={profile} />
             <Name>{memberName}</Name>
-            <Num>1</Num>
-            <Time>asked 5 min ago</Time>
+            <Num>{memberId + 5}</Num>
+            <Time>asked {memberId + 1} min ago</Time>
           </NameContainer>
         </RightBottom>
       </RightContainer>

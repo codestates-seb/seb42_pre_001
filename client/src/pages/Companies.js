@@ -12,7 +12,7 @@ const Companies = () => {
       tech: 'Machine Learning, Medical Devices, Virtual Reality',
       content:
         'ZEISS is technology. ZEISS is optics and innovation. We develop, manufacture and sell highly innovative products and solutions for our customers in a variety of business fields. Our over 35,000 employees in 50...',
-      tags: ['angular, swift, c#'],
+      tags: ['angular', 'swift', 'c#'],
     },
     {
       id: 2,
@@ -22,7 +22,7 @@ const Companies = () => {
       tech: 'Manufacturing, Pharmaceuticals',
       content:
         'At Novo Nordisk, our focus is on defeating diabetes and other serious chronic diseases that affect the lives of hundreds of millions of people.By combining our innovation and commercial excellence, we draw...',
-      tags: ['javascript, html, css'],
+      tags: ['javascript', 'html', 'css'],
     },
     {
       id: 3,
@@ -32,17 +32,17 @@ const Companies = () => {
       tech: ' Computer Software, Financial Technology',
       content:
         'Intuit is the global financial technology platform that powers prosperity for the people and communities we serve with TurboTax, Credit Karma, QuickBooks, and Mailchimp. Our teams are fueling innovation through a common architecture shared by all of the company’s applications to deliver awesome customer experiences. At the foundation of our platform architecture is a 100%...',
-      tags: ['java, kotlin, scala'],
+      tags: ['java', 'kotlin', 'scala'],
     },
     {
       id: 4,
-      img: 'https://i.stack.imgur.com/RQAf0.jpg?s=128',
+      img: 'https://i.stack.imgur.com/qNLKv.png',
       name: 'National Security Agency',
       location: 'Honolulu; Denver; San Antonio',
       tech: 'Cybersecurity, Federal Agencies, Signals Analysis',
       content:
         'NSA is on a Mission to Hire 3,000 People! The National Security Agency (NSA) has kicked off a massive talent search with a goal of hiring 3,000 new employees in 2023. Our work in signals intelligence (SIGINT) and cybersecurity is essential to protecting our families, friends, communities, service members, and ultimately, the nation. The...',
-      tags: ['java, c, c++'],
+      tags: ['java', 'c', 'c++'],
     },
     {
       id: 5,
@@ -52,7 +52,7 @@ const Companies = () => {
       tech: ' Commercial Real Estate, Information Technology, Software Development',
       content:
         'Help lead the technological transformation of commercial real estate while enjoying the stability of a career at a large company with endless opportunities to grow. Our software engineers, product managers, UX/UI designers, software developers, cybersecurity professionals, digital strategists and project managers are building the future of work from offices around the world...',
-      tags: ['html, css, javascript'],
+      tags: ['html', 'css', 'javascript'],
     },
     {
       id: 6,
@@ -62,7 +62,7 @@ const Companies = () => {
       tech: ' Ad Tech, Advertising Technology, Mobile Application',
       content:
         'Every great app out there deserves to be connected with the right users and the right revenue streams. And adjoe will give this to them. We’re a leading mobile ad platform developing cutting-edge advertising and monetization solutions that takes app partners’ business to the next level. Our unique ad technologies hav...',
-      tags: ['ios, android, mobile'],
+      tags: ['ios', 'android', 'mobile'],
     },
     {
       id: 7,
@@ -72,7 +72,7 @@ const Companies = () => {
       tech: ' Software Development / Engineering',
       content:
         'Our employees work on things that matter - reducing the carbon intensity of our operations, applying proven low-carbon technology to help our customers meet their environmental goals, and innovating for the future of energy. Baker Hughes is on a journey to utilize software and digital technology for better outcomes, both for ourselves and for our customers. For ourselves, we ar...',
-      tags: ['.net, corestandard, scrum'],
+      tags: ['.net', 'corestandard', 'scrum'],
     },
     {
       id: 8,
@@ -82,7 +82,7 @@ const Companies = () => {
       tech: ' Consulting, Software Development / Engineering',
       content:
         'Industry-leading. Difference-making. Tomorrow-shaping. These are just few of the adjectives used to describe the technologies and companies we work with every day. Join Deloitte, and those adjectives could also be describing your career. Where you can make an impact Make the most of disruptive technologies. Find the value in emerging business models. Turn technology from so...',
-      tags: ['.net, azure, boomi'],
+      tags: ['.net', 'azure', 'boomi'],
     },
     {
       id: 9,
@@ -92,7 +92,7 @@ const Companies = () => {
       tech: 'Pharmaceuticals',
       content:
         'The Digital Team at Sanofi is a unique data-driven team. We pride ourselves on being data obsessed and highly focused on using state of the art processes along with global technologies to drive impact to our solutions. We measure our insights and products based on how they perform across the globe and hold ourselves to the highest regard as our solutions can impact millions of lives...',
-      tags: ['artficial, intelligence, ai'],
+      tags: ['artficial', 'intelligence', 'ai'],
     },
     {
       id: 10,
@@ -102,7 +102,7 @@ const Companies = () => {
       tech: 'Automotive, Software Development / Engineering, Transportation',
       content:
         'Pramita Mitra leads Ford’s blockchain initiatives and serves a key role for an industry group that sets standards for automakers to accelerate the launch of this potentially game-changing technology.​“What I love about working at Ford is that you don’t have to change companies to have new experiences. I’m in my fourth role in Research rig...',
-      tags: ['python, user-experience, java'],
+      tags: ['python', 'user-experience', 'java'],
     },
   ];
   return (

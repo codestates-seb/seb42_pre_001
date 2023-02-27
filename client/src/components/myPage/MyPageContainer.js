@@ -128,7 +128,7 @@ export default function Mypage() {
 
   return (
     <HomeContainer className="home">
-      <LeftSidebar></LeftSidebar>
+      <LeftSidebar pageName="users"></LeftSidebar>
       <MyPageContentContainer className="MPC">
         <Main className="main">
           <UserInfoContainer>

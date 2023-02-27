@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 const UserItem = ({ user }) => {
+  const navigate = useNavigate();
   const arr = [
     'France',
     'Republic of Korea',
@@ -17,7 +19,9 @@ const UserItem = ({ user }) => {
         alt="avatar"
       />
       <ContentContainer>
-        <Name>{user.name}</Name>
+        <Name onClick={() => navigate(`/users/${user.memberId}/${user.name}`)}>
+          {user.name}
+        </Name>
         <Location>{arr[Math.floor(Math.random() * arr.length)]}</Location>
         <Nums>{Number(user.memberId) + Math.floor(Math.random() * 1000)}</Nums>
       </ContentContainer>
