@@ -30,6 +30,9 @@ public interface MemberMapper {
         memberMyPageDto.setMemberId(member.getMemberId());
         memberMyPageDto.setEmail(member.getEmail());
         memberMyPageDto.setName(member.getName());
+        memberMyPageDto.setTitle(member.getTitle());
+        memberMyPageDto.setLocation(member.getLocation());
+        memberMyPageDto.setAboutMe(member.getAboutMe());
         List<Answer> answerList = member.getAnswers(); // 답변 리스트
         List<AnswerMyPageDto> answerMyPageDtoList = answerList.stream().map(answer ->{
             AnswerMyPageDto answerMyPageDto = new AnswerMyPageDto();

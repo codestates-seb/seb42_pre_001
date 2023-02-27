@@ -29,6 +29,7 @@ public interface QuestionMapper  {
             questionResponseDto.setTitle(question.getTitle());
             questionResponseDto.setView(question.getView());
             questionResponseDto.setVoteCount(question.getVotes().size());
+            questionResponseDto.setAnswerCount(question.getAnswers().size());
             return questionResponseDto;
         }).collect(Collectors.toList());
         return questionResponseDtos;
