@@ -18,6 +18,7 @@ import Mypage from './pages/MyPage';
 import FindPass from './pages/FindPass';
 import Recovery from './pages/Recovery';
 import SignUpConfirm from './components/signup/Confirm';
+import Update from './pages/Update';
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
           <Route path="/users/account-recovery" element={<FindPass />} />
           <Route path="/pwchange/registeremail" element={<Recovery />} />
           <Route path="/join/registeremail" element={<SignUpConfirm />} />
+          <Route path="/questions/:id/edit" element={<Update />} />
+          <Route path="/answers/:id/edit" element={<Update />} />
         </Routes>
       </PageLayout>
       <Footer />
@@ -60,8 +63,9 @@ const GlobalStyle = createGlobalStyle`
 
   body {
   width: 100vw;
-  height: 100vh;  
-  background-color: hsl(210deg 8% 98%)
+  height: 100vh;
+  background-color: white;
+  /* background-color: hsl(210deg 8% 98%) */
   }
 
   a {
