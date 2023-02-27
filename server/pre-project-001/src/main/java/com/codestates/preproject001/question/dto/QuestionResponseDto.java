@@ -22,4 +22,5 @@ public class QuestionResponseDto {
     private int view;
     private int voteCount;
     private int myVote;
+    private int answerCount;
 }
