@@ -13,11 +13,11 @@ const QuestionsItem = ({ question }) => {
           <LeftVotesNum>0</LeftVotesNum>
           <LeftVotes>votes</LeftVotes>
         </LeftWrapper>
-        {answers.length > 0 ? (
+        {answers?.length > 0 ? (
           <LeftWrapper>
             <FocusLeftWrapper>
               <LeftAnswersNum>{answers.length}</LeftAnswersNum>
-              {answers.length === 1 ? (
+              {answers?.length === 1 ? (
                 <LeftAnswers>answer</LeftAnswers>
               ) : (
                 <LeftAnswers>answers</LeftAnswers>
@@ -26,7 +26,7 @@ const QuestionsItem = ({ question }) => {
           </LeftWrapper>
         ) : (
           <LeftWrapper>
-            <LeftNum>{answers.length}</LeftNum>
+            <LeftNum>{answers?.length}</LeftNum>
             <Left>answers</Left>
           </LeftWrapper>
         )}

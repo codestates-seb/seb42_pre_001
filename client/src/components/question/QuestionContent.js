@@ -30,7 +30,7 @@ const QuestionContent = ({ question, user, tags }) => {
       `${process.env.REACT_APP_API_URL}/questions/${questionId}`,
       {
         data: {
-          memberId: 1,
+          memberId: 2,
           questionId: questionId,
         },
       },

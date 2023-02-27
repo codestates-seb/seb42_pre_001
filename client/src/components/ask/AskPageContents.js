@@ -24,7 +24,7 @@ function AskPageContents() {
   let requestBody = {
     content: content,
     title: title,
-    memberId: 1,
+    memberId: 2,
     tags: allTags,
   };
   console.log(requestBody);
@@ -32,21 +32,23 @@ function AskPageContents() {
   const apiUrl = process.env.REACT_APP_API_URL;
   console.log(apiUrl);
   let postQuestion = async () => {
-    await axios
-      .post(`${apiUrl}/questions`, JSON.stringify(requestBody), {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookie.accessToken,
-          Refresh: cookie.refreshToken,
-        },
-      })
-      .then(function (response) {
-        console.log(response);
-        navigate('/');
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (isValid()) {
+      await axios
+        .post(`${apiUrl}/questions`, JSON.stringify(requestBody), {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+          navigate('/');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   let isValid = () => {
@@ -55,6 +57,11 @@ function AskPageContents() {
       content?.length &&
       allTags?.length &&
       allTags?.length <= 5
+    );
+  };
+  const discardDraft = () => {
+    alert(
+      'Are you sure you want to discard this question? This cannot be undone.'
     );
   };
 
@@ -105,7 +112,7 @@ function AskPageContents() {
             buttonText="Post your question"
             functionHandler={postQuestion}
           ></MainButton>
-          <Button>Discard draft</Button>
+          <Button onClick={discardDraft}>Discard draft</Button>
         </PostOrDiscardButtons>
         {!isValid() ? (
           <div>

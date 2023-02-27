@@ -16,6 +16,7 @@ import axios from 'axios';
 
 function Header() {
   const [cookie] = useCookies();
+  console.log(cookie);
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state.login;

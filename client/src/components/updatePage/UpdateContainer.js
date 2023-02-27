@@ -6,15 +6,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import InputTitle from '../ask/InputTitle';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import TextEditor from '../ask/TextEditor';
-import { setContent, setTitle, setAllTags } from '../../slice/questionSlice';
+// import { setContent, setTitle, setAllTags } from '../../slice/questionSlice';
 // 질문 수정: 질문 title, 질문 content, 질문 tags
 // 답변 수정: 질문 title, 질문 content, 답변 content
 function UpdateContainer() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const [cookie] = useCookies();
   const { state } = useLocation();
@@ -28,7 +28,7 @@ function UpdateContainer() {
     content: Qcontent,
     title: title,
     questionId: question.questionId,
-    memberId: 1,
+    memberId: 2,
     tags: allTags,
   };
   console.log(requestBody);
@@ -47,12 +47,12 @@ function UpdateContainer() {
       )
       .then(function (response) {
         console.log(response);
-        dispatch(setContent(null), setTitle(null), setAllTags(null));
+        // dispatch(setContent(null), setTitle(null), setAllTags(null));
         navigate(`/questions/${question.questionId}`);
       })
       .catch(function (error) {
         console.log(error);
-        dispatch(setContent(null), setTitle(null), setAllTags(null));
+        // dispatch(setContent(null), setTitle(null), setAllTags(null));
       });
   };
 
