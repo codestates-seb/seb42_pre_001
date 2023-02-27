@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewProfile from '../ViewProfile';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import ViewTags from '../ViewTags';
 import { setContent } from '../../slice/questionSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import InquiryButtons from '../inquiry/InquiryButtons';
+import Markdown from '../Markdown';
 const QuestionContent = ({ question, user, tags }) => {
   const [cookie] = useCookies();
   const state = useSelector((state) => state.login);
@@ -52,9 +51,7 @@ const QuestionContent = ({ question, user, tags }) => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {question.content}
-        </ReactMarkdown>
+        <Markdown content={question.content} />
         <ViewTags tags={tags} />
         <ButtonsAndProfile>
           <InquiryButtons editFunction={editPost} deleteFunction={deletePost} />

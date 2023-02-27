@@ -104,6 +104,8 @@ const RightContainer = styled.div`
   flex-grow: 1;
 `;
 const RightTop = styled.div`
+  width: 593px;
+  word-wrap: break-word;
   cursor: pointer;
   padding-bottom: 6px;
   color: hsl(206deg 100% 40%);
