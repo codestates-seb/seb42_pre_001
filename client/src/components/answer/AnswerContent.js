@@ -3,7 +3,21 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewProfile from '../ViewProfile';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-const AnswerContent = ({ answer }) => {
+import { useNavigate } from 'react-router-dom';
+import { setContent } from '../../slice/answerSlice';
+import { useDispatch } from 'react-redux';
+import InquiryButtons from '../inquiry/InquiryButtons';
+const AnswerContent = ({ answer, question }) => {
+  let dispatch = useDispatch();
+  const navigate = useNavigate();
+  const editAnswer = () => {
+    navigate(`/answers/${answer.answerId}/edit`, {
+      state: { answer, question },
+    });
+    dispatch(setContent(answer.content));
+  };
+  console.log(answer);
+  const deleteAnswer = () => {};
   return (
     <Container>
       <VoteContainer>
@@ -22,7 +36,13 @@ const AnswerContent = ({ answer }) => {
         >
           {answer.content}
         </ReactMarkdownContainer>
-        <ViewProfile user={answer.memberName} />
+        <ButtonsAndProfile>
+          <InquiryButtons
+            editFunction={editAnswer}
+            deleteFunction={deleteAnswer}
+          />
+          <ViewProfile user={answer.memberName} />
+        </ButtonsAndProfile>
       </ContentContainer>
     </Container>
   );
@@ -63,4 +83,10 @@ const ReactMarkdownContainer = styled(ReactMarkdown)`
   width: 100%;
   padding-bottom: 10px;
   word-wrap: break-word;
+`;
+
+const ButtonsAndProfile = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
 `;

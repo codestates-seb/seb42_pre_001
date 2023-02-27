@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setTitle, setTitleFocus } from '../../slice/questionSlice';
 import { useEffect, useState } from 'react';
 
-function Input({ quseiontTitle, desc }) {
+function Input({ quseiontTitle, desc = null, defaultValue }) {
   let [titleErrorMsg, setTitleErrorMsg] = useState(null);
   let { title } = useSelector((state) => state.question);
   let dispatch = useDispatch();
@@ -44,6 +44,7 @@ function Input({ quseiontTitle, desc }) {
         <label>{quseiontTitle}</label>
         <p>{desc}</p>
         <AskPageInput
+          defaultValue={defaultValue}
           onChange={setTitleText}
           titleErrorMsg={titleErrorMsg}
           onFocus={onTitleFocus}

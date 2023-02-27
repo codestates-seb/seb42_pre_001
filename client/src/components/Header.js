@@ -11,7 +11,6 @@ import { InputStyle } from './ask/AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { setUserInfo } from '../slice/loginSlice';
-
 import axios from 'axios';
 
 function Header() {
@@ -38,9 +37,7 @@ function Header() {
       },
     });
     const { data } = response;
-    console.log(data);
     dispatch(setUserInfo(data));
-    console.log(state);
   };
 
   return (
@@ -50,18 +47,18 @@ function Header() {
           {/* <HiOutlineXMark size="20" /> */}
           <FiMenu size="20" />
         </Menu>
-        <LogoLink href="">
+        <LogoLink to="/">
           <span></span>
         </LogoLink>
         <Navi isLogin={state.isLogin}>
           <li>
-            <a href="https://stackoverflow.co/">About</a>
+            <a href="/">About</a>
           </li>
           <li>
             <Link to="/">Products</Link>
           </li>
           <li>
-            <a href="https://stackoverflow.co/teams/">For Teams</a>
+            <a href="/">For Teams</a>
           </li>
         </Navi>
         <SearchBar isLogin={state.isLogin}>
@@ -166,7 +163,16 @@ const Menu = styled.a`
   }
 `;
 
-const LogoLink = styled(Menu)`
+const LogoLink = styled(Link)`
+  display: ${({ isLogin }) => (isLogin ? 'none' : 'flex')};
+  align-items: center;
+  height: 100%;
+  background-color: transparent;
+  :hover {
+    color: hsl(210deg 8% 35%);
+    background-color: hsl(210, 8%, 90%);
+  }
+
   padding: 0 8px;
   > span {
     background-image: url('https://cdn.sstatic.net/Img/unified/sprites.svg?v=fcc0ea44ba27');
