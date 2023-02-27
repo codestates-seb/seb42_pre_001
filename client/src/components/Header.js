@@ -10,7 +10,7 @@ import { BsFillChatRightTextFill } from 'react-icons/bs';
 import { InputStyle } from './ask/AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
-import { setUserInfo } from '../slice/loginSlice';
+import { setUserInfo, setIsLogin } from '../slice/loginSlice';
 
 import axios from 'axios';
 
@@ -24,9 +24,9 @@ function Header() {
   const navigate = useNavigate();
 
   // 토큰이 있을 경우 로그인 유지
-  // if (cookie.accessToken && cookie.refreshToken) {
-  //   dispatch(setIsLogin(true));
-  // }
+  if (cookie.accessToken && cookie.refreshToken) {
+    dispatch(setIsLogin(true));
+  }
 
   // 토큰을 포함시켜서 요청
   const getUserData = async () => {
