@@ -9,6 +9,8 @@ import com.codestates.preproject001.vote.dto.QuestionVoteDto;
 import com.codestates.preproject001.vote.entity.Vote;
 import com.codestates.preproject001.vote.mapper.VoteMapper;
 import com.codestates.preproject001.vote.service.VoteService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = "Vote Controller")
 @RestController
 public class VoteController {
     private final MemberService memberService;
@@ -34,8 +37,9 @@ public class VoteController {
         this.voteMapper = voteMapper;
     }
 
+    @ApiOperation(value = "질문 투표 업버튼")
     @PostMapping("/questions/vote/up")
-    public ResponseEntity VoteUp(@AuthenticationPrincipal MemberDetails memberDetails,
+    public ResponseEntity questionVoteUp(@AuthenticationPrincipal MemberDetails memberDetails,
                                          @RequestBody QuestionVoteDto questionVoteDto){
         memberService.matchMember(memberDetails.getMemberId(), questionVoteDto.getMemberId());
         questionService.memberVerification(memberDetails.getMemberId(), questionVoteDto.getQuestionId());
@@ -45,8 +49,9 @@ public class VoteController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "질문 투표 다운버튼")
     @PostMapping("/questions/vote/down")
-    public ResponseEntity VoteDown(@AuthenticationPrincipal MemberDetails memberDetails,
+    public ResponseEntity questionVoteDown(@AuthenticationPrincipal MemberDetails memberDetails,
                                            @RequestBody QuestionVoteDto questionVoteDto){
         memberService.matchMember(memberDetails.getMemberId(), questionVoteDto.getMemberId());
         questionService.memberVerification(memberDetails.getMemberId(), questionVoteDto.getQuestionId());
@@ -56,8 +61,9 @@ public class VoteController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "답변 투표 업버튼")
     @PostMapping("/answers/vote/up")
-    public ResponseEntity VoteUp(@AuthenticationPrincipal MemberDetails memberDetails,
+    public ResponseEntity answerVoteUp(@AuthenticationPrincipal MemberDetails memberDetails,
                                  @RequestBody AnswerVoteDto answerVoteDto){
         memberService.matchMember(memberDetails.getMemberId(), answerVoteDto.getMemberId());
         answerService.memberVerification(memberDetails.getMemberId(), answerVoteDto.getAnswerId());
@@ -67,8 +73,9 @@ public class VoteController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "답변 투표 다운버튼ㅂ")
     @PostMapping("/answers/vote/down")
-    public ResponseEntity VoteDown(@AuthenticationPrincipal MemberDetails memberDetails,
+    public ResponseEntity answerVoteDown(@AuthenticationPrincipal MemberDetails memberDetails,
                                    @RequestBody AnswerVoteDto answerVoteDto){
         memberService.matchMember(memberDetails.getMemberId(), answerVoteDto.getMemberId());
         answerService.memberVerification(memberDetails.getMemberId(), answerVoteDto.getAnswerId());

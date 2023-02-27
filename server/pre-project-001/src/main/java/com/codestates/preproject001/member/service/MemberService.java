@@ -49,6 +49,7 @@ public class MemberService {
             MailHandler sendMail = new MailHandler(mailSender);
             sendMail.setSubject("[인증메일발송]");
             sendMail.setText(
+                    "회원가입"+
                     "메일인증"+
                             "<br><a href ='http://preproject001.s3-website.ap-northeast-2.amazonaws.com?email=" + member.getEmail()+
                             "&mail_key=" + member.getMailKey() +

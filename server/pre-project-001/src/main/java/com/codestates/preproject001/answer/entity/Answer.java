@@ -19,14 +19,14 @@ import java.util.List;
 public class Answer extends auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long answerId;
+    private Long answerId;
 
     //length 추가?
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String content;
 
-    @Column
-    private int voteCount =0;
+    @Column(nullable=false)
+    private Integer voteCount =0;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")

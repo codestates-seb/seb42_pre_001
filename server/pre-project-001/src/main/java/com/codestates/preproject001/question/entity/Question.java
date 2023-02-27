@@ -19,7 +19,7 @@ import java.util.List;
 public class Question extends auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long questionId;
+    private Long questionId;
 
     @Column(nullable = false)
     private String title;
@@ -31,8 +31,8 @@ public class Question extends auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @Column
-    private int voteCount =0;
+    @Column(nullable = false)
+    private Integer voteCount =0;
 
     @Column
     private int view = 0;

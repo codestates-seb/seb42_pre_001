@@ -18,6 +18,9 @@ import com.codestates.preproject001.question.mapper.QuestionMapper;
 import com.codestates.preproject001.question.service.QuestionService;
 import com.codestates.preproject001.vote.entity.Vote;
 import com.codestates.preproject001.vote.service.VoteService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+@Api(tags = "Question Controller")
+@Slf4j
 @Validated
 @RestController
 @RequestMapping("/questions")
@@ -46,6 +51,7 @@ public class QuestionController {
         this.voteService = voteService;
     }
 
+    @ApiOperation(value = "질문작성")
     @PostMapping    // 질문 작성
     public ResponseEntity postQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
                                        @Valid @RequestBody QuestionPostDto questionPostDto) {
@@ -53,10 +59,11 @@ public class QuestionController {
         Member member = memberService.findMember(memberDetails.getMemberId());
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.addMember(member);
-        questionService.createQuestion(question);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Question createdQuestion = questionService.createQuestion(question);
+        return new ResponseEntity<>(createdQuestion.getQuestionId(), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "질문수정")
     @PatchMapping // 질문 수정
     public ResponseEntity patchQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
@@ -66,17 +73,17 @@ public class QuestionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    @GetMapping("/{question-id}") // 질문 조회
-    public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId,
+    @ApiOperation(value = "질문조회")
+    @GetMapping("/{question-id}") // 질문 조회(로그인)
+    public ResponseEntity getQuestion(@PathVariable("question-id") @Positive Long questionId,
                                       @AuthenticationPrincipal MemberDetails memberDetails) {
         Question question = questionService.findQuestion(questionId);
         QuestionResponseDto response = mapper.questionToQuestionResponseDto(question);
-
+        log.info("1st");
         if(memberDetails!=null) {
             response.setMyVote(voteService.verifyMyVote
                     (Vote.VoteType.QUESTION, questionId, memberDetails.getMemberId()));
-
+            log.info("2nd");
             for (AnswerResponseDto answerResponseDto : response.getAnswers()){
                 answerResponseDto.setMyVote(voteService.verifyMyVote
                         (Vote.VoteType.ANSWER, answerResponseDto.getAnswerId(), memberDetails.getMemberId()));
@@ -86,6 +93,7 @@ public class QuestionController {
                 new SingleResponseDto(response), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "질문목록(홈)")
     @GetMapping // 질문 목록
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size) {
@@ -95,6 +103,7 @@ public class QuestionController {
                 new MultiResponseDto(mapper.questionsToQuestionResponseDtos(content), questions), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "질문삭제")
     @DeleteMapping // 질문 삭제
     public ResponseEntity deleteQuestion(@AuthenticationPrincipal MemberDetails memberDetails,
                                          @RequestBody QuestionDeleteDto questionDeleteDto) {

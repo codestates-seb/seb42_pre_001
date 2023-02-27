@@ -5,6 +5,9 @@ import com.codestates.preproject001.vote.entity.Vote;
 import com.codestates.preproject001.vote.repository.VoteRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 public class VoteService {
     private final VoteRepository voteRepository;
@@ -29,7 +32,7 @@ public class VoteService {
         //answer일때
         if(voteType == Vote.VoteType.ANSWER){
             Vote myVote = voteRepository.
-                    findByQuestionAndMember(questionIdOrAnswerId, memberId).orElse(null);
+                    findByAnswerAndMember(questionIdOrAnswerId, memberId).orElse(null);
             if(myVote==null) return 0;
             return myVote.getVoteStatus() == Vote.VoteStatus.PLUS ? 1 : -1;
         }
@@ -38,8 +41,14 @@ public class VoteService {
 
 
     public void voteUp(long questionIdOrAnswerId, long memberId,Vote vote) {
-        Vote myVote = voteRepository.
-                findByQuestionAndMember(questionIdOrAnswerId,memberId).orElse(null);
+        Vote myVote = null;
+        if(vote.getVoteType()== Vote.VoteType.QUESTION){
+            myVote = voteRepository.
+                    findByQuestionAndMember(questionIdOrAnswerId,memberId).orElse(null);
+        } else if (vote.getVoteType()== Vote.VoteType.ANSWER){
+            myVote = voteRepository.
+                    findByAnswerAndMember(questionIdOrAnswerId,memberId).orElse(null);
+        }
         if(myVote==null){
             voteRepository.save(vote);
         } else if(myVote.getVoteStatus()== Vote.VoteStatus.PLUS){
@@ -51,8 +60,14 @@ public class VoteService {
     }
 
     public void voteDown(long questionIdOrAnswerId, long memberId, Vote vote){
-        Vote myVote = voteRepository.
-                findByQuestionAndMember(questionIdOrAnswerId, memberId).orElse(null);
+        Vote myVote = null;
+        if(vote.getVoteType()== Vote.VoteType.QUESTION){
+            myVote = voteRepository.
+                    findByQuestionAndMember(questionIdOrAnswerId,memberId).orElse(null);
+        } else if (vote.getVoteType()== Vote.VoteType.ANSWER){
+            myVote = voteRepository.
+                    findByAnswerAndMember(questionIdOrAnswerId,memberId).orElse(null);
+        }
         if(myVote==null){
             voteRepository.save(vote);
         } else if(myVote.getVoteStatus()== Vote.VoteStatus.PLUS){

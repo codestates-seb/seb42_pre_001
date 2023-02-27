@@ -7,13 +7,14 @@ import com.codestates.preproject001.answer.dto.AnswerPostDto;
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.answer.mapper.AnswerMapper;
 import com.codestates.preproject001.answer.service.AnswerService;
-import com.codestates.preproject001.dto.MultiResponseDto;
-import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.service.MemberService;
 import com.codestates.preproject001.oath.memberDetails.MemberDetails;
-import com.codestates.preproject001.question.dto.QuestionDeleteDto;
 import com.codestates.preproject001.question.entity.Question;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
+@Api(tags = "Answer Controller")
 @Validated
 @RestController
 @RequestMapping("/answers")
@@ -39,9 +40,10 @@ public class AnswerController {
         this.memberService = memberService;
     }
 
+    @ApiOperation(value = "답변작성")
     @PostMapping
     public ResponseEntity postAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
-                                     @Valid @RequestBody AnswerPostDto answerPostDto) {
+                                     @ApiParam(required = true) @Valid @RequestBody AnswerPostDto answerPostDto) {
         memberService.matchMember(memberDetails.getMemberId(), answerPostDto.getMemberId());
         Member member = memberService.findMember(answerPostDto.getMemberId());
         Question question = answerService.findQuestion(answerPostDto.getQuestionId());
@@ -53,6 +55,7 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "답변수정")
     @PatchMapping
     public ResponseEntity patchAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto) {
@@ -74,6 +77,7 @@ public class AnswerController {
 //        return new ResponseEntity<>(new MultiResponseDto<>(mapper.answersToAnswerResponseDtos(content), answers), HttpStatus.OK);
 //    }
 
+    @ApiOperation(value = "답변삭제")
     @DeleteMapping
     public ResponseEntity deleteAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
                                        @RequestBody AnswerDeleteDto answerDeleteDto) {
