@@ -8,12 +8,14 @@ import {
 } from '../../slice/signUpSlice';
 import { setErrorMsg1, setErrorMsg2 } from '../../slice/validationSlice';
 import axios from 'axios';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 
 // 회원가입
 export default function SingUp() {
   axios.defaults.withCredentials = true;
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const id = useRef();
   const pass = useRef();
@@ -28,7 +30,7 @@ export default function SingUp() {
       password: password,
       name: name,
     };
-
+    setIsLoading(true);
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/members/join`,
@@ -44,10 +46,12 @@ export default function SingUp() {
       const { data } = response;
       console.log(data);
       dispatch(setSubmit());
+      setIsLoading(false);
     } catch (err) {
       // 기존 회원이 존재하는 경우 에러를 받아서
       // http://localhost:3000/users/account-recovery 페이지로 이동
       navigate('/users/account-recovery?fromSignup=true');
+      setIsLoading(false);
       console.log(err);
     }
   };
@@ -160,72 +164,78 @@ export default function SingUp() {
   };
   return (
     <Conatiner>
-      <SubConatiner>
-        <SocialBtn color="white">Login in with Google</SocialBtn>
-        <SocialBtn color="black">Login in with Github</SocialBtn>
-        <SocialBtn color="hsl(209,100%,26%)">Login in with Facebook</SocialBtn>
-        <SignUpContainer>
-          <InputContainer>
-            <Label>Display name</Label>
-            <Input
-              onKeyDown={(e) => activeEnter(e)}
-              type="text"
-              name="display-name"
-              onChange={(e) => {
-                setDNVal(e);
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <SubConatiner>
+          <SocialBtn color="white">Login in with Google</SocialBtn>
+          <SocialBtn color="black">Login in with Github</SocialBtn>
+          <SocialBtn color="hsl(209,100%,26%)">
+            Login in with Facebook
+          </SocialBtn>
+          <SignUpContainer>
+            <InputContainer>
+              <Label>Display name</Label>
+              <Input
+                onKeyDown={(e) => activeEnter(e)}
+                type="text"
+                name="display-name"
+                onChange={(e) => {
+                  setDNVal(e);
+                }}
+              ></Input>
+              <FailLabel></FailLabel>
+            </InputContainer>
+            <InputContainer>
+              <Label>Email</Label>
+              <Input
+                ref={id}
+                onKeyDown={(e) => activeEnter(e)}
+                type="text"
+                name="email"
+                onChange={(e) => {
+                  setEmailVal(e);
+                }}
+              ></Input>
+
+              {state.validation.errMsg1 ? (
+                <FailLabel>{state.validation.errMsg1}</FailLabel>
+              ) : null}
+            </InputContainer>
+            <InputContainer>
+              <Label>Password</Label>
+              <Input
+                ref={pass}
+                onKeyDown={(e) => activeEnter(e)}
+                type="password"
+                name="password"
+                onChange={setPassVal}
+              ></Input>
+
+              {state.validation.errMsg2 ? (
+                <FailLabel>{state.validation.errMsg2}</FailLabel>
+              ) : null}
+            </InputContainer>
+
+            <Text>
+              Passwords must contain at least eight characters, including at
+              least 1 letter and 1 number.
+            </Text>
+            <SignUpBtn
+              type="submit"
+              onClick={() => {
+                registerUser();
               }}
-            ></Input>
-            <FailLabel></FailLabel>
-          </InputContainer>
-          <InputContainer>
-            <Label>Email</Label>
-            <Input
-              ref={id}
-              onKeyDown={(e) => activeEnter(e)}
-              type="text"
-              name="email"
-              onChange={(e) => {
-                setEmailVal(e);
-              }}
-            ></Input>
-
-            {state.validation.errMsg1 ? (
-              <FailLabel>{state.validation.errMsg1}</FailLabel>
-            ) : null}
-          </InputContainer>
-          <InputContainer>
-            <Label>Password</Label>
-            <Input
-              ref={pass}
-              onKeyDown={(e) => activeEnter(e)}
-              type="password"
-              name="password"
-              onChange={setPassVal}
-            ></Input>
-
-            {state.validation.errMsg2 ? (
-              <FailLabel>{state.validation.errMsg2}</FailLabel>
-            ) : null}
-          </InputContainer>
-
-          <Text>
-            Passwords must contain at least eight characters, including at least
-            1 letter and 1 number.
-          </Text>
-          <SignUpBtn
-            type="submit"
-            onClick={() => {
-              registerUser();
-            }}
-          >
-            Sign up
-          </SignUpBtn>
-          <Text>
-            By clicking “Sign up”, you agree to our terms of service, privacy
-            policy and cookie policy
-          </Text>
-        </SignUpContainer>
-      </SubConatiner>
+            >
+              Sign up
+            </SignUpBtn>
+            <Text>
+              By clicking “Sign up”, you agree to our terms of service, privacy
+              policy and cookie policy
+            </Text>
+          </SignUpContainer>
+        </SubConatiner>
+      )}
     </Conatiner>
   );
 }
