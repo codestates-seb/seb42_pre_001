@@ -2,6 +2,7 @@ package com.codestates.preproject001.question.controller;
 
 
 import com.codestates.preproject001.answer.dto.AnswerResponseDto;
+import com.codestates.preproject001.dto.LoginMemberDto;
 import com.codestates.preproject001.dto.MultiResponseDto;
 import com.codestates.preproject001.dto.SingleResponseDto;
 import com.codestates.preproject001.exception.BusinessLogicException;
@@ -9,10 +10,7 @@ import com.codestates.preproject001.exception.ExceptionCode;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.service.MemberService;
 import com.codestates.preproject001.oath.memberDetails.MemberDetails;
-import com.codestates.preproject001.question.dto.QuestionDeleteDto;
-import com.codestates.preproject001.question.dto.QuestionPatchDto;
-import com.codestates.preproject001.question.dto.QuestionPostDto;
-import com.codestates.preproject001.question.dto.QuestionResponseDto;
+import com.codestates.preproject001.question.dto.*;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.mapper.QuestionMapper;
 import com.codestates.preproject001.question.service.QuestionService;
@@ -60,7 +58,11 @@ public class QuestionController {
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.addMember(member);
         Question createdQuestion = questionService.createQuestion(question);
-        return new ResponseEntity<>(createdQuestion.getQuestionId(), HttpStatus.CREATED);
+        LoginMemberDto loginMemberDto = new LoginMemberDto(member.getMemberId(), member.getName());
+        QuestionPostResponseDto questionPostResponseDto =
+                new QuestionPostResponseDto(createdQuestion.getQuestionId(), loginMemberDto);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(questionPostResponseDto), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "질문수정")
@@ -74,33 +76,42 @@ public class QuestionController {
     }
 
     @ApiOperation(value = "질문조회")
-    @GetMapping("/{question-id}") // 질문 조회(로그인)
+    @GetMapping("/{question-id}") // 질문 조회
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive Long questionId,
                                       @AuthenticationPrincipal MemberDetails memberDetails) {
         Question question = questionService.findQuestion(questionId);
         QuestionResponseDto response = mapper.questionToQuestionResponseDto(question);
-        log.info("1st");
+
         if(memberDetails!=null) {
             response.setMyVote(voteService.verifyMyVote
                     (Vote.VoteType.QUESTION, questionId, memberDetails.getMemberId()));
-            log.info("2nd");
+
             for (AnswerResponseDto answerResponseDto : response.getAnswers()){
                 answerResponseDto.setMyVote(voteService.verifyMyVote
                         (Vote.VoteType.ANSWER, answerResponseDto.getAnswerId(), memberDetails.getMemberId()));
             }
+
+            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(), memberDetails.getName());
+            return new ResponseEntity(new SingleResponseDto<>(response, loginMemberDto), HttpStatus.OK);
         }
-        return new ResponseEntity(
-                new SingleResponseDto(response), HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
     }
 
     @ApiOperation(value = "질문목록(홈)")
     @GetMapping // 질문 목록
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
+            @AuthenticationPrincipal MemberDetails memberDetails,
             @Positive @RequestParam int size) {
         Page<Question> questions = questionService.findQuestions(page - 1, size);
         List<Question> content = questions.getContent();
-        return new ResponseEntity(
-                new MultiResponseDto(mapper.questionsToQuestionResponseDtos(content), questions), HttpStatus.OK);
+        List<QuestionResponseDto> questionResponseDtos = mapper.questionsToQuestionResponseDtos(content);
+        if(memberDetails != null){
+            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(), memberDetails.getName());
+            return new ResponseEntity(
+                    new MultiResponseDto(questionResponseDtos, questions, loginMemberDto), HttpStatus.OK);
+        }
+
+        return new ResponseEntity(new MultiResponseDto(questionResponseDtos, questions), HttpStatus.OK);
     }
 
     @ApiOperation(value = "질문삭제")
