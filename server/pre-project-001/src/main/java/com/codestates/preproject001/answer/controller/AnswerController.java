@@ -79,7 +79,7 @@ public class AnswerController {
     public ResponseEntity deleteAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
                                        @RequestBody AnswerDeleteDto answerDeleteDto) {
         memberService.matchMember(memberDetails.getMemberId(), answerDeleteDto.getMemberId());
-        answerService.memberVerification(answerDeleteDto.getMemberId(), answerDeleteDto.getAnswerId());
+        answerService.memberVerification(memberDetails.getMemberId(), answerDeleteDto.getAnswerId());
         answerService.deleteAnswer(answerDeleteDto.getAnswerId());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
