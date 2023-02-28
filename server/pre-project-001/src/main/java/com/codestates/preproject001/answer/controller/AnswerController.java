@@ -49,7 +49,7 @@ public class AnswerController {
         answer.addQuestion(question);
         answerService.createAnswer(answer);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(mapper.answerToAnswerPostResponseDto(answer), HttpStatus.OK);
     }
 
     @ApiOperation(value = "답변수정")
