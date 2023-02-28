@@ -26,20 +26,23 @@ const QuestionContent = ({ question, user, tags }) => {
 
   // 질문 삭제
   const deletePost = async () => {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/questions`, {
-      data: {
-        memberId: 2,
-        questionId: questionId,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookie.accessToken,
-        Refresh: cookie.refreshToken,
-      },
-      withCredentials: true,
-    });
-    alert(`Delete this post?`);
-    navigate('/');
+    if (confirm(`Delete this post?`)) {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/questions`, {
+        data: {
+          memberId: 2,
+          questionId: questionId,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+        withCredentials: true,
+      });
+      navigate('/');
+    } else {
+      return false;
+    }
   };
 
   return (

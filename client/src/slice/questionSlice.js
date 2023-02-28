@@ -11,7 +11,7 @@ const questionSlice = createSlice({
     contentFocus: false,
     allTags: [],
     tagsFocus: false,
-    setIsDiscard: false,
+    isDiscard: false,
   },
   reducers: {
     setName: (state, action) => {
