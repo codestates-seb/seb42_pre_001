@@ -13,7 +13,8 @@ public enum ExceptionCode {
     NUMBER_OF_TAGS_NOT_CORRECT(406, "Number Of Tags Doesn't Correct"), // 태그 갯수 조건을 어겼을 때
     QUESTION_NOT_FOUND(404, "Question Not Found"),
     ANSWER_NOT_FOUND(404, "Answer Not Found"),
-    MEMBER_NOT_MATCH(404, "MemberId Is Different With TokenId");
+    MEMBER_NOT_MATCH(404, "MemberId Is Different With TokenId"),
+    CANNOT_VOTE_TO_ME(404,"Can't Vote to my QnA");
 
     @Getter
     private final int status;

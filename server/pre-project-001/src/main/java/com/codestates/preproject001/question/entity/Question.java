@@ -3,7 +3,7 @@ package com.codestates.preproject001.question.entity;
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.audit.auditable;
 import com.codestates.preproject001.member.entity.Member;
-import com.codestates.preproject001.vote.entity.Vote;
+import com.codestates.preproject001.vote.entity.QuestionVote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,7 +41,7 @@ public class Question extends auditable {
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Vote> votes = new ArrayList<>();
+    private List<QuestionVote> questionVotes = new ArrayList<>();
 
     //setter가 있는데 왜 해줬는지 한번 물어보기
     public void addMember(Member member) {

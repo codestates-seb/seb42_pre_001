@@ -5,8 +5,6 @@ import com.codestates.preproject001.answer.dto.AnswerResponseDto;
 import com.codestates.preproject001.dto.LoginMemberDto;
 import com.codestates.preproject001.dto.MultiResponseDto;
 import com.codestates.preproject001.dto.SingleResponseDto;
-import com.codestates.preproject001.exception.BusinessLogicException;
-import com.codestates.preproject001.exception.ExceptionCode;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.member.service.MemberService;
 import com.codestates.preproject001.oath.memberDetails.MemberDetails;
@@ -14,7 +12,7 @@ import com.codestates.preproject001.question.dto.*;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.mapper.QuestionMapper;
 import com.codestates.preproject001.question.service.QuestionService;
-import com.codestates.preproject001.vote.entity.Vote;
+import com.codestates.preproject001.vote.entity.AnswerVote;
 import com.codestates.preproject001.vote.service.VoteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -58,7 +56,8 @@ public class QuestionController {
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.addMember(member);
         Question createdQuestion = questionService.createQuestion(question);
-        LoginMemberDto loginMemberDto = new LoginMemberDto(member.getMemberId(), member.getName());
+        LoginMemberDto loginMemberDto = new LoginMemberDto(member.getMemberId(),
+                memberService.findMember(memberDetails.getMemberId()).getName());
         QuestionPostResponseDto questionPostResponseDto =
                 new QuestionPostResponseDto(createdQuestion.getQuestionId(), loginMemberDto);
         return new ResponseEntity<>(
@@ -83,15 +82,15 @@ public class QuestionController {
         QuestionResponseDto response = mapper.questionToQuestionResponseDto(question);
 
         if(memberDetails!=null) {
-            response.setMyVote(voteService.verifyMyVote
-                    (Vote.VoteType.QUESTION, questionId, memberDetails.getMemberId()));
+            response.setMyVote(voteService.findMyQuestionVote(questionId, memberDetails.getMemberId()));
 
             for (AnswerResponseDto answerResponseDto : response.getAnswers()){
-                answerResponseDto.setMyVote(voteService.verifyMyVote
-                        (Vote.VoteType.ANSWER, answerResponseDto.getAnswerId(), memberDetails.getMemberId()));
+                answerResponseDto.setMyVote(voteService.findMyAnswerVote
+                        (answerResponseDto.getAnswerId(), memberDetails.getMemberId()));
             }
 
-            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(), memberDetails.getName());
+            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(),
+                    memberService.findMember(memberDetails.getMemberId()).getName());
             return new ResponseEntity(new SingleResponseDto<>(response, loginMemberDto), HttpStatus.OK);
         }
         return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
@@ -106,7 +105,8 @@ public class QuestionController {
         List<Question> content = questions.getContent();
         List<QuestionResponseDto> questionResponseDtos = mapper.questionsToQuestionResponseDtos(content);
         if(memberDetails != null){
-            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(), memberDetails.getName());
+            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(),
+                    memberService.findMember(memberDetails.getMemberId()).getName());
             return new ResponseEntity(
                     new MultiResponseDto(questionResponseDtos, questions, loginMemberDto), HttpStatus.OK);
         }
