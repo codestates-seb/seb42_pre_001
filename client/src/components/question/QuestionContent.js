@@ -58,6 +58,7 @@ const QuestionContent = ({ question, tags }) => {
             deleteFunction={deletePost}
           />
           <ViewProfile
+            from="question"
             id={question.memberId}
             name={question.memberName}
             createdAt={question.createdAt}

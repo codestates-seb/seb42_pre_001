@@ -49,6 +49,7 @@ const AnswerContent = ({ answer, question }) => {
             deleteFunction={deleteAnswer}
           />
           <ViewProfile
+            from="answer"
             id={answer.memberId}
             name={answer.memberName}
             createdAt={answer.createdAt}
