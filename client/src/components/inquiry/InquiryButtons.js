@@ -1,15 +1,23 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 function InquiryButtons({ editFunction, deleteFunction }) {
+  const { isLogin } = useSelector((state) => state.login);
+  console.log(isLogin);
   return (
     <ButtonWrapper>
       <QuestionButton>Share</QuestionButton>
-      <QuestionButton onClick={editFunction}>Edit</QuestionButton>
-      {/* 내가 작성한 글일 때 */}
-      <QuestionButton onClick={deleteFunction}>Delete</QuestionButton>
-      <QuestionButton>Flag</QuestionButton>
-      {/* 아닐 때 */}
-      <QuestionButton>Follow</QuestionButton>
+      {/* 질문, 답변 멤버 id 검증 추가해야 함 */}
+      {isLogin ? (
+        <>
+          {/* 내가 작성한 글일 때 */}
+          <QuestionButton onClick={editFunction}>Edit</QuestionButton>
+          <QuestionButton onClick={deleteFunction}>Delete</QuestionButton>
+          <QuestionButton>Flag</QuestionButton>
+        </>
+      ) : (
+        <QuestionButton> {/* 아닐 때 */}Follow</QuestionButton>
+      )}
     </ButtonWrapper>
   );
 }

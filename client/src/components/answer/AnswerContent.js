@@ -34,6 +34,7 @@ const AnswerContent = ({ answer, question }) => {
       withCredentials: true,
     });
   };
+
   return (
     <Container>
       <VoteContainer>
