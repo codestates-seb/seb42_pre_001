@@ -23,6 +23,7 @@ export default function Logout() {
     if (cookies) {
       removeCookie('accessToken');
       removeCookie('refreshToken');
+      removeCookie('id');
     }
   };
 
