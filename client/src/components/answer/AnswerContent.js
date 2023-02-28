@@ -24,7 +24,7 @@ const AnswerContent = ({ answer, question }) => {
   const deleteAnswer = async () => {
     await axios.delete(`${process.env.REACT_APP_API_URL}/answers`, {
       data: {
-        memberId: 2,
+        memberId: cookie.loginMemberId,
         answerId: answer.answerId,
       },
       headers: {
