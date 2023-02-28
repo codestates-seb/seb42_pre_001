@@ -25,7 +25,7 @@ function AskPageContents() {
   let requestBody = {
     content: content,
     title: title,
-    memberId: 2,
+    memberId: cookie.loginMemberId,
     tags: allTags,
   };
   console.log(requestBody);
