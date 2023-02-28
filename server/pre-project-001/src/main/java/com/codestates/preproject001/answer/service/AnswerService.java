@@ -4,8 +4,6 @@ import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.answer.repository.AnswerRepository;
 import com.codestates.preproject001.exception.BusinessLogicException;
 import com.codestates.preproject001.exception.ExceptionCode;
-import com.codestates.preproject001.member.entity.Member;
-import com.codestates.preproject001.member.service.MemberService;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.service.QuestionService;
 import org.springframework.data.domain.Page;
@@ -66,7 +64,7 @@ public class AnswerService {
     public void memberVerification(long memberId, long answerId) {
         long answeredMemberId = findAnswer(answerId).getMember().getMemberId();
         if(memberId != answeredMemberId) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_MATCH);
+            throw new BusinessLogicException(ExceptionCode.NOT_AUTHOR);
         }
     }
 }
