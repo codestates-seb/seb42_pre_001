@@ -15,6 +15,7 @@ import ViewTags from '../components/ViewTags';
 import { useCookies } from 'react-cookie';
 import Loading from '../components/Loading';
 import { HiOutlineExclamation } from 'react-icons/hi';
+
 //질문 상세 페이지
 const Answers = () => {
   const { id } = useParams();

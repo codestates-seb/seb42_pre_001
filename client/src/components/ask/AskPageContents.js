@@ -8,13 +8,14 @@ import { ask, body, tags } from '../../assets/askInputDesc';
 import { ReactComponent as Background } from '../../assets/background.svg';
 import axios from 'axios';
 import MainButton from '../MainButton';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-
+import { setIsDiscard } from '../../slice/questionSlice';
 function AskPageContents() {
   const [cookie] = useCookies();
+  const dispatch = useDispatch();
   let { content, title, allTags, titleFocus, contentFocus, tagsFocus } =
     useSelector((state) => state.question);
 
@@ -24,32 +25,35 @@ function AskPageContents() {
   let requestBody = {
     content: content,
     title: title,
-    memberId: 1,
+    memberId: 2,
     tags: allTags,
   };
   console.log(requestBody);
 
   const apiUrl = process.env.REACT_APP_API_URL;
   console.log(apiUrl);
+
   let postQuestion = async () => {
-    await axios
-      .post(`${apiUrl}/questions`, JSON.stringify(requestBody), {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookie.accessToken,
-          Refresh: cookie.refreshToken,
-        },
-      })
-      .then(function (response) {
-        console.log(response);
-        navigate('/');
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (isValidFunction()) {
+      await axios
+        .post(`${apiUrl}/questions`, JSON.stringify(requestBody), {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+          navigate('/');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
-  let isValid = () => {
+  let isValidFunction = () => {
     return (
       title?.length >= 15 &&
       content?.length &&
@@ -57,11 +61,16 @@ function AskPageContents() {
       allTags?.length <= 5
     );
   };
+  const discardDraft = () => {
+    dispatch(setIsDiscard(true));
+    alert(
+      `Are you sure you want to discard this question? This cannot be undone.`
+    );
+  };
 
   useEffect(() => {
-    isValid();
+    isValidFunction();
   }, [title, content, allTags]);
-  console.log(isValid());
 
   return (
     <Main>
@@ -105,9 +114,9 @@ function AskPageContents() {
             buttonText="Post your question"
             functionHandler={postQuestion}
           ></MainButton>
-          <Button>Discard draft</Button>
+          <Button onClick={discardDraft}>Discard draft</Button>
         </PostOrDiscardButtons>
-        {!isValid() ? (
+        {!isValidFunction() ? (
           <div>
             Your question couldn&apos;t be submitted. Please see the error
             above.
@@ -169,6 +178,12 @@ const Button = styled.button`
 
 const PostOrDiscardButtons = styled.div`
   display: flex;
+  & + div {
+    color: #c04848;
+    font-weight: 900;
+    font-size: small;
+    margin: 16px 0 10px;
+  }
 `;
 
 export default AskPageContents;

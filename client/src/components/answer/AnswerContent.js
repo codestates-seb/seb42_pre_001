@@ -6,17 +6,34 @@ import { setContent } from '../../slice/answerSlice';
 import { useDispatch } from 'react-redux';
 import InquiryButtons from '../inquiry/InquiryButtons';
 import Markdown from '../Markdown';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 const AnswerContent = ({ answer, question }) => {
+  const [cookie] = useCookies();
   let dispatch = useDispatch();
   const navigate = useNavigate();
-  const editAnswer = () => {
+  // 답변 수정 페이지 이동
+  const navigateToEditPage = () => {
     navigate(`/answers/${answer.answerId}/edit`, {
       state: { answer, question },
     });
     dispatch(setContent(answer.content));
   };
-  console.log(answer);
-  const deleteAnswer = () => {};
+
+  // 답변 삭제
+  const deleteAnswer = async () => {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/answers`, {
+      data: {
+        memberId: 2,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookie.accessToken,
+        Refresh: cookie.refreshToken,
+      },
+      withCredentials: true,
+    });
+  };
   return (
     <Container>
       <VoteContainer>
@@ -28,7 +45,7 @@ const AnswerContent = ({ answer, question }) => {
         <Markdown content={answer.content} />
         <ButtonsAndProfile>
           <InquiryButtons
-            editFunction={editAnswer}
+            editFunction={navigateToEditPage}
             deleteFunction={deleteAnswer}
           />
           <ViewProfile

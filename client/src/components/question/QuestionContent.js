@@ -16,8 +16,8 @@ const QuestionContent = ({ question, tags }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { questionId } = question;
-  // 질문 수정
-  const editPost = () => {
+  // 질문 수정 페이지 이동
+  const navigateToEditPage = () => {
     navigate(`/questions/${questionId}/edit`, {
       state: { question },
     });
@@ -26,21 +26,20 @@ const QuestionContent = ({ question, tags }) => {
 
   // 질문 삭제
   const deletePost = async () => {
-    await axios.delete(
-      `${process.env.REACT_APP_API_URL}/questions/${questionId}`,
-      {
-        data: {
-          memberId: 1,
-        },
+    await axios.delete(`${process.env.REACT_APP_API_URL}/questions`, {
+      data: {
+        memberId: 2,
+        questionId: questionId,
       },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookie.accessToken,
-          Refresh: cookie.refreshToken,
-        },
-      }
-    );
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookie.accessToken,
+        Refresh: cookie.refreshToken,
+      },
+      withCredentials: true,
+    });
+    alert(`Delete this post?`);
+    navigate('/');
   };
 
   return (
@@ -54,7 +53,10 @@ const QuestionContent = ({ question, tags }) => {
         <Markdown content={question.content} />
         <ViewTags tags={tags} />
         <ButtonsAndProfile>
-          <InquiryButtons editFunction={editPost} deleteFunction={deletePost} />
+          <InquiryButtons
+            editFunction={navigateToEditPage}
+            deleteFunction={deletePost}
+          />
           <ViewProfile
             id={question.memberId}
             name={question.memberName}
