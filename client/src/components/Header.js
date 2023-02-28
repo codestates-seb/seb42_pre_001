@@ -21,7 +21,11 @@ function Header() {
     return state.login;
   });
   const navigate = useNavigate();
-
+  const email = cookie.id.split('@');
+  const firstKey = email[0];
+  const secondKey = email[1];
+  console.log(email);
+  const profile = `https://source.boringavatars.com/beam/25/${firstKey}%20${secondKey}?square`;
   // 토큰이 있을 경우 로그인 유지
   if (cookie.accessToken && cookie.refreshToken) {
     dispatch(setIsLogin(true));
@@ -82,9 +86,9 @@ function Header() {
             <>
               <li>
                 <img
-                  role="presentation"
                   onClick={moveMypage}
-                  src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
+                  role="presentation"
+                  src={profile}
                   alt="pic"
                 />
               </li>

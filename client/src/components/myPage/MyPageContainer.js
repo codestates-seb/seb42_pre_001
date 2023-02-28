@@ -17,6 +17,12 @@ export default function Mypage() {
   const [page, setPage] = useState('act');
   const [isChecked, setIsChecked] = useState(null);
   const [cookie] = useCookies();
+  const email = cookie.id.split('@');
+  const firstKey = email[0];
+  const secondKey = email[1];
+  console.log(email);
+  const profile = `https://source.boringavatars.com/beam/25/${firstKey}%20${secondKey}?square`;
+  console.log(profile);
   console.log('MP', state);
   const deleteContent1 = ` Before confirming that you would like your profile deleted,
  we'd like to take a moment to explain the implications of deletion:`;
@@ -36,7 +42,7 @@ export default function Mypage() {
    of those individual profiles.`;
 
   const deleteContent5 = `I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.`;
-  window.scrollTo(0, 0);
+
   // 회원 삭제 구현
   // 삭제 버튼 클릭
   const userDelete = async () => {
@@ -119,6 +125,7 @@ export default function Mypage() {
 
   const movePage = (e) => {
     setPage(e.target.id);
+    window.scrollTo(0, 0);
   };
 
   // 체크박스 클릭
@@ -132,15 +139,12 @@ export default function Mypage() {
       <MyPageContentContainer className="MPC">
         <Main className="main">
           <UserInfoContainer>
-            {/* <UserImg src={state.img} alt="pic" /> */}
-            <UserImg
-              src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
-              alt="pic"
-            />
+            <UserImg src={profile} alt="pic" />
+
             {state.login.userInfo && state.login.userInfo.data.name ? (
               <UserName>{state.login.userInfo.data.name}</UserName>
             ) : null}
-
+            <div></div>
             <EditBtn id="set" onClick={movePage}>
               <BsFillPencilFill id="set" size={12}></BsFillPencilFill>
               <Text id="set">Edit profile</Text>
@@ -215,10 +219,7 @@ export default function Mypage() {
               <SettingsSubTitle>Public information</SettingsSubTitle>
               <PublicInfoConatiner className="public">
                 <Text5>Profile image</Text5>
-                <UserImg
-                  src="http://dn.joongdo.co.kr/mnt/images/file/2019y/04m/11d/2019041101001268900052661.jpg"
-                  alt="pic"
-                />
+                <UserImg src={profile} alt="pic" />
                 <Text5>Display name</Text5>
                 <Input onChange={displayNameHandler}></Input>
                 <Text5>Location</Text5>
@@ -255,7 +256,10 @@ export default function Mypage() {
                 </TextContainer>
                 {isChecked ? (
                   <DeleteBtn
-                    onClick={userDelete}
+                    onClick={() => {
+                      const input = confirm('정말로 계정을 삭제하시겠습니까?');
+                      if (input) userDelete();
+                    }}
                     type="button"
                     value="Delete profile"
                   ></DeleteBtn>

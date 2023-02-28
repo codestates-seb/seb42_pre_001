@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import { CgSearch } from 'react-icons/cg';
 import CompanyItem from '../components/others/CompanyItem';
+
 const Companies = () => {
   let companies = [
     {

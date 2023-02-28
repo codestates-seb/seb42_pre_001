@@ -15,7 +15,6 @@ import { useRef } from 'react';
 
 export default function Login() {
   axios.defaults.withCredentials = true;
-
   const id = useRef();
   const password = useRef();
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   console.log(state);
   // 로그인 POST 요청 => 유저 인증 성공 시 access, refresh 토큰을 쿠키에 저장
   const login = async (userName, pass) => {
@@ -56,6 +55,13 @@ export default function Login() {
       }
       if (!cookies.authorization) {
         setCookie('refreshToken', refreshToken);
+      }
+      // 이메일을 쿠키로 저장
+      if (cookies.id) {
+        removeCookie('id');
+        setCookie('id', state.login.id);
+      } else {
+        setCookie('id', state.login.id);
       }
 
       dispatch(setIsLogin(true));
