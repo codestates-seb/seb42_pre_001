@@ -11,5 +11,4 @@ import lombok.Setter;
 public class QuestionPostResponseDto {
     private long questionId;
     private LoginMemberDto loginMember;
-
 }

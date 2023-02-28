@@ -2,6 +2,7 @@ package com.codestates.preproject001.answer.mapper;
 
 import com.codestates.preproject001.answer.dto.AnswerPatchDto;
 import com.codestates.preproject001.answer.dto.AnswerPostDto;
+import com.codestates.preproject001.answer.dto.AnswerPostResponseDto;
 import com.codestates.preproject001.answer.dto.AnswerResponseDto;
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.member.entity.Member;
@@ -12,6 +13,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
+    default AnswerPostResponseDto answerToAnswerPostResponseDto(Answer answer){
+        AnswerPostResponseDto answerPostResponseDto = new AnswerPostResponseDto();
+        answerPostResponseDto.setAnswerId(answer.getAnswerId());
+        return answerPostResponseDto;
+    }
     default Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto) {
         if (answerPostDto == null) {
             return null;
