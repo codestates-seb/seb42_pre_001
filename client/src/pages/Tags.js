@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import { CgSearch } from 'react-icons/cg';
 import TagItem from '../components/others/TagItem';
+import { useState, useEffect } from 'react';
 const Tags = () => {
-  const tags = [
+  const arr = [
     {
       name: 'Javascript',
       content:
@@ -99,6 +100,16 @@ const Tags = () => {
       content: `JSON (JavaScript Object Notation) is a serializable data interchange format that is a machine and human readable. Do not use this tag for native`,
     },
   ];
+  const [text, setText] = useState('');
+  const [tags, setTags] = useState([]);
+  const HandleChange = (e) => {
+    setText(e.target.value);
+  };
+  useEffect(() => {
+    setTags(
+      arr.filter((x) => x.name.toLowerCase().includes(text.toLowerCase()))
+    );
+  }, [text]);
   return (
     <TagsContainer>
       <LeftSidebar pageName="tages" />
@@ -111,7 +122,11 @@ const Tags = () => {
         </Content>
         <Show>Show all tag synonyms</Show>
         <SearchBar>
-          <InputStyle placeholder="Filter by tag name" />
+          <InputStyle
+            placeholder="Filter by tag name"
+            value={text}
+            onChange={HandleChange}
+          />
           <CgSearch size="20" color="hsl(210,8%,55%)" />
         </SearchBar>
         <TagItemContainer>
@@ -188,9 +203,6 @@ const SearchBar = styled.div`
   }
 `;
 const TagItemContainer = styled.div`
-  height: 960px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
 `;

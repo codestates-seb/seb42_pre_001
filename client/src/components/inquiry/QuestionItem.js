@@ -47,7 +47,7 @@ const QuestionsItem = ({ question }) => {
           </TagsContainer>
           <NameContainer>
             <NameImage
-              src={`https://source.boringavatars.com/beam/25/${memberId}%20${memberName}?square`}
+              src={`https://source.boringavatars.com/beam/25/${memberId}%20?square`}
               alt="avatar"
             />
             <Name>{memberName}</Name>

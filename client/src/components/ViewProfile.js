@@ -11,7 +11,7 @@ const ViewProfile = ({ from, id, name, createdAt }) => {
         </Time>
         <UserWrapperBottom>
           <Image
-            src={`https://source.boringavatars.com/beam/25/${id}%20${name}?square`}
+            src={`https://source.boringavatars.com/beam/25/${id}%20?square`}
             alt="avatar"
           />
           <NameContainer>

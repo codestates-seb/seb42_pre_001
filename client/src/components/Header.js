@@ -25,7 +25,7 @@ function Header() {
 
   const profile = `https://source.boringavatars.com/beam/25/${
     cookie.loginMemberId ? cookie.loginMemberId : ''
-  }%20${cookie.loginMemberName ? cookie.loginMemberName : ''}?square`;
+  }%20?square`;
 
   // 토큰이 있을 경우 로그인 유지
   if (cookie.accessToken && cookie.refreshToken) {

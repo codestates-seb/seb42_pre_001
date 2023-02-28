@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
@@ -15,6 +15,7 @@ import ViewTags from '../components/ViewTags';
 import { useCookies } from 'react-cookie';
 import Loading from '../components/Loading';
 import { HiOutlineExclamation } from 'react-icons/hi';
+import ScrollToTop from '../components/ScrollToTop';
 
 //질문 상세 페이지
 const Answers = () => {
@@ -24,10 +25,11 @@ const Answers = () => {
   const [answersLength, setAnswersLength] = useState(0);
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
-  const ErrorMsg = 'Content must be at least 20 characters.';
+  const ErrorMsg = 'Content must be at least 30 characters.';
   const [isValid, setIsValid] = useState(true);
   const [text, setText] = useState('');
   const { questionId } = question;
+  const navigate = useNavigate();
   const editorRef = useRef();
   const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
   const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
@@ -71,7 +73,7 @@ const Answers = () => {
     setText(editorRef.current?.getInstance().getMarkdown());
   };
   const handleClick = () => {
-    if (text.length < 20) {
+    if (text.length < 30) {
       setIsValid(false);
     } else {
       axios
@@ -92,13 +94,18 @@ const Answers = () => {
           }
         )
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
           setText('');
           setIsValid(true);
-          setAnswersLength(answers.length);
+          setAnswersLength(answers.length + 1);
+          window.scrollTo(0, 0);
           editorRef.current?.getInstance().reset();
         })
-        .catch((error) => console.log(error));
+        .catch((error) =>
+          error.response.status === 403
+            ? navigate(`/users/login`)
+            : console.log(error)
+        );
     }
   };
 
@@ -115,14 +122,11 @@ const Answers = () => {
             {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
               <button onClick={deletePost}>질문 삭제 버튼입니다</button> */}
             <AnswerContainer>
-              {answers ? (
-                <>
-                  <AnswerCount answers={answers} />
-                  {answers.map((el, idx) => (
-                    <AnswerContent key={idx} answer={el} question={question} />
-                  ))}
-                </>
-              ) : null}
+              <AnswerCount answers={answers} />
+              {answers.map((el, idx) => (
+                <AnswerContent key={idx} answer={el} question={question} />
+              ))}
+              <ScrollToTop />
               <CreateAnswerContainer>
                 <YourAnswer>Your Answer</YourAnswer>
                 <EditorBox

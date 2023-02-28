@@ -9,8 +9,19 @@ import { useCookies } from 'react-cookie';
 const Users = () => {
   const [cookie] = useCookies();
   const [users, setUsers] = useState([]);
+  const [usersArr, setUsersArr] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const apiUrl = `${process.env.REACT_APP_API_URL}/members?page=1`;
+  const [text, setText] = useState('');
+  const HandleChange = (e) => {
+    setText(e.target.value);
+  };
+
+  useEffect(() => {
+    setUsersArr(
+      users.filter((x) => x.name.toLowerCase().includes(text.toLowerCase()))
+    );
+  }, [text]);
   useEffect(() => {
     const getUsers = async () => {
       if (cookie.accessToken && cookie.refreshToken) {
@@ -18,6 +29,7 @@ const Users = () => {
           const response = await axios.get(apiUrl);
           const { data } = response;
           setUsers(data.data);
+          setUsersArr(data.data);
           setIsLoading(false);
         } catch (error) {
           console.error(error);
@@ -35,6 +47,7 @@ const Users = () => {
     };
     getUsers();
   }, []);
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -43,11 +56,15 @@ const Users = () => {
       <UsersContentContainer>
         <Title>Users</Title>
         <SearchBar>
-          <InputStyle placeholder="Filter by tag name" />
+          <InputStyle
+            placeholder="Filter by tag name"
+            value={text}
+            onChange={HandleChange}
+          />
           <CgSearch size="20" color="hsl(210,8%,55%)" />
         </SearchBar>
         <UserContainer>
-          {users.map((el, idx) => (
+          {usersArr.map((el, idx) => (
             <UserItem key={idx} user={el} />
           ))}
         </UserContainer>
