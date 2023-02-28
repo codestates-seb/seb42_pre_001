@@ -5,35 +5,32 @@ import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.vote.dto.AnswerVoteDto;
 import com.codestates.preproject001.vote.dto.QuestionVoteDto;
-import com.codestates.preproject001.vote.entity.Vote;
+import com.codestates.preproject001.vote.entity.AnswerVote;
+import com.codestates.preproject001.vote.entity.QuestionVote;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface VoteMapper {
-    default Vote questionVoteDtoToVote(QuestionVoteDto questionVoteDto){
+    default QuestionVote questionVoteDtoToQuesitonVote(QuestionVoteDto questionVoteDto){
         if(questionVoteDto == null) return null;
-        Vote vote = new Vote();
+        QuestionVote questionVote = new QuestionVote();
         Member member = new Member();
         member.setMemberId(questionVoteDto.getMemberId());
         Question question = new Question();
         question.setQuestionId(questionVoteDto.getQuestionId());
-        vote.setMember(member);
-        vote.setQuestion(question);
-        vote.setVoteType(Vote.VoteType.QUESTION);
-        vote.setAnswer(null);
-        return vote;
+        questionVote.setMember(member);
+        questionVote.setQuestion(question);
+        return questionVote;
     }
-    default Vote answerVoteDtoToVote(AnswerVoteDto answerVoteDto){
+    default AnswerVote answerVoteDtoToAnswerVote(AnswerVoteDto answerVoteDto){
         if(answerVoteDto == null) return null;
-        Vote vote = new Vote();
+        AnswerVote answerVote = new AnswerVote();
         Member member = new Member();
         member.setMemberId(answerVoteDto.getMemberId());
         Answer answer = new Answer();
         answer.setAnswerId(answerVoteDto.getAnswerId());
-        vote.setMember(member);
-        vote.setAnswer(answer);
-        vote.setVoteType(Vote.VoteType.ANSWER);
-        vote.setQuestion(null);
-        return vote;
+        answerVote.setMember(member);
+        answerVote.setAnswer(answer);
+        return answerVote;
     }
 }

@@ -67,6 +67,7 @@ public class MemberController { // 1차 완료
     public ResponseEntity getMember(@PathVariable("member-id") long memberId,
             @AuthenticationPrincipal MemberDetails memberDetails) {
         Member dbMember = memberService.findMember(memberId);
+
         if (memberDetails != null) {
             LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(), memberDetails.getName());
             return new ResponseEntity<>(

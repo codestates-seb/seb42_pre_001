@@ -3,7 +3,7 @@ package com.codestates.preproject001.answer.entity;
 import com.codestates.preproject001.audit.auditable;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.question.entity.Question;
-import com.codestates.preproject001.vote.entity.Vote;
+import com.codestates.preproject001.vote.entity.AnswerVote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +34,7 @@ public class Answer extends auditable {
     private Question question;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
-    private List<Vote> votes = new ArrayList<>();
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
     public void addMember(Member member) {
         this.member = member;
