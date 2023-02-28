@@ -9,6 +9,7 @@ import {
   setTagsFocus,
 } from '../../slice/questionSlice';
 import { tags } from '../../assets/askInputDesc';
+
 function InputTags({ defaultValue = null }) {
   let [currentTag, setCurrentTag] = useState('');
   let [tagsErrorMsg, setTagsErrorMsg] = useState(null);
