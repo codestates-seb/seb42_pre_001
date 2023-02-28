@@ -8,7 +8,9 @@ const CompanyItem = ({ company }) => {
       <ContentContainer>
         <Name>{company.name}</Name>
         <Content>{company.content}</Content>
-        <ViewTags tags={company.tags} />
+        <ViewTagsContainer>
+          <ViewTags tags={company.tags} />
+        </ViewTagsContainer>
       </ContentContainer>
     </Container>
   );
@@ -42,4 +44,7 @@ const Name = styled.div`
 const Content = styled.div`
   font-size: 13px;
   color: hsl(210deg 8% 25%);
+`;
+const ViewTagsContainer = styled.div`
+  margin-top: 15px;
 `;

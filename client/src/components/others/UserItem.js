@@ -16,15 +16,15 @@ const UserItem = ({ user }) => {
   return (
     <UserContiner>
       <ImageWrapper
-        src={`https://source.boringavatars.com/beam/25/${user.memberId}%20${user.name}?square`}
+        src={`https://source.boringavatars.com/beam/25/${user.memberId}%20?square`}
         alt="avatar"
       />
       <ContentContainer>
         <Name onClick={() => navigate(`/users/${user.memberId}/${user.name}`)}>
           {user.name}
         </Name>
-        <Location>{arr[Math.floor(Math.random() * arr.length)]}</Location>
-        <Nums>{Number(user.memberId) + Math.floor(Math.random() * 1000)}</Nums>
+        <Location>{arr[Number(user.memberId) % 8]}</Location>
+        <Nums>{Number(user.memberId) * 3 + 50}</Nums>
       </ContentContainer>
     </UserContiner>
   );

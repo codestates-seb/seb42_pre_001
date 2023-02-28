@@ -19,11 +19,7 @@ export default function Mypage() {
     state.login.userInfo && state.login.userInfo.data.memberId
       ? state.login.userInfo.data.memberId
       : ''
-  }%20${
-    state.login.userInfo && state.login.userInfo.data.name
-      ? state.login.userInfo.data.name
-      : ''
-  }?square`;
+  }%20?square`;
   const [page, setPage] = useState('act');
   const [isChecked, setIsChecked] = useState(null);
   const [cookie] = useCookies();

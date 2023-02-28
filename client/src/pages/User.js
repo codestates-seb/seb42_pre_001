@@ -52,7 +52,7 @@ const User = () => {
         <Main className="main">
           <UserInfoContainer>
             <UserImg
-              src={`https://source.boringavatars.com/beam/25/${member.memberId}%20${member.name}?square`}
+              src={`https://source.boringavatars.com/beam/25/${member.memberId}%20?square`}
               alt="avatar"
             />
             <UserName>{member.name}</UserName>

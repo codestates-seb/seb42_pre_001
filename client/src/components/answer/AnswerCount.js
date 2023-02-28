@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const AnswerCount = ({ answers }) => {
+  console.log(answers.length);
   return answers.length ? (
     <Container>{answers.length} Answer</Container>
   ) : (

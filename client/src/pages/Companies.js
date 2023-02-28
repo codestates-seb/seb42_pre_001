@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import { CgSearch } from 'react-icons/cg';
 import CompanyItem from '../components/others/CompanyItem';
+import { useState, useEffect } from 'react';
 
 const Companies = () => {
-  let companies = [
+  let arr = [
     {
       id: 1,
       img: 'https://i.stack.imgur.com/RQAf0.jpg?s=128',
@@ -106,6 +107,16 @@ const Companies = () => {
       tags: ['python', 'user-experience', 'java'],
     },
   ];
+  const [text, setText] = useState('');
+  const [companies, setCompanies] = useState([]);
+  const HandleChange = (e) => {
+    setText(e.target.value);
+  };
+  useEffect(() => {
+    setCompanies(
+      arr.filter((x) => x.name.toLowerCase().includes(text.toLowerCase()))
+    );
+  }, [text]);
   return (
     <CompaniesContainer>
       <LeftSidebar pageName="companies" />
@@ -114,7 +125,11 @@ const Companies = () => {
         <Learn>{`Learn about what it's like to work at companies`}</Learn>
         <SearchBarContainer>
           <SearchBar>
-            <InputStyle placeholder="Search all companies" />
+            <InputStyle
+              placeholder="Search all companies"
+              value={text}
+              onChange={HandleChange}
+            />
             <CgSearch size="20" color="hsl(210,8%,55%)" />
           </SearchBar>
           <SearchBar>
