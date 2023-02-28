@@ -1,5 +1,7 @@
 package com.codestates.preproject001.NotSpace;
 
+import org.springframework.util.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -12,6 +14,6 @@ public class NotSpaceValidator implements ConstraintValidator<NotSpace, String> 
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return false;
+        return value == null || StringUtils.hasText(value);
     }
 }
