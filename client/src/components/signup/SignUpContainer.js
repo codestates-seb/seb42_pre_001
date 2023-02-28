@@ -47,7 +47,7 @@ export default function SingUp() {
       setIsLoading(false);
     } catch (err) {
       // 기존 회원이 존재하는 경우 에러를 받아서
-      // http://localhost:3000/users/account-recovery 페이지로 이동ㅣㄴ
+      // http://localhost:3000/users/account-recovery 페이지로 이동
       navigate('/users/account-recovery?fromSignup=true');
       setIsLoading(false);
       console.log(err);
