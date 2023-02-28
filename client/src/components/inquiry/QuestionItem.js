@@ -12,6 +12,7 @@ const QuestionsItem = ({ question }) => {
           <LeftVotesNum>0</LeftVotesNum>
           <LeftVotes>votes</LeftVotes>
         </LeftWrapper>
+
         {answerCount > 0 ? (
           <LeftWrapper>
             <FocusLeftWrapper>
