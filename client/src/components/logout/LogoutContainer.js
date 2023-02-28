@@ -20,10 +20,14 @@ export default function Logout() {
 
   const logout = async () => {
     console.log(setCookie);
-    if (cookies) {
-      removeCookie('accessToken');
-      removeCookie('refreshToken');
-      removeCookie('id');
+    try {
+      if (cookies) {
+        removeCookie('accessToken');
+        removeCookie('refreshToken');
+        removeCookie('id');
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
