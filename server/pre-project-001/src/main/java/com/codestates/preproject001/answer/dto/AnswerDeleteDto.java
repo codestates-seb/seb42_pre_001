@@ -9,4 +9,5 @@ import lombok.Getter;
 public class AnswerDeleteDto {
     @ApiModelProperty(required=true)
     private long memberId;
+    private long answerId;
 }

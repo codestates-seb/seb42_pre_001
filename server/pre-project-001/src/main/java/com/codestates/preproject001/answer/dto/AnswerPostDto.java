@@ -20,7 +20,7 @@ public class AnswerPostDto {
     private long questionId;
     @ApiModelProperty(required=true)
     @NotBlank(message = "내용을 입력해주세요.")
-    @Size(min=20)
+    @Size(min=30)
     private String content;
 
 }

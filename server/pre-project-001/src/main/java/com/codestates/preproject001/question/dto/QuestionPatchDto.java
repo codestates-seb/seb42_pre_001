@@ -24,7 +24,7 @@ public class QuestionPatchDto {
     private String title;
     @ApiModelProperty
     @NotSpace(message = "내용을 입력해주세요.")
-    @Size(min=20)
+    @Size(min=30)
     private String content;
     @ApiModelProperty
     private List<String> tags;
