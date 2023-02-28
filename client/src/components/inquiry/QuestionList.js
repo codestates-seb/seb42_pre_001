@@ -9,7 +9,7 @@ import PaginationController from './PaginationController';
 import Loading from '../Loading';
 import { useCookies } from 'react-cookie';
 
-const QuestionList = ({ name }) => {
+const QuestionList = ({ name, tab }) => {
   const [questions, setQuestions] = useState([]);
   const [totalPage, setTotalPage] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,8 +19,8 @@ const QuestionList = ({ name }) => {
   const { num } = useParams();
   const [cookie, setCookie] = useCookies();
   const apiUrl = num
-    ? `${process.env.REACT_APP_API_URL}/questions?page=${num}&size=10`
-    : `${process.env.REACT_APP_API_URL}/questions?page=1&size=10`;
+    ? `${process.env.REACT_APP_API_URL}/questions?page=${num}&size=10&tab=${tab}`
+    : `${process.env.REACT_APP_API_URL}/questions?page=1&size=10&tab=${tab}`;
 
   useEffect(() => {
     const getQuestions = async () => {
