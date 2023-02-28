@@ -23,10 +23,13 @@ function Header() {
     setCookie('id', 'unll@null');
   }
 
-  const email = cookie.id.split('@');
-  const firstKey = email[0];
-  const secondKey = email[1];
-  const profile = `https://source.boringavatars.com/beam/25/${firstKey}%20${secondKey}?square`;
+  const profile = `https://source.boringavatars.com/beam/25/${
+    state.userInfo && state.userInfo.data.memberId
+      ? state.userInfo.data.memberId
+      : ''
+  }%20${
+    state.userInfo && state.userInfo.data.name ? state.userInfo.data.name : ''
+  }?square`;
   // 토큰이 있을 경우 로그인 유지
   if (cookie.accessToken && cookie.refreshToken) {
     dispatch(setIsLogin(true));

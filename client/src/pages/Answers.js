@@ -13,12 +13,18 @@ import QuestionTitle from '../components/question/QuestionTitle';
 import MainButton from '../components/MainButton';
 import ViewTags from '../components/ViewTags';
 import { useCookies } from 'react-cookie';
+import Loading from '../components/Loading';
+import { HiOutlineExclamation } from 'react-icons/hi';
+
 //질문 상세 페이지
 const Answers = () => {
   const { id } = useParams();
   const [cookie] = useCookies();
+  const [isLoading, setIsLoading] = useState(true);
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
+  const ErrorMsg = 'Content must be at least 20 characters.';
+  const [isValid, setIsValid] = useState(true);
   console.log(answers);
   const [text, setText] = useState('');
   const { questionId } = question;
@@ -29,10 +35,15 @@ const Answers = () => {
   //질문조회
   useEffect(() => {
     const getQuestion = async () => {
-      const response = await axios.get(apiUrl);
-      const { data } = response;
-      setQuestion(data.data);
-      setAnswers(data.data.answers);
+      try {
+        const response = await axios.get(apiUrl);
+        const { data } = response;
+        setQuestion(data.data);
+        setAnswers(data.data.answers);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
     };
     getQuestion();
   }, []);
@@ -41,98 +52,102 @@ const Answers = () => {
     setText(editorRef.current?.getInstance().getMarkdown());
   };
   const handleClick = () => {
-    axios
-      .post(
-        AnswerapiUrl,
-        JSON.stringify({
-          questionId,
-          memberId: 2,
-          content: text,
-        }),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: cookie.accessToken,
-            Refresh: cookie.refreshToken,
-          },
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        setAnswers([
-          ...answers,
-          {
+    if (text.length < 20) {
+      setIsValid(false);
+    } else {
+      axios
+        .post(
+          AnswerapiUrl,
+          JSON.stringify({
             questionId,
             memberId: 2,
             content: text,
-          },
-        ]);
-        setText('');
-        editorRef.current?.getInstance().reset();
-      })
-      .catch((error) => console.log(error));
+          }),
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: cookie.accessToken,
+              Refresh: cookie.refreshToken,
+            },
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          setAnswers([
+            ...answers,
+            {
+              questionId,
+              memberId: 2,
+              content: text,
+            },
+          ]);
+          setText('');
+          setIsValid(true);
+          editorRef.current?.getInstance().reset();
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
-  return (
-    <>
-      <Container>
-        <LeftSidebar text={text} />
-        <ContentContainer>
-          <QuestionTitle title={question.title} />
-          <ContentWrapper>
-            <ViewContent>
-              <QuestionContent
-                question={question}
-                user={question.memberName}
-                tags={question.tags}
-              />
-              {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <Container>
+      <LeftSidebar text={text} />
+      <ContentContainer>
+        <QuestionTitle title={question.title} />
+        <ContentWrapper>
+          <ViewContent>
+            <QuestionContent question={question} tags={question.tags} />
+            {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
               <button onClick={deletePost}>질문 삭제 버튼입니다</button> */}
-              <AnswerContainer>
-                {answers ? (
-                  <>
-                    <AnswerCount answers={answers} />
-                    {answers.map((el, idx) => (
-                      <AnswerContent
-                        key={idx}
-                        answer={el}
-                        question={question}
-                      />
-                    ))}
-                  </>
-                ) : null}
-                <CreateAnswerContainer>
-                  <YourAnswer>Your Answer</YourAnswer>
-                  <EditorBox
-                    previewStyle="tab"
-                    initialEditType="markdown"
-                    hideModeSwitch={true}
-                    useCommandShortcut={true}
-                    ref={editorRef}
-                    onChange={onChangeEditor}
-                  />
-                  <ButtonContainer>
-                    <ButtonWrapper onClick={handleClick}>
-                      <MainButton buttonText="Post Your Answer" />
-                    </ButtonWrapper>
-                  </ButtonContainer>
-                </CreateAnswerContainer>
-                <QuestionBottom>
-                  {`Not the answer you're looking for? Browse other questions tagged `}
-                  <ViewTags tags={question.tags} />
-
-                  {`or `}
-                  <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
-                  {`.`}
-                </QuestionBottom>
-              </AnswerContainer>
-            </ViewContent>
-            <QuestionSidebar />
-          </ContentWrapper>
-        </ContentContainer>
-      </Container>
-    </>
+            <AnswerContainer>
+              {answers ? (
+                <>
+                  <AnswerCount answers={answers} />
+                  {answers.map((el, idx) => (
+                    <AnswerContent key={idx} answer={el} question={question} />
+                  ))}
+                </>
+              ) : null}
+              <CreateAnswerContainer>
+                <YourAnswer>Your Answer</YourAnswer>
+                <EditorBox
+                  previewStyle="tab"
+                  initialEditType="markdown"
+                  hideModeSwitch={true}
+                  useCommandShortcut={true}
+                  ref={editorRef}
+                  onChange={onChangeEditor}
+                />
+                {isValid ? (
+                  <Error></Error>
+                ) : (
+                  <Error>
+                    <Icon size={20} />
+                    <Msg>{ErrorMsg}</Msg>
+                  </Error>
+                )}
+                <ButtonContainer>
+                  <ButtonWrapper onClick={handleClick}>
+                    <MainButton buttonText="Post Your Answer" />
+                  </ButtonWrapper>
+                </ButtonContainer>
+              </CreateAnswerContainer>
+              <QuestionBottom>
+                {`Not the answer you're looking for? Browse other questions tagged `}
+                <ViewTags tags={question.tags} />
+                {`or `}
+                <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
+                {`.`}
+              </QuestionBottom>
+            </AnswerContainer>
+          </ViewContent>
+          <QuestionSidebar />
+        </ContentWrapper>
+      </ContentContainer>
+    </Container>
   );
 };
 export default Answers;
@@ -190,4 +205,17 @@ const ButtonContainer = styled.div`
 const ButtonWrapper = styled.div``;
 const EditorBox = styled(Editor)`
   height: 254.664px;
+`;
+const Error = styled.div`
+  display: flex;
+  height: 29px;
+  font-weight: 600;
+  color: hsl(358deg 62% 52%);
+`;
+const Msg = styled.div`
+  margin-left: 3px;
+  align-self: flex-end;
+`;
+const Icon = styled(HiOutlineExclamation)`
+  align-self: flex-end;
 `;

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import profile from '../../assets/profile.png';
 import ViewTags from '../ViewTags';
 const QuestionsItem = ({ question }) => {
-  const { title, memberName, questionId, view, answerCount, tags } = question;
+  const { title, memberName, questionId, view, answerCount, tags, memberId } =
+    question;
   const navigate = useNavigate();
   return (
     <Container>
@@ -41,12 +41,17 @@ const QuestionsItem = ({ question }) => {
           {title}
         </RightTop>
         <RightBottom>
-          <ViewTags tags={tags} />
+          <TagsContainer>
+            <ViewTags tags={tags} />
+          </TagsContainer>
           <NameContainer>
-            <NameImage src={profile} />
+            <NameImage
+              src={`https://source.boringavatars.com/beam/25/${memberId}%20${memberName}?square`}
+              alt="avatar"
+            />
             <Name>{memberName}</Name>
-            <Num>1</Num>
-            <Time>asked 5 min ago</Time>
+            <Num>{memberId + 5}</Num>
+            <Time>asked {memberId + 1} min ago</Time>
           </NameContainer>
         </RightBottom>
       </RightContainer>
@@ -125,7 +130,7 @@ const RightBottom = styled.div`
 const NameContainer = styled.div`
   display: flex;
   align-self: center;
-  padding-right: 30px;
+  flex-grow: 1;
 `;
 const NameImage = styled.img`
   width: 16px;
@@ -155,4 +160,10 @@ const Time = styled.div`
   :hover {
     color: black;
   }
+`;
+const TagsContainer = styled.div`
+  width: 380px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
 `;

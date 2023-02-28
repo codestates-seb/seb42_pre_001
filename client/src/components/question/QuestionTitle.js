@@ -24,6 +24,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
+  width: 938px;
   color: hsl(210deg 8% 25%);
   font-size: 27px;
   word-wrap: break-word;
