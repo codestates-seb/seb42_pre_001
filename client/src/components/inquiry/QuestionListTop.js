@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainButton from '../MainButton';
-
 const QuestionListTop = ({ name }) => {
   const { isLogin } = useSelector((state) => state.login);
+
   return (
     <Container>
       <Title>{name}</Title>

@@ -7,23 +7,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setContent,
   setContentFocus,
-  setIsDiscard,
+  setDiscardEditor,
 } from '../../slice/questionSlice';
 import { setContent as setAContent } from '../../slice/answerSlice';
 function TextEditor({ title, desc = null, initialValue = '' }) {
+  let editorRef = useRef(null);
+  let dispatch = useDispatch();
   let [contentErrorMsg, setContentErrorMsg] = useState(null);
   let { content } =
     title === 'Body'
       ? useSelector((state) => state.question)
       : useSelector((state) => state.answer);
-  let { contentFocus, isDiscard } = useSelector((state) => state.question);
-  let editorRef = useRef(null);
-  let dispatch = useDispatch();
+  let { contentFocus, discardEditor } = useSelector((state) => state.question);
+
   let setContentText = () => {
     title === 'Body'
       ? dispatch(setContent(editorRef.current?.getInstance().getMarkdown()))
       : dispatch(setAContent(editorRef.current?.getInstance().getMarkdown()));
-    // console.log(editorRef.current?.getInstance().getHTML());
   };
 
   // 유효성 검사
@@ -32,6 +32,9 @@ function TextEditor({ title, desc = null, initialValue = '' }) {
     if (!content?.length) {
       isContentValid = false;
       setContentErrorMsg('Body is missing.');
+    } else if (content?.length < 30) {
+      isContentValid = false;
+      setContentErrorMsg('Body must be at least 30 characters.');
     } else {
       isContentValid = true;
       setContentErrorMsg(''); // 이거 없으면 왜 안되지
@@ -46,24 +49,17 @@ function TextEditor({ title, desc = null, initialValue = '' }) {
   };
   const onEditorBlur = () => {
     dispatch(setContentFocus(false));
-
-    // editorRef.current?.getInstance().reset();
-
-    // editorRef.current?.getInstance().moveCursorToEnd(true);
-
-    // console.log(position);
-    // editorRef.current?.getInstance().deleteSelection([1, 0], position[1]);
   };
 
   const resetEditor = () => {
     editorRef.current?.getInstance().reset();
-    dispatch(setIsDiscard(false));
+    dispatch(setDiscardEditor(false));
   };
   useEffect(() => {
-    if (isDiscard) {
+    if (discardEditor) {
       resetEditor();
     }
-  }, [isDiscard]);
+  }, [discardEditor]);
 
   return (
     <Div

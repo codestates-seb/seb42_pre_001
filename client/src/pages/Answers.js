@@ -119,12 +119,16 @@ const Answers = () => {
         <ContentWrapper>
           <ViewContent>
             <QuestionContent question={question} tags={question.tags} />
-            {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
-              <button onClick={deletePost}>질문 삭제 버튼입니다</button> */}
             <AnswerContainer>
               <AnswerCount answers={answers} />
               {answers.map((el, idx) => (
-                <AnswerContent key={idx} answer={el} question={question} />
+                <AnswerContent
+                  key={idx}
+                  answer={el}
+                  question={question}
+                  answers={answers}
+                  setAnswers={setAnswers}
+                />
               ))}
               <ScrollToTop />
               <CreateAnswerContainer>
