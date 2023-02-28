@@ -25,7 +25,8 @@ export default function Logout() {
         removeCookie('accessToken');
         removeCookie('refreshToken');
         removeCookie('id');
-        removeCookie('loginMember');
+        removeCookie('loginMemberId');
+        removeCookie('loginMemberName');
       }
     } catch (err) {
       console.log(err);
