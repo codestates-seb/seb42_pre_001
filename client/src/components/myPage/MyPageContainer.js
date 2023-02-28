@@ -2,11 +2,12 @@ import LeftSidebar from '../inquiry/LeftSidebar';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillPencilFill } from 'react-icons/bs';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import CreateAboutMe from './CreateAboutMe';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { setDisplayName, setTitle, setLocation } from '../../slice/myInfoSlice';
+import { setUserInfo } from '../../slice/loginSlice';
 
 export default function Mypage() {
   const checkBox = useRef();
@@ -46,6 +47,30 @@ export default function Mypage() {
 
   const deleteContent5 = `I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.`;
 
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  // 토큰을 포함시켜서 요청
+  const getUserData = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/members/12`,
+      // `${process.env.REACT_APP_API_URL}/members/${cookie.memberId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+      }
+    );
+    const { data } = response;
+    dispatch(setUserInfo(data));
+    dispatch(setTitle(state.login.userInfo.data.title));
+    dispatch(setDisplayName(state.login.userInfo.data.name));
+    dispatch(setLocation(state.login.userInfo.data.location));
+  };
+
   // 회원 삭제 구현
   // 삭제 버튼 클릭
   const userDelete = async () => {
@@ -63,6 +88,8 @@ export default function Mypage() {
         }
       );
       console.log(response);
+      const { data } = response;
+      console.log('data', data);
     } catch (err) {
       console.log(err);
     }
@@ -91,7 +118,6 @@ export default function Mypage() {
         }
       );
       console.log(response);
-      dispatch(setPage('act'));
     } catch (err) {
       console.log(err);
     }
@@ -147,7 +173,7 @@ export default function Mypage() {
             {state.login.userInfo && state.login.userInfo.data.name ? (
               <UserName>{state.login.userInfo.data.name}</UserName>
             ) : null}
-            <div></div>
+
             <EditBtn id="set" onClick={movePage}>
               <BsFillPencilFill id="set" size={12}></BsFillPencilFill>
               <Text id="set">Edit profile</Text>
@@ -224,13 +250,24 @@ export default function Mypage() {
                 <Text5>Profile image</Text5>
                 <UserImg src={profile} alt="pic" />
                 <Text5>Display name</Text5>
-                <Input onChange={displayNameHandler}></Input>
+                <Input
+                  onChange={displayNameHandler}
+                  value={state.myInfo.displayName}
+                ></Input>
                 <Text5>Location</Text5>
-                <Input onChange={locationHandler}></Input>
+                <Input
+                  onChange={locationHandler}
+                  value={state.myInfo.location}
+                ></Input>
                 <Text5>Title</Text5>
-                <Input onChange={titleHandler}></Input>
+                <Input
+                  onChange={titleHandler}
+                  value={state.myInfo.title}
+                ></Input>
                 <Text5>About me</Text5>
-                <CreateAboutMe></CreateAboutMe>
+                <CreateAboutMe
+                  content={state.login.userInfo.data.aboutMe}
+                ></CreateAboutMe>
 
                 <BtnContainer>
                   <SaveBtn onClick={saveHandler}>Save profile</SaveBtn>

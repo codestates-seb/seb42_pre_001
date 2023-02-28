@@ -62,10 +62,15 @@ function AskPageContents() {
     );
   };
   const discardDraft = () => {
-    dispatch(setIsDiscard(true));
-    alert(
-      `Are you sure you want to discard this question? This cannot be undone.`
-    );
+    if (
+      confirm(
+        `Are you sure you want to discard this question? This cannot be undone.`
+      )
+    ) {
+      dispatch(setIsDiscard(true));
+    } else {
+      return false;
+    }
   };
 
   useEffect(() => {
@@ -113,7 +118,7 @@ function AskPageContents() {
           <MainButton
             buttonText="Post your question"
             functionHandler={postQuestion}
-          ></MainButton>
+          />
           <Button onClick={discardDraft}>Discard draft</Button>
         </PostOrDiscardButtons>
         {!isValidFunction() ? (
