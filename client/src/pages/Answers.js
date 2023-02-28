@@ -12,16 +12,16 @@ import QuestionContent from '../components/question/QuestionContent';
 import QuestionTitle from '../components/question/QuestionTitle';
 import MainButton from '../components/MainButton';
 import ViewTags from '../components/ViewTags';
-
+import { useCookies } from 'react-cookie';
 //질문 상세 페이지
 const Answers = () => {
   const { id } = useParams();
-  // const [cookie] = useCookies();
+  const [cookie] = useCookies();
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
   console.log(answers);
   const [text, setText] = useState('');
-  const { questionId, memberId } = question;
+  const { questionId } = question;
   const editorRef = useRef();
   const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
   const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
@@ -46,15 +46,16 @@ const Answers = () => {
         AnswerapiUrl,
         JSON.stringify({
           questionId,
-          memberId,
+          memberId: 2,
           content: text,
         }),
         {
           headers: {
             'Content-Type': 'application/json',
-            // Authorization: cookie.accessToken,
-            // Refresh: cookie.refreshToken,
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
           },
+          withCredentials: true,
         }
       )
       .then((res) => {
@@ -63,7 +64,7 @@ const Answers = () => {
           ...answers,
           {
             questionId,
-            memberId,
+            memberId: 2,
             content: text,
           },
         ]);

@@ -11,7 +11,7 @@ const questionSlice = createSlice({
     contentFocus: false,
     allTags: [],
     tagsFocus: false,
-    askPageEditorRef: '',
+    isDiscard: false,
   },
   reducers: {
     setName: (state, action) => {
@@ -40,8 +40,8 @@ const questionSlice = createSlice({
     setTagsFocus: (state, action) => {
       state.tagsFocus = action.payload;
     },
-    setAskPageEditorRef: (state, action) => {
-      state.askPageEditorRef = action.payload;
+    setIsDiscard: (state, action) => {
+      state.isDiscard = action.payload;
     },
   },
 });
@@ -56,5 +56,5 @@ export const {
   setAllTags,
   setDeleteTag,
   setTagsFocus,
-  setAskPageEditorRef,
+  setIsDiscard,
 } = questionSlice.actions;

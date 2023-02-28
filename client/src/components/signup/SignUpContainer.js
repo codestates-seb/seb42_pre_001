@@ -32,7 +32,7 @@ export default function SingUp() {
     };
     setIsLoading(true);
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_API_URL}/members/join`,
         JSON.stringify(body),
         {
@@ -43,8 +43,6 @@ export default function SingUp() {
         }
       );
 
-      const { data } = response;
-      console.log(data);
       dispatch(setSubmit());
       setIsLoading(false);
     } catch (err) {
@@ -131,6 +129,7 @@ export default function SingUp() {
     }
   };
 
+  //  회원 등록
   const registerUser = () => {
     validationTest();
 
@@ -143,7 +142,6 @@ export default function SingUp() {
       id.current.classList.add('active');
       dispatch(setErrorMsg1('Email cannot be empty.'));
     }
-    console.log(state);
     if (
       state.validation.errMsg1 === null &&
       state.validation.errMsg2 === null
@@ -158,7 +156,6 @@ export default function SingUp() {
 
   const activeEnter = (e) => {
     if (e.key === 'Enter') {
-      console.log('submit test');
       registerUser();
     }
   };

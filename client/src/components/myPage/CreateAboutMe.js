@@ -8,7 +8,7 @@ import { setAboutMe } from '../../slice/myInfoSlice';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-export default function CreateAboutMe() {
+export default function CreateAboutMe({ content }) {
   const editorRef = useRef(null);
   const contentRef = useRef(null);
   const dispatch = useDispatch();
@@ -34,9 +34,7 @@ export default function CreateAboutMe() {
       </EditorContainer>
       <EditorContent ref={contentRef}></EditorContent>
       <AboutMeContent>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          ~~1123123123121123123123123123123124ewfdsavczxvdfsgwerweqrsdafasass1123123123123123123124ewfdsavczxvdfsgwerweqrsdafasass3123123124ewfdsavczxvdfsgwerweqrsdafasass~~
-        </ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
       </AboutMeContent>
       <ButtonContainer></ButtonContainer>
     </Container>

@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import MainButton from '../MainButton';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const QuestionTitle = ({ title }) => {
+  const { isLogin } = useSelector((state) => state.login);
   return (
     <Container>
       <Title>{title}</Title>
-      <Link to="/questions/ask">
+      <Link to={isLogin ? '/questions/ask' : '/users/login'}>
         <MainButton buttonText="Ask Question" />
       </Link>
     </Container>
