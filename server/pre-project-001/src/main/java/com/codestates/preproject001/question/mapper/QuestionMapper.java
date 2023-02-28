@@ -9,10 +9,9 @@ import com.codestates.preproject001.question.dto.QuestionResponseDto;
 import com.codestates.preproject001.question.entity.Question;
 import org.mapstruct.Mapper;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Mapper(componentModel = "spring")
 public interface QuestionMapper  {
     //answers, myVote, content는 뺐다 -> question 리스트를 띄우는 화면에 필요가 없다.
@@ -65,7 +64,9 @@ public interface QuestionMapper  {
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setContent(questionPatchDto.getContent());
         question.setTitle(questionPatchDto.getTitle());
-        question.setTags(questionPatchDto.getTags());
+        List<String> reverseTags = questionPatchDto.getTags();
+        Collections.reverse(reverseTags);
+        question.setTags(reverseTags);
 
         return question;
     }
