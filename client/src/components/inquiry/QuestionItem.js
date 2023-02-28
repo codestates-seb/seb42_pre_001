@@ -4,7 +4,7 @@ import ViewTags from '../ViewTags';
 const QuestionsItem = ({ question }) => {
   const { title, memberName, questionId, view, answerCount, tags, memberId } =
     question;
-  console.log(tags);
+
   const navigate = useNavigate();
   return (
     <Container>
