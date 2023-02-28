@@ -97,7 +97,7 @@ export default function Mypage() {
         removeCookie('loginMemberName');
       }
 
-      alert('회원정보가 삭제되었습니다.');
+      alert('Delete Complete!!');
       navigate('/');
       window.location.reload();
     } catch (err) {

@@ -22,18 +22,21 @@ const AnswerContent = ({ answer, question }) => {
   console.log(answer);
   // 답변 삭제
   const deleteAnswer = async () => {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/answers`, {
-      data: {
-        memberId: Number(cookie.loginMemberId),
-        answerId: answer.answerId,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookie.accessToken,
-        Refresh: cookie.refreshToken,
-      },
-      withCredentials: true,
-    });
+    if (confirm(`Delete this answer?`)) {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/answers`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+        data: {
+          memberId: Number(cookie.loginMemberId),
+          answerId: answer.answerId,
+        },
+        withCredentials: true,
+      });
+      window.location.reload();
+    }
   };
 
   return (
