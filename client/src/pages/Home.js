@@ -8,7 +8,7 @@ const Home = () => {
     <HomeContainer>
       <LeftSidebar pageName="home" />
       <HomeContentContainer>
-        <QuestionList name="Top Questions"></QuestionList>
+        <QuestionList name="Top Questions" tab="view"></QuestionList>
         <QuestionSidebar></QuestionSidebar>
       </HomeContentContainer>
     </HomeContainer>

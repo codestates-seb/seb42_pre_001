@@ -8,7 +8,7 @@ const Questions = () => {
     <QuestionsContainer>
       <LeftSidebar pageName="questions" />
       <QuestionsContentContainer>
-        <QuestionList name="All Questions"></QuestionList>
+        <QuestionList name="All Questions" tab="newest"></QuestionList>
         <QuestionSidebar></QuestionSidebar>
       </QuestionsContentContainer>
     </QuestionsContainer>
