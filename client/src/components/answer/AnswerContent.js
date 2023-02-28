@@ -19,12 +19,13 @@ const AnswerContent = ({ answer, question }) => {
     });
     dispatch(setContent(answer.content));
   };
-
+  console.log(answer);
   // 답변 삭제
   const deleteAnswer = async () => {
     await axios.delete(`${process.env.REACT_APP_API_URL}/answers`, {
       data: {
         memberId: 2,
+        answerId: answer.answerId,
       },
       headers: {
         'Content-Type': 'application/json',

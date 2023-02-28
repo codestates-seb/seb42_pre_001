@@ -19,6 +19,7 @@ function UpdateContainer() {
   const [cookie] = useCookies();
   const { state } = useLocation();
   const { answer, question } = state;
+  console.log(answer);
   let { title, allTags } = useSelector((state) => state.question);
   let Qcontent = useSelector((state) => state.question.content);
   let Acontent = useSelector((state) => state.answer.content);
@@ -27,7 +28,7 @@ function UpdateContainer() {
   let requestBody = answer
     ? {
         content: Acontent,
-        questionId: question.questionId,
+        answerId: answer.answerId,
         memberId: 2,
       }
     : {
