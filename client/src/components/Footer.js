@@ -57,7 +57,11 @@ function Footer() {
               <li>Facebook</li>
               <li>Twitter</li>
               <li>LinkedIn</li>
-              <li>Instagram</li>
+              <li>
+                <a href="https://www.instagram.com/eversuns3t/?igshid=YmMyMTA2M2Y%3D">
+                  Instagram
+                </a>
+              </li>
             </CompanyCommunity>
             <CompanyInfo>
               <p>
@@ -142,6 +146,10 @@ const CompanyCommunity = styled.ul`
     margin-right: 16px;
     padding: 4px 0;
     cursor: pointer;
+    > a {
+      text-decoration: none;
+      color: inherit;
+    }
   }
 `;
 

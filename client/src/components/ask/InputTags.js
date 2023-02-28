@@ -9,6 +9,7 @@ import {
   setTagsFocus,
 } from '../../slice/questionSlice';
 import { tags } from '../../assets/askInputDesc';
+
 function InputTags({ defaultValue = null }) {
   let [currentTag, setCurrentTag] = useState('');
   let [tagsErrorMsg, setTagsErrorMsg] = useState(null);
@@ -86,16 +87,18 @@ function InputTags({ defaultValue = null }) {
     buttonWrap.appendChild(buttonSvg);
     buttonSvg.appendChild(svgPath);
     hashTagInput.before(hashTag);
-    dispatch(setAllTags(value));
   };
 
   // edit page에서 태그 삽입
   useEffect(() => {
+    console.log(defaultValue);
     if (defaultValue?.length > 0) {
-      console.log(defaultValue);
+      let arr = [];
       defaultValue?.forEach((el) => {
         makeTag(el);
+        arr.push(el);
       });
+      dispatch(setAllTags(arr));
     }
   }, []);
 
@@ -106,6 +109,7 @@ function InputTags({ defaultValue = null }) {
       !allTags.includes(currentTag) &&
       !currentTag.split('').every((el) => el === ' ')
     ) {
+      dispatch(setAllTags([...allTags, currentTag]));
       makeTag(currentTag);
       setCurrentTag('');
     }
