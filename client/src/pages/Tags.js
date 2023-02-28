@@ -133,6 +133,7 @@ const TagsContainer = styled.div`
 
 const TagsContentContainer = styled.div`
   max-width: 1100px;
+  min-width: 1100px;
   width: calc(100% - 164px);
   display: flex;
   flex-direction: column;
