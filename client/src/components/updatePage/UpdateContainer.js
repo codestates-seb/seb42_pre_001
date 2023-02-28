@@ -67,6 +67,7 @@ function UpdateContainer() {
 
   const handleCancel = () => {
     navigate(`/questions/${question.questionId}`);
+    dispatch(setContent(null), setTitle(null), setAllTags(null));
   };
 
   return (

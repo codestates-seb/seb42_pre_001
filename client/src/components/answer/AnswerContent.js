@@ -8,7 +8,7 @@ import InquiryButtons from '../inquiry/InquiryButtons';
 import Markdown from '../Markdown';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-const AnswerContent = ({ answer, question }) => {
+const AnswerContent = ({ answer, question, answers, setAnswers }) => {
   const [cookie] = useCookies();
   let dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,18 +22,28 @@ const AnswerContent = ({ answer, question }) => {
   console.log(answer);
   // 답변 삭제
   const deleteAnswer = async () => {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/answers`, {
-      data: {
-        memberId: 2,
-        answerId: answer.answerId,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookie.accessToken,
-        Refresh: cookie.refreshToken,
-      },
-      withCredentials: true,
-    });
+    await axios
+      .delete(`${process.env.REACT_APP_API_URL}/answers`, {
+        data: {
+          memberId: 2,
+          answerId: answer.answerId,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        setAnswers(
+          answers.filter((el) => {
+            return el.answerId !== answer.answerId;
+          })
+        );
+      })
+      .catch((error) => console.log(error));
   };
 
   return (

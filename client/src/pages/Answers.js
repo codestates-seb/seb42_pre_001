@@ -126,7 +126,13 @@ const Answers = () => {
                 <>
                   <AnswerCount answers={answers} />
                   {answers.map((el, idx) => (
-                    <AnswerContent key={idx} answer={el} question={question} />
+                    <AnswerContent
+                      key={idx}
+                      answer={el}
+                      question={question}
+                      answers={answers}
+                      setAnswers={setAnswers}
+                    />
                   ))}
                 </>
               ) : null}
