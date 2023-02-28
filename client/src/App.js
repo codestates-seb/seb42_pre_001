@@ -67,7 +67,6 @@ const GlobalStyle = createGlobalStyle`
   width: 100vw;
   height: 100vh;
   background-color: white;
-  /* background-color: hsl(210deg 8% 98%) */
   }
 
   a {
@@ -78,4 +77,5 @@ const GlobalStyle = createGlobalStyle`
 const PageLayout = styled.div`
   padding-top: 50px;
   min-height: 100vh;
+  background-color: hsl(210, 8%, 96%);
 `;
