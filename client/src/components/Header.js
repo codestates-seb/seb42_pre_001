@@ -15,13 +15,16 @@ import { setUserInfo, setIsLogin } from '../slice/loginSlice';
 import axios from 'axios';
 
 function Header() {
-  const [cookie] = useCookies();
-  console.log(cookie);
+  const [cookie, setCookie] = useCookies();
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state.login;
   });
   const navigate = useNavigate();
+  if (!cookie.id) {
+    setCookie('id', 'unll@null');
+  }
+
   const email = cookie.id.split('@');
   const firstKey = email[0];
   const secondKey = email[1];
