@@ -13,11 +13,13 @@ import QuestionTitle from '../components/question/QuestionTitle';
 import MainButton from '../components/MainButton';
 import ViewTags from '../components/ViewTags';
 import { useCookies } from 'react-cookie';
+import Loading from '../components/Loading';
 
 //질문 상세 페이지
 const Answers = () => {
   const { id } = useParams();
   const [cookie] = useCookies();
+  const [isLoading, setIsLoading] = useState(true);
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
   console.log(answers);
@@ -35,6 +37,7 @@ const Answers = () => {
         const { data } = response;
         setQuestion(data.data);
         setAnswers(data.data.answers);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -79,65 +82,61 @@ const Answers = () => {
       .catch((error) => console.log(error));
   };
 
-  return (
-    <>
-      <Container>
-        <LeftSidebar text={text} />
-        <ContentContainer>
-          <QuestionTitle title={question.title} />
-          <ContentWrapper>
-            <ViewContent>
-              <QuestionContent
-                question={question}
-                user={question.memberName}
-                tags={question.tags}
-              />
-              {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <Container>
+      <LeftSidebar text={text} />
+      <ContentContainer>
+        <QuestionTitle title={question.title} />
+        <ContentWrapper>
+          <ViewContent>
+            <QuestionContent
+              question={question}
+              user={question.memberName}
+              tags={question.tags}
+            />
+            {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
               <button onClick={deletePost}>질문 삭제 버튼입니다</button> */}
-              <AnswerContainer>
-                {answers ? (
-                  <>
-                    <AnswerCount answers={answers} />
-                    {answers.map((el, idx) => (
-                      <AnswerContent
-                        key={idx}
-                        answer={el}
-                        question={question}
-                      />
-                    ))}
-                  </>
-                ) : null}
-                <CreateAnswerContainer>
-                  <YourAnswer>Your Answer</YourAnswer>
-                  <EditorBox
-                    previewStyle="tab"
-                    initialEditType="markdown"
-                    hideModeSwitch={true}
-                    useCommandShortcut={true}
-                    ref={editorRef}
-                    onChange={onChangeEditor}
-                  />
-                  <ButtonContainer>
-                    <ButtonWrapper onClick={handleClick}>
-                      <MainButton buttonText="Post Your Answer" />
-                    </ButtonWrapper>
-                  </ButtonContainer>
-                </CreateAnswerContainer>
-                <QuestionBottom>
-                  {`Not the answer you're looking for? Browse other questions tagged `}
-                  <ViewTags tags={question.tags} />
+            <AnswerContainer>
+              {answers ? (
+                <>
+                  <AnswerCount answers={answers} />
+                  {answers.map((el, idx) => (
+                    <AnswerContent key={idx} answer={el} question={question} />
+                  ))}
+                </>
+              ) : null}
+              <CreateAnswerContainer>
+                <YourAnswer>Your Answer</YourAnswer>
+                <EditorBox
+                  previewStyle="tab"
+                  initialEditType="markdown"
+                  hideModeSwitch={true}
+                  useCommandShortcut={true}
+                  ref={editorRef}
+                  onChange={onChangeEditor}
+                />
+                <ButtonContainer>
+                  <ButtonWrapper onClick={handleClick}>
+                    <MainButton buttonText="Post Your Answer" />
+                  </ButtonWrapper>
+                </ButtonContainer>
+              </CreateAnswerContainer>
+              <QuestionBottom>
+                {`Not the answer you're looking for? Browse other questions tagged `}
+                <ViewTags tags={question.tags} />
 
-                  {`or `}
-                  <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
-                  {`.`}
-                </QuestionBottom>
-              </AnswerContainer>
-            </ViewContent>
-            <QuestionSidebar />
-          </ContentWrapper>
-        </ContentContainer>
-      </Container>
-    </>
+                {`or `}
+                <QuestionBottomAsk>{`ask your own question`}</QuestionBottomAsk>
+                {`.`}
+              </QuestionBottom>
+            </AnswerContainer>
+          </ViewContent>
+          <QuestionSidebar />
+        </ContentWrapper>
+      </ContentContainer>
+    </Container>
   );
 };
 export default Answers;

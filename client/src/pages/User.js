@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
+import Loading from '../components/Loading';
 
 const User = () => {
   const { id } = useParams();
   const [member, setMember] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const apiUrl = `${process.env.REACT_APP_API_URL}/members/${id}`;
   useEffect(() => {
     const getMember = async () => {
@@ -14,13 +16,16 @@ const User = () => {
         const response = await axios.get(apiUrl);
         const { data } = response;
         setMember(data.data);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
     };
     getMember();
   }, []);
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <UserContainer>
       <LeftSidebar pageName="users" />
       <MyPageContentContainer className="MPC">

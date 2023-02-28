@@ -4,18 +4,23 @@ import { CgSearch } from 'react-icons/cg';
 import UserItem from '../components/others/UserItem';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from '../components/Loading';
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const apiUrl = `${process.env.REACT_APP_API_URL}/members?page=1`;
   useEffect(() => {
     const getUsers = async () => {
       const response = await axios.get(apiUrl);
       const { data } = response;
       setUsers(data.data);
+      setIsLoading(false);
     };
     getUsers();
   }, []);
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <UsersContainer>
       <LeftSidebar pageName="users" />
       <UsersContentContainer>

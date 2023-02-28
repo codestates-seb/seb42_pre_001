@@ -6,10 +6,12 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import { useParams } from 'react-router-dom';
 import PaginationController from './PaginationController';
+import Loading from '../Loading';
 
 const QuestionList = ({ name }) => {
   const [questions, setQuestions] = useState([]);
   const [totalPage, setTotalPage] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState([]);
   const [offset, setOffset] = useState(0);
   const limit = 5;
@@ -31,13 +33,16 @@ const QuestionList = ({ name }) => {
             .map((el, idx) => idx + 1)
             .slice(offset, offset + limit)
         );
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
     };
     getQuestions();
   }, [num, offset]);
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Container>
       <QuestionListTop name={name}></QuestionListTop>
       {questions.map((el, idx) => (
