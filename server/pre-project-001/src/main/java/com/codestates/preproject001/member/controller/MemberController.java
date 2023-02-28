@@ -67,8 +67,10 @@ public class MemberController { // 1차 완료
     public ResponseEntity getMember(@PathVariable("member-id") long memberId,
             @AuthenticationPrincipal MemberDetails memberDetails) {
         Member dbMember = memberService.findMember(memberId);
+
         if (memberDetails != null) {
-            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(), memberDetails.getName());
+            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(),
+                    memberService.findMember(memberDetails.getMemberId()).getName());
             return new ResponseEntity<>(
                     new SingleResponseDto<>(mapper.memberToMemberMyPageDto(dbMember), loginMemberDto), HttpStatus.OK);
         }
@@ -94,7 +96,8 @@ public class MemberController { // 1차 완료
         List<MemberResponseDto> memberResponseDtos = mapper.membersToMemberResponseDtos(content);
 
         if (memberDetails != null) {
-            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(), memberDetails.getName());
+            LoginMemberDto loginMemberDto = new LoginMemberDto(memberDetails.getMemberId(),
+                    memberService.findMember(memberDetails.getMemberId()).getName());
             return new ResponseEntity<>(new MultiResponseDto<>(memberResponseDtos, members, loginMemberDto),
                     HttpStatus.OK);
         }

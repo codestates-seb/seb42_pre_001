@@ -3,7 +3,8 @@ package com.codestates.preproject001.member.entity;
 
 import com.codestates.preproject001.answer.entity.Answer;
 import com.codestates.preproject001.question.entity.Question;
-import com.codestates.preproject001.vote.entity.Vote;
+import com.codestates.preproject001.vote.entity.QuestionVote;
+import com.codestates.preproject001.vote.entity.AnswerVote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -80,8 +81,10 @@ public class Member {
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Vote> votes = new ArrayList<>();
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<QuestionVote> questionVotes = new ArrayList<>();
 
     // (완료) JPA 설정 및 question, answer 클래스 미구현으로 매핑 및 필드 미설정?
     // (완료) List<Question> / List<Answer> 추후 구현

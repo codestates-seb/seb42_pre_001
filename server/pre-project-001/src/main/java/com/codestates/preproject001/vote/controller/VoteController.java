@@ -3,10 +3,12 @@ package com.codestates.preproject001.vote.controller;
 import com.codestates.preproject001.answer.service.AnswerService;
 import com.codestates.preproject001.member.service.MemberService;
 import com.codestates.preproject001.oath.memberDetails.MemberDetails;
+import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.service.QuestionService;
 import com.codestates.preproject001.vote.dto.AnswerVoteDto;
 import com.codestates.preproject001.vote.dto.QuestionVoteDto;
-import com.codestates.preproject001.vote.entity.Vote;
+import com.codestates.preproject001.vote.entity.AnswerVote;
+import com.codestates.preproject001.vote.entity.QuestionVote;
 import com.codestates.preproject001.vote.mapper.VoteMapper;
 import com.codestates.preproject001.vote.service.VoteService;
 import io.swagger.annotations.Api;
@@ -41,13 +43,12 @@ public class VoteController {
     @PostMapping("/questions/vote/up")
     public ResponseEntity questionVoteUp(@AuthenticationPrincipal MemberDetails memberDetails,
                                          @RequestBody QuestionVoteDto questionVoteDto){
-        memberService.matchMember(memberDetails.getMemberId(), questionVoteDto.getMemberId());
-        questionService.memberVerification(memberDetails.getMemberId(), questionVoteDto.getQuestionId());
-        Vote vote = voteMapper.questionVoteDtoToVote(questionVoteDto);
-        vote.setVoteStatus(Vote.VoteStatus.PLUS);
-        questionService.findQuestion(questionVoteDto.getQuestionId()).getVotes().add(vote);
+        voteService.verifyNotMyVote(memberDetails.getMemberId(),questionVoteDto.getMemberId());
+        QuestionVote questionVote = voteMapper.questionVoteDtoToQuesitonVote(questionVoteDto);
+        questionVote.setVoteStatus(QuestionVote.VoteStatus.PLUS);
+        questionService.findQuestion(questionVoteDto.getQuestionId()).getQuestionVotes().add(questionVote);
 
-        voteService.voteUp(vote.getQuestion().getQuestionId(), vote.getMember().getMemberId(), vote);
+        voteService.questionVoteUp(questionVote.getQuestion().getQuestionId(), questionVote.getMember().getMemberId(), questionVote);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -55,13 +56,12 @@ public class VoteController {
     @PostMapping("/questions/vote/down")
     public ResponseEntity questionVoteDown(@AuthenticationPrincipal MemberDetails memberDetails,
                                            @RequestBody QuestionVoteDto questionVoteDto){
-        memberService.matchMember(memberDetails.getMemberId(), questionVoteDto.getMemberId());
-        questionService.memberVerification(memberDetails.getMemberId(), questionVoteDto.getQuestionId());
-        Vote vote = voteMapper.questionVoteDtoToVote(questionVoteDto);
-        vote.setVoteStatus(Vote.VoteStatus.MINUS);
-        questionService.findQuestion(questionVoteDto.getQuestionId()).getVotes().add(vote);
+        voteService.verifyNotMyVote(memberDetails.getMemberId(),questionVoteDto.getMemberId());
+        QuestionVote questionVote = voteMapper.questionVoteDtoToQuesitonVote(questionVoteDto);
+        questionVote.setVoteStatus(QuestionVote.VoteStatus.MINUS);
+        questionService.findQuestion(questionVoteDto.getQuestionId()).getQuestionVotes().add(questionVote);
 
-        voteService.voteDown(vote.getQuestion().getQuestionId(), vote.getMember().getMemberId(), vote);
+        voteService.questionVoteDown(questionVote.getQuestion().getQuestionId(), questionVote.getMember().getMemberId(), questionVote);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -69,27 +69,25 @@ public class VoteController {
     @PostMapping("/answers/vote/up")
     public ResponseEntity answerVoteUp(@AuthenticationPrincipal MemberDetails memberDetails,
                                  @RequestBody AnswerVoteDto answerVoteDto){
-        memberService.matchMember(memberDetails.getMemberId(), answerVoteDto.getMemberId());
-        answerService.memberVerification(memberDetails.getMemberId(), answerVoteDto.getAnswerId());
-        Vote vote = voteMapper.answerVoteDtoToVote(answerVoteDto);
-        vote.setVoteStatus(Vote.VoteStatus.PLUS);
-        answerService.findAnswer(answerVoteDto.getAnswerId()).getVotes().add(vote);
+        voteService.verifyNotMyVote(memberDetails.getMemberId(),answerVoteDto.getMemberId());
+        AnswerVote answerVote = voteMapper.answerVoteDtoToAnswerVote(answerVoteDto);
+        answerVote.setVoteStatus(AnswerVote.VoteStatus.PLUS);
+        answerService.findAnswer(answerVoteDto.getAnswerId()).getAnswerVotes().add(answerVote);
 
-        voteService.voteUp(vote.getAnswer().getAnswerId(), vote.getMember().getMemberId(), vote);
+        voteService.answerVoteUp(answerVote.getAnswer().getAnswerId(), answerVote.getMember().getMemberId(), answerVote);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "답변 투표 다운버튼ㅂ")
+    @ApiOperation(value = "답변 투표 다운버튼")
     @PostMapping("/answers/vote/down")
     public ResponseEntity answerVoteDown(@AuthenticationPrincipal MemberDetails memberDetails,
                                    @RequestBody AnswerVoteDto answerVoteDto){
-        memberService.matchMember(memberDetails.getMemberId(), answerVoteDto.getMemberId());
-        answerService.memberVerification(memberDetails.getMemberId(), answerVoteDto.getAnswerId());
-        Vote vote = voteMapper.answerVoteDtoToVote(answerVoteDto);
-        vote.setVoteStatus(Vote.VoteStatus.MINUS);
-        answerService.findAnswer(answerVoteDto.getAnswerId()).getVotes().add(vote);
+        voteService.verifyNotMyVote(memberDetails.getMemberId(),answerVoteDto.getMemberId());
+        AnswerVote answerVote = voteMapper.answerVoteDtoToAnswerVote(answerVoteDto);
+        answerVote.setVoteStatus(AnswerVote.VoteStatus.MINUS);
+        answerService.findAnswer(answerVoteDto.getAnswerId()).getAnswerVotes().add(answerVote);
 
-        voteService.voteDown(vote.getAnswer().getAnswerId(), vote.getMember().getMemberId(), vote);
+        voteService.answerVoteDown(answerVote.getAnswer().getAnswerId(), answerVote.getMember().getMemberId(), answerVote);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
