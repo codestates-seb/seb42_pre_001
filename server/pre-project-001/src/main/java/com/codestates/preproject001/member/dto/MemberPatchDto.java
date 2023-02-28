@@ -6,9 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 @Data
 @Getter
 @AllArgsConstructor
@@ -17,9 +14,12 @@ public class MemberPatchDto {
     @NotSpace(message = "이름은 공백일 수 없습니다.")
     private String name;
     @ApiModelProperty
+    @NotSpace(message = "위치를 입력해주세요.")
     private String location;
     @ApiModelProperty
+    @NotSpace(message = "직함을 입력해주세요")
     private String title;
     @ApiModelProperty
+    @NotSpace(message = "자기소개를 입력해주세요")
     private String aboutMe;
 }
