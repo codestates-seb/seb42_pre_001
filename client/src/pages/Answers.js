@@ -31,21 +31,40 @@ const Answers = () => {
   const editorRef = useRef();
   const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
   const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
-
   //질문조회
   useEffect(() => {
     const getQuestion = async () => {
-      try {
-        const response = await axios.get(apiUrl);
-        const { data } = response;
-        setQuestion(data.data);
-        setAnswers(data.data.answers);
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
+      if (cookie.accessToken && cookie.refreshToken) {
+        try {
+          const response = await axios.get(apiUrl);
+          const { data } = response;
+          setQuestion(data.data);
+          setAnswers(data.data.answers);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const response = await axios.get(apiUrl, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: cookie.accessToken,
+              Refresh: cookie.refreshToken,
+            },
+            withCredentials: true,
+          });
+          const { data } = response;
+          setQuestion(data.data);
+          setAnswers(data.data.answers);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
     getQuestion();
+    window.scrollTo(0, 0);
   }, []);
   // 댓글 생성
   const onChangeEditor = () => {
@@ -210,6 +229,7 @@ const Error = styled.div`
   display: flex;
   height: 29px;
   font-weight: 600;
+  font-size: 15px;
   color: hsl(358deg 62% 52%);
 `;
 const Msg = styled.div`

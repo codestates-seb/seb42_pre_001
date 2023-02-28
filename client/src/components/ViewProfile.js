@@ -35,7 +35,6 @@ const UserContiner = styled.div`
   justify-content: right;
 `;
 const UserWrapper = styled.div`
-  width: 200px;
   padding: 5px;
   display: flex;
   flex-direction: column;

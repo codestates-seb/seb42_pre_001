@@ -1,24 +1,45 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import Loading from '../components/Loading';
 
 const User = () => {
+  window.scrollTo(0, 0);
+  const cookie = useCookies();
   const { id } = useParams();
   const [member, setMember] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const apiUrl = `${process.env.REACT_APP_API_URL}/members/${id}`;
   useEffect(() => {
     const getMember = async () => {
-      try {
-        const response = await axios.get(apiUrl);
-        const { data } = response;
-        setMember(data.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
+      if (cookie.accessToken && cookie.refreshToken) {
+        try {
+          const response = await axios.get(apiUrl, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: cookie.accessToken,
+              Refresh: cookie.refreshToken,
+            },
+            withCredentials: true,
+          });
+          const { data } = response;
+          setMember(data.data);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const response = await axios.get(apiUrl);
+          const { data } = response;
+          setMember(data.data);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
     getMember();
