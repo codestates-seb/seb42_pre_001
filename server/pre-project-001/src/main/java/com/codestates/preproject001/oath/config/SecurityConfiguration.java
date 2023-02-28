@@ -40,6 +40,8 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
                         .antMatchers(HttpMethod.GET).permitAll()
                         .antMatchers(HttpMethod.POST,"/members/join").permitAll()
+                        .antMatchers(HttpMethod.PATCH,"/pwchange/registeremail").permitAll()
+                        .antMatchers(HttpMethod.POST,"/pwchange").permitAll()
                         .anyRequest().authenticated()
                 );
 
