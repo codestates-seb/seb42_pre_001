@@ -1,20 +1,30 @@
 import LeftSidebar from '../inquiry/LeftSidebar';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useState, useRef, useEffect } from 'react';
 import CreateAboutMe from './CreateAboutMe';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { setDisplayName, setTitle, setLocation } from '../../slice/myInfoSlice';
 import { setUserInfo } from '../../slice/loginSlice';
+import {
+  setDisplayName,
+  setTitle,
+  setLocation,
+  setMyInfo,
+} from '../../slice/myInfoSlice';
 
 export default function Mypage() {
+  const navigate = useNavigate();
   const checkBox = useRef();
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
   });
+  const [cookie, setCookie, removeCookie] = useCookies();
+
   const profile = `https://source.boringavatars.com/beam/25/${
     state.login.userInfo && state.login.userInfo.data.memberId
       ? state.login.userInfo.data.memberId
@@ -22,8 +32,6 @@ export default function Mypage() {
   }%20?square`;
   const [page, setPage] = useState('act');
   const [isChecked, setIsChecked] = useState(null);
-  const [cookie] = useCookies();
-  console.log('MP', state);
   const deleteContent1 = ` Before confirming that you would like your profile deleted,
  we'd like to take a moment to explain the implications of deletion:`;
 
@@ -44,52 +52,54 @@ export default function Mypage() {
   const deleteContent5 = `I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.`;
 
   useEffect(() => {
-    getUserData();
+    if (cookie.accessToken && cookie.refreshToken) getUserData();
   }, []);
 
   const memberId = cookie.loginMemberId;
-  console.log('memberId', memberId);
 
   // 토큰을 포함시켜서 요청
   const getUserData = async () => {
     const response = await axios.get(
       `${process.env.REACT_APP_API_URL}/members/${memberId}`,
-      // `${process.env.REACT_APP_API_URL}/members/${cookie.memberId}`,
       {
         headers: {
           'Content-Type': 'application/json',
           Authorization: cookie.accessToken,
           Refresh: cookie.refreshToken,
         },
+        withCredentials: true,
       }
     );
     const { data } = response;
-    console.log('data', data);
     dispatch(setUserInfo(data));
-    dispatch(setTitle(state.login.userInfo.data.title));
-    dispatch(setDisplayName(state.login.userInfo.data.name));
-    dispatch(setLocation(state.login.userInfo.data.location));
+    dispatch(setMyInfo(data));
   };
 
   // 회원 삭제 구현
   // 삭제 버튼 클릭
   const userDelete = async () => {
     try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/members`,
-        {},
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: cookie.accessToken,
-            Refresh: cookie.refreshToken,
-          },
-          withCredentials: true,
-        }
-      );
-      console.log(response);
-      const { data } = response;
-      console.log('data', data);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/members`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+        withCredentials: true,
+      });
+
+      if (!cookie) setCookie('');
+      if (cookie) {
+        removeCookie('accessToken');
+        removeCookie('refreshToken');
+        removeCookie('id');
+        removeCookie('loginMemberId');
+        removeCookie('loginMemberName');
+      }
+
+      alert('회원정보가 삭제되었습니다.');
+      navigate('/');
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -105,7 +115,7 @@ export default function Mypage() {
       aboutMe,
     };
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${process.env.REACT_APP_API_URL}/members`,
         JSON.stringify(body),
         {
@@ -117,7 +127,9 @@ export default function Mypage() {
           withCredentials: true,
         }
       );
-      console.log(response);
+
+      window.location.reload();
+      alert('회원정보가 변경되었습니다.');
     } catch (err) {
       console.log(err);
     }
@@ -250,20 +262,11 @@ export default function Mypage() {
                 <Text5>Profile image</Text5>
                 <UserImg src={profile} alt="pic" />
                 <Text5>Display name</Text5>
-                <Input
-                  onChange={displayNameHandler}
-                  value={state.myInfo.displayName}
-                ></Input>
+                <Input onChange={displayNameHandler}></Input>
                 <Text5>Location</Text5>
-                <Input
-                  onChange={locationHandler}
-                  value={state.myInfo.location}
-                ></Input>
+                <Input onChange={locationHandler}></Input>
                 <Text5>Title</Text5>
-                <Input
-                  onChange={titleHandler}
-                  value={state.myInfo.title}
-                ></Input>
+                <Input onChange={titleHandler}></Input>
                 <Text5>About me</Text5>
                 <CreateAboutMe
                   content={state.login.userInfo.data.aboutMe}

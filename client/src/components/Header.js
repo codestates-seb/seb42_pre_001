@@ -36,7 +36,7 @@ function Header() {
     const memberId = cookie.loginMemberId;
 
     const id = memberId;
-    console.log(id);
+
     navigate(`/users/${id}`);
   };
 

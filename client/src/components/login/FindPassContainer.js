@@ -22,7 +22,7 @@ export default function findPass() {
       email: email,
     };
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_API_URL}/pwchange`,
         JSON.stringify(body),
         {
@@ -32,7 +32,6 @@ export default function findPass() {
           withCredentials: true,
         }
       );
-      console.log(response);
     } catch (err) {
       console.log(err);
     }

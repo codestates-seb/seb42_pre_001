@@ -7,20 +7,19 @@ import axios from 'axios';
 export default function SignUpConfirm() {
   const location = useLocation();
   const url = `${location.pathname}${location.search}`;
-  console.log(url);
+
   useEffect(() => {
     getRequest();
   }, []);
 
   const getRequest = async () => {
     try {
-      const response = axios.get(`${process.env.REACT_APP_API_URL}${url}`, {
+      axios.get(`${process.env.REACT_APP_API_URL}${url}`, {
         headers: {
           'Content-Type': 'application/json',
         },
         withCredentials: true,
       });
-      console.log(response);
     } catch (err) {
       console.log(err);
     }
