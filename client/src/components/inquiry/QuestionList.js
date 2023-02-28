@@ -35,7 +35,6 @@ const QuestionList = ({ name }) => {
             withCredentials: true,
           });
           const { data } = response;
-
           setQuestions(data.data);
           setTotalPage(data.pageInfo.totalPages);
           setOffset(num ? Math.floor((num - 1) / limit) * limit : 0);
@@ -44,10 +43,9 @@ const QuestionList = ({ name }) => {
               .map((el, idx) => idx + 1)
               .slice(offset, offset + limit)
           );
-          window.scrollTo(0, 0);
           setIsLoading(false);
           if (!cookie.loginMember) {
-            setCookie('loginMemberId', data.loginMember.memberId);
+            setCookie('loginMemberId', Number(data.loginMember.memberId));
             setCookie('loginMemberName', data.loginMember.name);
           }
         } catch (error) {
@@ -65,7 +63,6 @@ const QuestionList = ({ name }) => {
               .map((el, idx) => idx + 1)
               .slice(offset, offset + limit)
           );
-          window.scrollTo(0, 0);
           setIsLoading(false);
         } catch (error) {
           console.error(error);

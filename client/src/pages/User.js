@@ -7,8 +7,7 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 import Loading from '../components/Loading';
 
 const User = () => {
-  window.scrollTo(0, 0);
-  const cookie = useCookies();
+  const [cookie] = useCookies();
   const { id } = useParams();
   const [member, setMember] = useState({});
   const [isLoading, setIsLoading] = useState(true);

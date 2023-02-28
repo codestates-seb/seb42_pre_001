@@ -50,6 +50,7 @@ const AnswerContent = ({ answer, question }) => {
             editFunction={navigateToEditPage}
             deleteFunction={deleteAnswer}
           />
+
           <ViewProfile
             from="answer"
             id={answer.memberId}

@@ -24,14 +24,9 @@ function Header() {
   }
 
   const profile = `https://source.boringavatars.com/beam/25/${
-    state.userInfo && state.userInfo.data.memberId
-      ? state.userInfo.data.memberId
-      : cookie.loginMemberId
-  }%20${
-    state.userInfo && state.userInfo.data.name
-      ? state.userInfo.data.name
-      : cookie.loginMemberName
-  }?square`;
+    cookie.loginMemberId ? cookie.loginMemberId : ''
+  }%20${cookie.loginMemberName ? cookie.loginMemberName : ''}?square`;
+
   // 토큰이 있을 경우 로그인 유지
   if (cookie.accessToken && cookie.refreshToken) {
     dispatch(setIsLogin(true));
