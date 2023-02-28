@@ -4,7 +4,11 @@ import styled from 'styled-components';
 import { useRef, useEffect, useState } from 'react';
 import { AskBoxStyle } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { setContent, setContentFocus } from '../../slice/questionSlice';
+import {
+  setContent,
+  setContentFocus,
+  setIsDiscard,
+} from '../../slice/questionSlice';
 import { setContent as setAContent } from '../../slice/answerSlice';
 function TextEditor({ title, desc = null, initialValue = '' }) {
   let [contentErrorMsg, setContentErrorMsg] = useState(null);
@@ -12,7 +16,7 @@ function TextEditor({ title, desc = null, initialValue = '' }) {
     title === 'Body'
       ? useSelector((state) => state.question)
       : useSelector((state) => state.answer);
-  let { contentFocus } = useSelector((state) => state.question);
+  let { contentFocus, isDiscard } = useSelector((state) => state.question);
   let editorRef = useRef(null);
   let dispatch = useDispatch();
   let setContentText = () => {
@@ -50,6 +54,16 @@ function TextEditor({ title, desc = null, initialValue = '' }) {
     // console.log(position);
     // editorRef.current?.getInstance().deleteSelection([1, 0], position[1]);
   };
+
+  const resetEditor = () => {
+    editorRef.current?.getInstance().reset();
+    dispatch(setIsDiscard(false));
+  };
+  useEffect(() => {
+    if (isDiscard) {
+      resetEditor();
+    }
+  }, [isDiscard]);
 
   return (
     <Div

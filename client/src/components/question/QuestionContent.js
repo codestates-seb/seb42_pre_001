@@ -16,7 +16,7 @@ const QuestionContent = ({ question, user, tags }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { questionId } = question;
-  // 질문 수정
+  // 질문 수정 페이지 이동
   const navigateToEditPage = () => {
     navigate(`/questions/${questionId}/edit`, {
       state: { question },
@@ -26,22 +26,18 @@ const QuestionContent = ({ question, user, tags }) => {
 
   // 질문 삭제
   const deletePost = async () => {
-    await axios.delete(
-      `${process.env.REACT_APP_API_URL}/questions/${questionId}`,
-      {
-        data: {
-          memberId: 2,
-          questionId: questionId,
-        },
+    await axios.delete(`${process.env.REACT_APP_API_URL}/questions`, {
+      data: {
+        memberId: 2,
+        questionId: questionId,
       },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookie.accessToken,
-          Refresh: cookie.refreshToken,
-        },
-      }
-    );
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: cookie.accessToken,
+        Refresh: cookie.refreshToken,
+      },
+      withCredentials: true,
+    });
   };
 
   return (

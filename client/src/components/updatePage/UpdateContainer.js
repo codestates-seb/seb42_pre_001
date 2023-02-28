@@ -1,4 +1,5 @@
 // 버튼 클릭 시 -> 질문 title, content, tags, 답변 content 전역 상태 삭제
+// dispatch(setContent(null), setTitle(null), setAllTags(null));
 import InputTags from '../../components/ask/InputTags';
 import MainButton from '../../components/MainButton';
 import styled from 'styled-components';
@@ -24,35 +25,42 @@ function UpdateContainer() {
   let Acontent = useSelector((state) => state.answer.content);
   console.log(question.content);
   console.log(Qcontent);
-  let requestBody = {
-    content: Qcontent,
-    title: title,
-    questionId: question.questionId,
-    memberId: 2,
-    tags: allTags,
-  };
+  let requestBody = answer
+    ? {
+        content: Acontent,
+        questionId: question.questionId,
+        memberId: 2,
+      }
+    : {
+        content: Qcontent,
+        title: title,
+        questionId: question.questionId,
+        memberId: 2,
+        tags: allTags,
+      };
   console.log(requestBody);
+
+  // 질문/답변 수정
+  const url = answer
+    ? `${process.env.REACT_APP_API_URL}/answers`
+    : `${process.env.REACT_APP_API_URL}/questions`;
+  console.log(url);
   const patchHandler = async () => {
     await axios
-      .patch(
-        `${process.env.REACT_APP_API_URL}/questions/${question.questionId}`,
-        JSON.stringify(requestBody),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: cookie.accessToken,
-            Refresh: cookie.refreshToken,
-          },
-        }
-      )
+      .patch(url, JSON.stringify(requestBody), {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: cookie.accessToken,
+          Refresh: cookie.refreshToken,
+        },
+        withCredentials: true,
+      })
       .then(function (response) {
         console.log(response);
-        // dispatch(setContent(null), setTitle(null), setAllTags(null));
         navigate(`/questions/${question.questionId}`);
       })
       .catch(function (error) {
         console.log(error);
-        // dispatch(setContent(null), setTitle(null), setAllTags(null));
       });
   };
 

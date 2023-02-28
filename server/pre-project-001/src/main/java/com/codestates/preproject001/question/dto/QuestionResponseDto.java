@@ -1,6 +1,7 @@
 package com.codestates.preproject001.question.dto;
 
 import com.codestates.preproject001.answer.dto.AnswerResponseDto;
+import com.codestates.preproject001.dto.LoginMemberDto;
 import lombok.Getter;
 import lombok.Setter;
 

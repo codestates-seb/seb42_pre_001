@@ -2,11 +2,19 @@ import { BsCheckLg } from 'react-icons/bs';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
-// 컴포넌트  묶음
 const Conatiner = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Content = styled.div`
   min-width: 450px;
-  width: 530px; //
-  height: 140px; //
+  width: 530px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,19 +44,21 @@ export default function FindPass() {
   });
   return (
     <Conatiner>
-      <Text>
-        <BsCheckLg size="50" color="#27ae60"></BsCheckLg>ㅤ
-        <Paragraph>
-          Registration email sent to {state.signUp.email} Open this email to
-          finish signup.
-        </Paragraph>
-      </Text>
+      <Content>
+        <Text>
+          <BsCheckLg size="50" color="#27ae60"></BsCheckLg>ㅤ
+          <Paragraph>
+            Registration email sent to {state.signUp.email} Open this email to
+            finish signup.
+          </Paragraph>
+        </Text>
 
-      <Text2>
-        If you don’t see this email in your inbox within 15 minutes, look for it
-        in your junk mail folder. If you find it there, please mark the email as
-        “Not Junk”.
-      </Text2>
+        <Text2>
+          If you don’t see this email in your inbox within 15 minutes, look for
+          it in your junk mail folder. If you find it there, please mark the
+          email as “Not Junk”.
+        </Text2>
+      </Content>
     </Conatiner>
   );
 }
