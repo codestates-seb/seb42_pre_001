@@ -38,6 +38,8 @@ const QuestionContent = ({ question, user, tags }) => {
       },
       withCredentials: true,
     });
+    alert(`Delete this post?`);
+    navigate('/');
   };
 
   return (
