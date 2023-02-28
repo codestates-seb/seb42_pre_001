@@ -30,7 +30,7 @@ const questionSlice = createSlice({
       state.contentFocus = action.payload;
     },
     setAllTags: (state, action) => {
-      state.allTags.push(action.payload);
+      state.allTags = action.payload;
     },
     setDeleteTag: (state, action) => {
       state.allTags = state.allTags.filter((el) => {
