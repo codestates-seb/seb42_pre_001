@@ -29,7 +29,7 @@ const QuestionContent = ({ question, tags }) => {
     if (confirm(`Delete this post?`)) {
       await axios.delete(`${process.env.REACT_APP_API_URL}/questions`, {
         data: {
-          memberId: 2,
+          memberId: Number(cookie.loginMemberId),
           questionId: questionId,
         },
         headers: {

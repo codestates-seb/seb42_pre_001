@@ -29,13 +29,13 @@ function UpdateContainer() {
     ? {
         content: Acontent,
         answerId: answer.answerId,
-        memberId: 2,
+        memberId: Number(cookie.loginMemberId),
       }
     : {
         content: Qcontent,
         title: title,
         questionId: question.questionId,
-        memberId: 2,
+        memberId: Number(cookie.loginMemberId),
         tags: allTags,
       };
   console.log(requestBody);
