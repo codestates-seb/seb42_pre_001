@@ -51,10 +51,13 @@ export default function Mypage() {
     getUserData();
   }, []);
 
+  const memberId = cookie.loginMemberId;
+  console.log('memberId', memberId);
+
   // 토큰을 포함시켜서 요청
   const getUserData = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/members/12`,
+      `${process.env.REACT_APP_API_URL}/members/${memberId}`,
       // `${process.env.REACT_APP_API_URL}/members/${cookie.memberId}`,
       {
         headers: {
@@ -65,6 +68,7 @@ export default function Mypage() {
       }
     );
     const { data } = response;
+    console.log('data', data);
     dispatch(setUserInfo(data));
     dispatch(setTitle(state.login.userInfo.data.title));
     dispatch(setDisplayName(state.login.userInfo.data.name));
