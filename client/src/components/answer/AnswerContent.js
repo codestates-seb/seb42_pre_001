@@ -93,6 +93,7 @@ const ContentContainer = styled.div`
   width: 657px;
   word-wrap: break-word;
 `;
+
 const ButtonsAndProfile = styled.div`
   display: flex;
   justify-content: space-between;
