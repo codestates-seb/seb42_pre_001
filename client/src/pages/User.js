@@ -32,7 +32,7 @@ const User = () => {
         <Main className="main">
           <UserInfoContainer>
             <UserImg
-              src={`https://api.dicebear.com/5.x/identicon/svg/seed=${id}`}
+              src={`https://source.boringavatars.com/beam/25/${member.memberId}%20${member.name}?square`}
               alt="avatar"
             />
             <UserName>{member.name}</UserName>
@@ -131,7 +131,7 @@ const ActContainer = styled.div`
   float: left;
   height: 30px;
   margin: 10px;
-  padding: 10px;
+  padding: 8px 10px 10px 10px;
   font-size: 15px;
   border: 1px solid none;
   border-radius: 100px;

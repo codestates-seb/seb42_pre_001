@@ -91,11 +91,7 @@ const Answers = () => {
         <QuestionTitle title={question.title} />
         <ContentWrapper>
           <ViewContent>
-            <QuestionContent
-              question={question}
-              user={question.memberName}
-              tags={question.tags}
-            />
+            <QuestionContent question={question} tags={question.tags} />
             {/* <button onClick={editPost}>질문 수정 버튼입니다</button>
               <button onClick={deletePost}>질문 삭제 버튼입니다</button> */}
             <AnswerContainer>

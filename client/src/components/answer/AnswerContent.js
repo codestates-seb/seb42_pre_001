@@ -31,7 +31,11 @@ const AnswerContent = ({ answer, question }) => {
             editFunction={editAnswer}
             deleteFunction={deleteAnswer}
           />
-          <ViewProfile user={answer.memberName} />
+          <ViewProfile
+            id={answer.memberId}
+            name={answer.memberName}
+            createdAt={answer.createdAt}
+          />
         </ButtonsAndProfile>
       </ContentContainer>
     </Container>

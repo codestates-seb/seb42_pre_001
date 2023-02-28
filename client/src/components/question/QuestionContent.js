@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import InquiryButtons from '../inquiry/InquiryButtons';
 import Markdown from '../Markdown';
-const QuestionContent = ({ question, user, tags }) => {
+const QuestionContent = ({ question, tags }) => {
   const [cookie] = useCookies();
   const state = useSelector((state) => state.login);
   console.log(state);
@@ -55,7 +55,11 @@ const QuestionContent = ({ question, user, tags }) => {
         <ViewTags tags={tags} />
         <ButtonsAndProfile>
           <InquiryButtons editFunction={editPost} deleteFunction={deletePost} />
-          <ViewProfile user={user} />
+          <ViewProfile
+            id={question.memberId}
+            name={question.memberName}
+            createdAt={question.createdAt}
+          />
         </ButtonsAndProfile>
       </ContentContainer>
     </Container>

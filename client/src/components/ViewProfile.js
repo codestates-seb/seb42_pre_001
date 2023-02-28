@@ -1,19 +1,21 @@
 import styled from 'styled-components';
 import { FaCircle } from 'react-icons/fa';
-import profile from '../assets/profile.png';
-const ViewProfile = ({ user }) => {
+const ViewProfile = ({ id, name, createdAt }) => {
   return (
     <UserContiner>
       <UserWrapper>
-        <Time>asked Jan 23, 2023 at 18:35</Time>
+        <Time>asked {createdAt}</Time>
         <UserWrapperBottom>
-          <Image src={profile} />
+          <Image
+            src={`https://source.boringavatars.com/beam/25/${id}%20${name}?square`}
+            alt="avatar"
+          />
           <NameContainer>
-            <Name>{user}</Name>
+            <Name>{name}</Name>
             <NameWrapperBottom>
-              <FirstNum>206</FirstNum>
+              <FirstNum>{id * 2 + 100}</FirstNum>
               <Circle />
-              <LastNum>4</LastNum>
+              <LastNum>{id}</LastNum>
             </NameWrapperBottom>
           </NameContainer>
         </UserWrapperBottom>

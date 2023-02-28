@@ -12,10 +12,11 @@ const UserItem = ({ user }) => {
     'Australia',
     'Germany',
   ];
+
   return (
     <UserContiner>
       <ImageWrapper
-        src={`https://api.dicebear.com/5.x/identicon/svg/seed=${user.memberId}`}
+        src={`https://source.boringavatars.com/beam/25/${user.memberId}%20${user.name}?square`}
         alt="avatar"
       />
       <ContentContainer>
