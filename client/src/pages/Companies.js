@@ -4,7 +4,6 @@ import { CgSearch } from 'react-icons/cg';
 import CompanyItem from '../components/others/CompanyItem';
 
 const Companies = () => {
-  window.scrollTo(0, 0);
   let companies = [
     {
       id: 1,

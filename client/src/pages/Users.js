@@ -7,8 +7,7 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import { useCookies } from 'react-cookie';
 const Users = () => {
-  window.scrollTo(0, 0);
-  const cookie = useCookies();
+  const [cookie] = useCookies();
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const apiUrl = `${process.env.REACT_APP_API_URL}/members?page=1`;

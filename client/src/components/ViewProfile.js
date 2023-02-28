@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 import { FaCircle } from 'react-icons/fa';
+
 const ViewProfile = ({ from, id, name, createdAt }) => {
   return (
     <UserContiner>
       <UserWrapper>
         <Time>
           {from === 'question' ? 'asked ' : 'answered '}
-          {createdAt
-            ? Date(createdAt).toLocaleString().slice(0, -18)
-            : Date().toLocaleString().slice(0, -18)}
+          {createdAt ? createdAt : Date().toLocaleString().slice(0, -18)}
         </Time>
         <UserWrapperBottom>
           <Image

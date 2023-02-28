@@ -21,16 +21,17 @@ const Answers = () => {
   const { id } = useParams();
   const [cookie] = useCookies();
   const [isLoading, setIsLoading] = useState(true);
+  const [answersLength, setAnswersLength] = useState(0);
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
   const ErrorMsg = 'Content must be at least 20 characters.';
   const [isValid, setIsValid] = useState(true);
-  console.log(answers);
   const [text, setText] = useState('');
   const { questionId } = question;
   const editorRef = useRef();
   const apiUrl = `${process.env.REACT_APP_API_URL}/questions/${id}`;
   const AnswerapiUrl = `${process.env.REACT_APP_API_URL}/answers`;
+
   //질문조회
   useEffect(() => {
     const getQuestion = async () => {
@@ -64,8 +65,7 @@ const Answers = () => {
       }
     };
     getQuestion();
-    window.scrollTo(0, 0);
-  }, []);
+  }, [answersLength]);
   // 댓글 생성
   const onChangeEditor = () => {
     setText(editorRef.current?.getInstance().getMarkdown());
@@ -79,7 +79,7 @@ const Answers = () => {
           AnswerapiUrl,
           JSON.stringify({
             questionId,
-            memberId: 2,
+            memberId: cookie.loginMemberId,
             content: text,
           }),
           {
@@ -93,16 +93,9 @@ const Answers = () => {
         )
         .then((res) => {
           console.log(res);
-          setAnswers([
-            ...answers,
-            {
-              questionId,
-              memberId: 2,
-              content: text,
-            },
-          ]);
           setText('');
           setIsValid(true);
+          setAnswersLength(answers.length);
           editorRef.current?.getInstance().reset();
         })
         .catch((error) => console.log(error));

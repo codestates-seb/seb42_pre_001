@@ -3,7 +3,6 @@ import LeftSidebar from '../components/inquiry/LeftSidebar';
 import { CgSearch } from 'react-icons/cg';
 import TagItem from '../components/others/TagItem';
 const Tags = () => {
-  window.scrollTo(0, 0);
   const tags = [
     {
       name: 'Javascript',
