@@ -14,15 +14,18 @@ export default function Mypage() {
   const state = useSelector((state) => {
     return state;
   });
+  const profile = `https://source.boringavatars.com/beam/25/${
+    state.login.userInfo && state.login.userInfo.data.memberId
+      ? state.login.userInfo.data.memberId
+      : ''
+  }%20${
+    state.login.userInfo && state.login.userInfo.data.name
+      ? state.login.userInfo.data.name
+      : ''
+  }?square`;
   const [page, setPage] = useState('act');
   const [isChecked, setIsChecked] = useState(null);
   const [cookie] = useCookies();
-  const email = cookie.id.split('@');
-  const firstKey = email[0];
-  const secondKey = email[1];
-  console.log(email);
-  const profile = `https://source.boringavatars.com/beam/25/${firstKey}%20${secondKey}?square`;
-  console.log(profile);
   console.log('MP', state);
   const deleteContent1 = ` Before confirming that you would like your profile deleted,
  we'd like to take a moment to explain the implications of deletion:`;

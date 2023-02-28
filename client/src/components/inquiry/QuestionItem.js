@@ -40,7 +40,9 @@ const QuestionsItem = ({ question }) => {
           {title}
         </RightTop>
         <RightBottom>
-          <ViewTags tags={tags} />
+          <TagsContainer>
+            <ViewTags tags={tags} />
+          </TagsContainer>
           <NameContainer>
             <NameImage
               src={`https://source.boringavatars.com/beam/25/${memberId}%20${memberName}?square`}
@@ -157,4 +159,10 @@ const Time = styled.div`
   :hover {
     color: black;
   }
+`;
+const TagsContainer = styled.div`
+  width: 380px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
 `;
