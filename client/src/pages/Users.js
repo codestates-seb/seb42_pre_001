@@ -16,7 +16,6 @@ const Users = () => {
   const HandleChange = (e) => {
     setText(e.target.value);
   };
-
   useEffect(() => {
     setUsersArr(
       users.filter((x) => x.name.toLowerCase().includes(text.toLowerCase()))
@@ -26,7 +25,14 @@ const Users = () => {
     const getUsers = async () => {
       if (cookie.accessToken && cookie.refreshToken) {
         try {
-          const response = await axios.get(apiUrl);
+          const response = await axios.get(apiUrl, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: cookie.accessToken,
+              Refresh: cookie.refreshToken,
+            },
+            withCredentials: true,
+          });
           const { data } = response;
           setUsers(data.data);
           setUsersArr(data.data);
@@ -39,6 +45,7 @@ const Users = () => {
           const response = await axios.get(apiUrl);
           const { data } = response;
           setUsers(data.data);
+          setUsersArr(data.data);
           setIsLoading(false);
         } catch (error) {
           console.error(error);
