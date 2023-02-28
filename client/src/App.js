@@ -19,6 +19,7 @@ import FindPass from './pages/FindPass';
 import Recovery from './pages/Recovery';
 import SignUpConfirm from './components/signup/Confirm';
 import Update from './pages/Update';
+import User from './pages/User';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/users/signup" element={<SignUp />} />
           <Route path="/users/logout" element={<Logout />} />
           <Route path="/users/:id/" element={<Mypage />} />
+          <Route path="/users/:id/:name" element={<User />} />
           <Route path="/users/account-recovery" element={<FindPass />} />
           <Route path="/pwchange/registeremail" element={<Recovery />} />
           <Route path="/join/registeremail" element={<SignUpConfirm />} />

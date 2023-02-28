@@ -10,9 +10,7 @@ import { BsFillChatRightTextFill } from 'react-icons/bs';
 import { InputStyle } from './ask/AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
-import { setUserInfo, setIsLogin } from '../slice/loginSlice';
-
-import axios from 'axios';
+import { setIsLogin } from '../slice/loginSlice';
 
 function Header() {
   const [cookie, setCookie] = useCookies();
@@ -25,37 +23,19 @@ function Header() {
     setCookie('id', 'unll@null');
   }
 
-  const email = cookie.id.split('@');
-  const firstKey = email[0];
-  const secondKey = email[1];
-  console.log(email);
-  const profile = `https://source.boringavatars.com/beam/25/${firstKey}%20${secondKey}?square`;
+  const profile = `https://source.boringavatars.com/beam/25/${
+    state.userInfo && state.userInfo.data.memberId
+      ? state.userInfo.data.memberId
+      : ''
+  }%20${
+    state.userInfo && state.userInfo.data.name ? state.userInfo.data.name : ''
+  }?square`;
   // 토큰이 있을 경우 로그인 유지
   if (cookie.accessToken && cookie.refreshToken) {
     dispatch(setIsLogin(true));
   }
 
-  // 토큰을 포함시켜서 요청
-  const getUserData = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/members/1`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: cookie.accessToken,
-          Refresh: cookie.refreshToken,
-        },
-      }
-    );
-    const { data } = response;
-    console.log(data);
-    dispatch(setUserInfo(data));
-    console.log(state);
-  };
-
   const moveMypage = () => {
-    getUserData();
-
     const id = '1';
     navigate(`/users/${id}`);
   };

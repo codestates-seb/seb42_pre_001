@@ -14,8 +14,6 @@ import com.codestates.preproject001.question.entity.Question;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 
 @Api(tags = "Answer Controller")
 @Validated
@@ -82,8 +79,8 @@ public class AnswerController {
     public ResponseEntity deleteAnswer(@AuthenticationPrincipal MemberDetails memberDetails,
                                        @RequestBody AnswerDeleteDto answerDeleteDto) {
         memberService.matchMember(memberDetails.getMemberId(), answerDeleteDto.getMemberId());
-        answerService.memberVerification(answerDeleteDto.getMemberId(), answerDeleteDto.getMemberId());
-        answerService.deleteAnswer(answerDeleteDto.getMemberId());
+        answerService.memberVerification(answerDeleteDto.getMemberId(), answerDeleteDto.getAnswerId());
+        answerService.deleteAnswer(answerDeleteDto.getAnswerId());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

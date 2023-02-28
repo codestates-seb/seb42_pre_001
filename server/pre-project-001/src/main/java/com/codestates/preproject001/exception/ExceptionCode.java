@@ -3,6 +3,7 @@ package com.codestates.preproject001.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
+
     MEMBER_NOT_FOUND(404, "Member Not Found"),  // 존재하지 않는 회원입니다.
     DELETED_MEMBER(404, "Deleted Member"), // 삭제된 회원입니다.
     UNAUTHORIZED_MEMBER(404, "Unauthorized Member"), // 이메일 인증을 하지 않은 회원입니다.
@@ -12,7 +13,8 @@ public enum ExceptionCode {
     QUESTION_NOT_FOUND(404, "Question Not Found"),  // 존재하지 않는 질문입니다.
     ANSWER_NOT_FOUND(404, "Answer Not Found"),  // 존재하지 않는 답변입니다.
     MEMBER_NOT_MATCH(404, "MemberId Is Different With TokenId"),    // 회원 정보가 올바르지 않습니다. (토큰에 담긴 memberId, 바디에 담기 memberId 일치하지 않을 때)
-    NOT_AUTHOR(404,"Only The Author Can Request It");   // 질문(답변) 작성자와 (토근에 담긴) memberId와 일치하지 않을 때
+    NOT_AUTHOR(404,"Only The Author Can Request It")   // 질문(답변) 작성자와 (토근에 담긴) memberId와 일치하지 않을 때
+    ,CANNOT_VOTE_TO_ME(404,"Can't Vote to my QnA");
 
     @Getter
     private final int status;

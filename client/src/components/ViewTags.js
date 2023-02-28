@@ -10,13 +10,10 @@ const ViewTags = ({ tags = [] }) => {
 };
 export default ViewTags;
 
-const Container = styled.span`
-  margin-top: 20px;
-  list-style-type: none;
-`;
+const Container = styled.span``;
 const Tag = styled.span`
-  height: 27px;
-  margin-right: 5px;
+  display: inline-block;
+  margin: 0px 5px 5px 0px;
   padding: 4px 6px 5px 6px;
   border-radius: 3px;
   cursor: pointer;

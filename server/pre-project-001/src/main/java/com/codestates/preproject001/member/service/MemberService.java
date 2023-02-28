@@ -51,7 +51,7 @@ public class MemberService {
             sendMail.setText(
                     "회원가입"+
                     "메일인증"+
-                            "<br><a href ='http://preproject001.s3-website.ap-northeast-2.amazonaws.com?email=" + member.getEmail()+
+                            "<br><a href ='http://preproject001.s3-website.ap-northeast-2.amazonaws.com/join/registeremail?email=" + member.getEmail()+
                             "&mail_key=" + member.getMailKey() +
                             "' target='_blank'>이메일 인증 확인</a>"
             );
@@ -166,7 +166,7 @@ public class MemberService {
                 sendMail.setSubject("[인증메일발송]");
                 sendMail.setText(
                         "메일인증"+
-                                "<br><a href ='http://preproject001.s3-website.ap-northeast-2.amazonaws.com?email=" + member.getEmail()+
+                                "<br><a href ='http://preproject001.s3-website.ap-northeast-2.amazonaws.com/pwchange/registeremail?email=" + member.getEmail()+
                                 "&mail_key=" + member.getMailKey() +
                                 "' target='_blank'>이메일 인증 확인</a>"
                 );

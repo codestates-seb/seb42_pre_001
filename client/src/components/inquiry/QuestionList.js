@@ -6,27 +6,75 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import { useParams } from 'react-router-dom';
 import PaginationController from './PaginationController';
+import Loading from '../Loading';
+import { useCookies } from 'react-cookie';
 
 const QuestionList = ({ name }) => {
   const [questions, setQuestions] = useState([]);
+  const [totalPage, setTotalPage] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState([]);
+  const [offset, setOffset] = useState(0);
+  const limit = 5;
   const { num } = useParams();
+  const [cookie, setCookie] = useCookies();
   const apiUrl = num
     ? `${process.env.REACT_APP_API_URL}/questions?page=${num}&size=10`
     : `${process.env.REACT_APP_API_URL}/questions?page=1&size=10`;
 
   useEffect(() => {
     const getQuestions = async () => {
-      const response = await axios.get(apiUrl);
-      const { data } = response;
-      setQuestions(data.data);
-      setPage(
-        Array.from(Array(data.pageInfo.totalPages)).map((el, idx) => idx + 1)
-      );
+      if (cookie.accessToken && cookie.refreshToken) {
+        try {
+          const response = await axios.get(apiUrl, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: cookie.accessToken,
+              Refresh: cookie.refreshToken,
+            },
+            withCredentials: true,
+          });
+          const { data } = response;
+          setQuestions(data.data);
+          setTotalPage(data.pageInfo.totalPages);
+          setOffset(num ? Math.floor((num - 1) / limit) * limit : 0);
+          setPage(
+            Array.from(Array(data.pageInfo.totalPages))
+              .map((el, idx) => idx + 1)
+              .slice(offset, offset + limit)
+          );
+          window.scrollTo(0, 0);
+          setIsLoading(false);
+          if (!cookie.loginMember) {
+            setCookie('loginMember', data.loginMember);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const response = await axios.get(apiUrl);
+          const { data } = response;
+          setQuestions(data.data);
+          setTotalPage(data.pageInfo.totalPages);
+          setOffset(num ? Math.floor((num - 1) / limit) * limit : 0);
+          setPage(
+            Array.from(Array(data.pageInfo.totalPages))
+              .map((el, idx) => idx + 1)
+              .slice(offset, offset + limit)
+          );
+          window.scrollTo(0, 0);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      }
     };
     getQuestions();
-  }, [num]);
-  return (
+  }, [num, offset]);
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Container>
       <QuestionListTop name={name}></QuestionListTop>
       {questions.map((el, idx) => (
@@ -37,7 +85,7 @@ const QuestionList = ({ name }) => {
         {page.map((el, idx) => (
           <Pagination key={idx} pageNum={el} num={num} />
         ))}
-        {page.length > num ? (
+        {totalPage > num ? (
           <PaginationController name="Next" num={num} />
         ) : null}
       </PaginationContainer>

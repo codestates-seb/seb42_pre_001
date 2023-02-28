@@ -50,7 +50,12 @@ const AnswerContent = ({ answer, question }) => {
             editFunction={navigateToEditPage}
             deleteFunction={deleteAnswer}
           />
-          <ViewProfile user={answer.memberName} />
+          <ViewProfile
+            from="answer"
+            id={answer.memberId}
+            name={answer.memberName}
+            createdAt={answer.createdAt}
+          />
         </ButtonsAndProfile>
       </ContentContainer>
     </Container>
