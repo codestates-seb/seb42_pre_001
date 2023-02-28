@@ -101,11 +101,17 @@ const Answers = () => {
           window.scrollTo(0, 0);
           editorRef.current?.getInstance().reset();
         })
-        .catch((error) =>
-          error.response.status === 403
-            ? navigate(`/users/login`)
-            : console.log(error)
-        );
+        .catch((error) => {
+          if (error.response.status === 403) {
+            if (
+              confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')
+            ) {
+              navigate('/users/login');
+            } else {
+              return false;
+            }
+          }
+        });
     }
   };
 
