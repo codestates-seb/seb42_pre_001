@@ -4,6 +4,7 @@ import QuestionList from '../components/inquiry/QuestionList';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 
 const Home = () => {
+  window.scrollTo(0, 0);
   return (
     <HomeContainer>
       <LeftSidebar pageName="home" />

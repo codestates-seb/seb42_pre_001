@@ -4,16 +4,15 @@ import QuestionList from '../components/inquiry/QuestionList';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 
 const Questions = () => {
+  window.scrollTo(0, 0);
   return (
-    <>
-      <QuestionsContainer>
-        <LeftSidebar pageName="questions" />
-        <QuestionsContentContainer>
-          <QuestionList name="All Questions"></QuestionList>
-          <QuestionSidebar></QuestionSidebar>
-        </QuestionsContentContainer>
-      </QuestionsContainer>
-    </>
+    <QuestionsContainer>
+      <LeftSidebar pageName="questions" />
+      <QuestionsContentContainer>
+        <QuestionList name="All Questions"></QuestionList>
+        <QuestionSidebar></QuestionSidebar>
+      </QuestionsContentContainer>
+    </QuestionsContainer>
   );
 };
 
