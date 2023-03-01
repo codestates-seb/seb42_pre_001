@@ -11,7 +11,9 @@ const questionSlice = createSlice({
     contentFocus: false,
     allTags: [],
     tagsFocus: false,
-    isDiscard: false,
+    discardTitle: false,
+    discardEditor: false,
+    discardTags: false,
   },
   reducers: {
     setName: (state, action) => {
@@ -40,8 +42,14 @@ const questionSlice = createSlice({
     setTagsFocus: (state, action) => {
       state.tagsFocus = action.payload;
     },
-    setIsDiscard: (state, action) => {
-      state.isDiscard = action.payload;
+    setDiscardTitle: (state, action) => {
+      state.discardTitle = action.payload;
+    },
+    setDiscardEditor: (state, action) => {
+      state.discardEditor = action.payload;
+    },
+    setDiscardTags: (state, action) => {
+      state.discardTags = action.payload;
     },
   },
 });
@@ -56,5 +64,7 @@ export const {
   setAllTags,
   setDeleteTag,
   setTagsFocus,
-  setIsDiscard,
+  setDiscardTitle,
+  setDiscardEditor,
+  setDiscardTags,
 } = questionSlice.actions;

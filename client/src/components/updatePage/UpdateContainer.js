@@ -23,8 +23,7 @@ function UpdateContainer() {
   let { title, allTags } = useSelector((state) => state.question);
   let Qcontent = useSelector((state) => state.question.content);
   let Acontent = useSelector((state) => state.answer.content);
-  console.log(question.content);
-  console.log(Qcontent);
+
   let requestBody = answer
     ? {
         content: Acontent,
@@ -38,7 +37,6 @@ function UpdateContainer() {
         memberId: Number(cookie.loginMemberId),
         tags: allTags,
       };
-  console.log(requestBody);
 
   // 질문/답변 수정
   const url = answer

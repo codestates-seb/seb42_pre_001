@@ -6,16 +6,17 @@ import { useEffect, useState } from 'react';
 import {
   setAllTags,
   setDeleteTag,
+  setDiscardTags,
   setTagsFocus,
 } from '../../slice/questionSlice';
 import { tags } from '../../assets/askInputDesc';
-
 function InputTags({ defaultValue = null }) {
   let [currentTag, setCurrentTag] = useState('');
   let [tagsErrorMsg, setTagsErrorMsg] = useState(null);
   let dispatch = useDispatch();
-  // dispatch(setAllTags(defaultValue));
-  let { allTags, tagsFocus } = useSelector((state) => state.question);
+  let { allTags, tagsFocus, discardTags } = useSelector(
+    (state) => state.question
+  );
 
   // 유효성 검사
   let isTagsValid = false;
@@ -33,10 +34,22 @@ function InputTags({ defaultValue = null }) {
     }
   };
 
+  const resetInputTags = () => {
+    const parentNode = document.querySelector('.hashTags');
+    while (parentNode.childElementCount >= 2) {
+      parentNode.removeChild(parentNode.firstChild);
+    }
+    setCurrentTag('');
+    dispatch(setAllTags([]));
+    dispatch(setDiscardTags(false));
+  };
+
+  useEffect(() => validationTags(), [allTags]);
   useEffect(() => {
-    validationTags();
-    console.log(allTags);
-  }, [allTags]);
+    if (discardTags) {
+      resetInputTags();
+    }
+  }, [discardTags]);
 
   let handleText = (e) => {
     setCurrentTag(e.target.value);
@@ -91,7 +104,6 @@ function InputTags({ defaultValue = null }) {
 
   // edit page에서 태그 삽입
   useEffect(() => {
-    console.log(defaultValue);
     if (defaultValue?.length > 0) {
       let arr = [];
       defaultValue?.forEach((el) => {

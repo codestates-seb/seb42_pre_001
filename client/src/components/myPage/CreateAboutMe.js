@@ -18,7 +18,7 @@ export default function CreateAboutMe({ content }) {
 
   const setNotice = () => {
     dispatch(setAboutMe(editorRef.current?.getInstance().getMarkdown()));
-    console.log(state);
+    if (!state) console.log('no State!!');
   };
   return (
     <Container>

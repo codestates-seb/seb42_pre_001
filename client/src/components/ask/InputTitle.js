@@ -1,16 +1,15 @@
 import styled from 'styled-components';
-// import MainButton from '../MainButton';
 import { AskBoxStyle, InputStyle } from './AskStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setTitle,
   setTitleFocus,
-  setIsDiscard,
+  setDiscardTitle,
 } from '../../slice/questionSlice';
 import { useEffect, useState, useRef } from 'react';
 function Input({ quseiontTitle, desc = null, defaultValue }) {
   let [titleErrorMsg, setTitleErrorMsg] = useState(null);
-  let { title, isDiscard } = useSelector((state) => state.question);
+  let { title, discardTitle } = useSelector((state) => state.question);
   let dispatch = useDispatch();
   let setTitleText = (e) => {
     dispatch(setTitle(e.target.value));
@@ -32,15 +31,16 @@ function Input({ quseiontTitle, desc = null, defaultValue }) {
   };
   const inputTitleEl = useRef(null);
   const resetInputTitle = () => {
-    inputTitleEl.current.textContent = '';
-    dispatch(setIsDiscard(false));
+    inputTitleEl.current.value = '';
+    dispatch(setDiscardTitle(false));
   };
   useEffect(() => validationTitle(), [title]);
   useEffect(() => {
-    if (isDiscard) {
+    if (discardTitle) {
       resetInputTitle();
     }
-  }, [isDiscard]);
+  }, [discardTitle]);
+
   //focus 상태 변경
   const onTitleFocus = () => {
     dispatch(setTitleFocus(true));
@@ -64,7 +64,6 @@ function Input({ quseiontTitle, desc = null, defaultValue }) {
         />
       </div>
       {isTitleValid ? null : <div>{titleErrorMsg}</div>}
-      {/* <MainButton buttonText="Next" /> */}
     </Div>
   );
 }

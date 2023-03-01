@@ -12,15 +12,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { setIsDiscard } from '../../slice/questionSlice';
+import {
+  setDiscardEditor,
+  setDiscardTitle,
+  setDiscardTags,
+} from '../../slice/questionSlice';
 function AskPageContents() {
   const [cookie] = useCookies();
   const dispatch = useDispatch();
   let { content, title, allTags, titleFocus, contentFocus, tagsFocus } =
     useSelector((state) => state.question);
-
-  // let { id } = useSelector((state) => state.login);
-  // title 255자, content) 50000자
   let navigate = useNavigate();
   let requestBody = {
     content: content,
@@ -28,10 +29,8 @@ function AskPageContents() {
     memberId: cookie.loginMemberId,
     tags: allTags,
   };
-  console.log(requestBody);
 
   const apiUrl = process.env.REACT_APP_API_URL;
-  console.log(apiUrl);
 
   let postQuestion = async () => {
     if (isValidFunction()) {
@@ -67,7 +66,9 @@ function AskPageContents() {
         `Are you sure you want to discard this question? This cannot be undone.`
       )
     ) {
-      dispatch(setIsDiscard(true));
+      dispatch(setDiscardTitle(true));
+      dispatch(setDiscardEditor(true));
+      dispatch(setDiscardTags(true));
     } else {
       return false;
     }

@@ -24,7 +24,7 @@ export default function Login() {
 
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
-  console.log(state);
+
   // 로그인 POST 요청 => 유저 인증 성공 시 access, refresh 토큰을 쿠키에 저장
   const login = async (userName, pass) => {
     const body = {
@@ -45,8 +45,7 @@ export default function Login() {
       );
 
       const { data, headers } = response;
-      console.log('resCookie', document.cookies);
-      console.log(headers);
+
       const accessToken = headers['authorization'];
       const refreshToken = headers['refresh'];
 
@@ -65,7 +64,7 @@ export default function Login() {
       }
 
       dispatch(setIsLogin(true));
-      console.log('data', response);
+
       dispatch(setUserInfo(data));
 
       loginHandler();
@@ -101,7 +100,7 @@ export default function Login() {
   //아이디, 패스워드 확인
   const checkUser = (id, pass) => {
     validationTest();
-    console.log(state);
+
     if (state.login.userInfo) {
       dispatch(setId(undefined));
       dispatch(setPassword(undefined));

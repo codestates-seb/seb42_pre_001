@@ -1,22 +1,27 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-
-function InquiryButtons({ editFunction, deleteFunction }) {
+import { useCookies } from 'react-cookie';
+function InquiryButtons({
+  editFunction,
+  deleteFunction,
+  qMemberId,
+  aMemberId,
+}) {
   const { isLogin } = useSelector((state) => state.login);
-  console.log(isLogin);
+  const [cookie] = useCookies();
+  const loginMemberId = Number(cookie.loginMemberId);
+  const QnAMemberId = qMemberId || aMemberId;
   return (
     <ButtonWrapper>
       <QuestionButton>Share</QuestionButton>
-      {/* 질문, 답변 멤버 id 검증 추가해야 함 */}
-      {isLogin ? (
+      {isLogin && loginMemberId === QnAMemberId ? (
         <>
-          {/* 내가 작성한 글일 때 */}
           <QuestionButton onClick={editFunction}>Edit</QuestionButton>
           <QuestionButton onClick={deleteFunction}>Delete</QuestionButton>
           <QuestionButton>Flag</QuestionButton>
         </>
       ) : (
-        <QuestionButton> {/* 아닐 때 */}Follow</QuestionButton>
+        <QuestionButton>Follow</QuestionButton>
       )}
     </ButtonWrapper>
   );

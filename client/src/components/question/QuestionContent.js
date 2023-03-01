@@ -3,7 +3,7 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewProfile from '../ViewProfile';
 import ViewTags from '../ViewTags';
 import { setContent } from '../../slice/questionSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,11 +11,10 @@ import InquiryButtons from '../inquiry/InquiryButtons';
 import Markdown from '../Markdown';
 const QuestionContent = ({ question, tags }) => {
   const [cookie] = useCookies();
-  const state = useSelector((state) => state.login);
-  console.log(state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { questionId } = question;
+  const { questionId, memberId } = question;
+
   // 질문 수정 페이지 이동
   const navigateToEditPage = () => {
     navigate(`/questions/${questionId}/edit`, {
@@ -59,6 +58,7 @@ const QuestionContent = ({ question, tags }) => {
           <InquiryButtons
             editFunction={navigateToEditPage}
             deleteFunction={deletePost}
+            qMemberId={memberId}
           />
           <ViewProfile
             from="question"

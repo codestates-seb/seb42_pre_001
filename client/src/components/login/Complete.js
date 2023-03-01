@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 // 컴포넌트  묶음
 const Conatiner = styled.div`
   min-width: 450px;
-  width: 530px; //
-  height: 140px; //
+  width: 530px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;

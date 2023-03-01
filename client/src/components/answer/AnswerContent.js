@@ -8,7 +8,7 @@ import InquiryButtons from '../inquiry/InquiryButtons';
 import Markdown from '../Markdown';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-const AnswerContent = ({ answer, question }) => {
+const AnswerContent = ({ answer, question, answers, setAnswers }) => {
   const [cookie] = useCookies();
   let dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,21 +19,29 @@ const AnswerContent = ({ answer, question }) => {
     });
     dispatch(setContent(answer.content));
   };
-  console.log(answer);
+
   // 답변 삭제
   const deleteAnswer = async () => {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/answers`, {
-      data: {
-        memberId: Number(cookie.loginMemberId),
-        answerId: answer.answerId,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: cookie.accessToken,
-        Refresh: cookie.refreshToken,
-      },
-      withCredentials: true,
-    });
+    if (confirm(`Delete this post?`)) {
+      await axios
+        .delete(`${process.env.REACT_APP_API_URL}/answers`, {
+          data: {
+            memberId: Number(cookie.loginMemberId),
+            answerId: answer.answerId,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
+          },
+          withCredentials: true,
+        })
+        .then(() => {
+          setAnswers(answers.filter((el) => el.answerId !== answer.answerId));
+        });
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -49,6 +57,7 @@ const AnswerContent = ({ answer, question }) => {
           <InquiryButtons
             editFunction={navigateToEditPage}
             deleteFunction={deleteAnswer}
+            aMemberId={answer.memberId}
           />
           <ViewProfile
             from="answer"
