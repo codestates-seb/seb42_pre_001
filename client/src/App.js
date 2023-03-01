@@ -20,6 +20,7 @@ import Recovery from './pages/Recovery';
 import SignUpConfirm from './components/signup/Confirm';
 import Update from './pages/Update';
 import User from './pages/User';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/join/registeremail" element={<SignUpConfirm />} />
           <Route path="/questions/:id/edit" element={<Update />} />
           <Route path="/answers/:id/edit" element={<Update />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </PageLayout>
       <Footer />
