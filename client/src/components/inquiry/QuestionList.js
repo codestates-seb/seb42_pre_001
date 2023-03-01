@@ -19,7 +19,11 @@ const QuestionList = ({ name, tab }) => {
   const { num } = useParams();
   const [cookie, setCookie] = useCookies();
   const apiUrl = num
-    ? `${process.env.REACT_APP_API_URL}/questions?page=${num}&size=10&tab=${tab}`
+    ? tab === 'view'
+      ? `${process.env.REACT_APP_API_URL}/questions?page=1&size=30&tab=${tab}`
+      : `${process.env.REACT_APP_API_URL}/questions?page=${num}&size=10&tab=${tab}`
+    : tab === 'view'
+    ? `${process.env.REACT_APP_API_URL}/questions?page=1&size=30&tab=${tab}`
     : `${process.env.REACT_APP_API_URL}/questions?page=1&size=10&tab=${tab}`;
 
   useEffect(() => {
@@ -79,15 +83,21 @@ const QuestionList = ({ name, tab }) => {
       {questions.map((el, idx) => (
         <QuestionsItem key={idx} question={el}></QuestionsItem>
       ))}
-      <PaginationContainer>
-        {num > 1 ? <PaginationController name="Prev" num={num} /> : null}
-        {page.map((el, idx) => (
-          <Pagination key={idx} pageNum={el} num={num} />
-        ))}
-        {totalPage > num ? (
-          <PaginationController name="Next" num={num} />
-        ) : null}
-      </PaginationContainer>
+      {tab === 'view' ? null : (
+        <PaginationContainer>
+          {num > 1 ? <PaginationController name="Prev" num={num} /> : null}
+          {page.map((el, idx) => (
+            <Pagination key={idx} pageNum={el} num={num} />
+          ))}
+          {num ? (
+            totalPage > num ? (
+              <PaginationController name="Next" num={num} />
+            ) : null
+          ) : (
+            <PaginationController name="Next" num={num} />
+          )}
+        </PaginationContainer>
+      )}
     </Container>
   );
 };

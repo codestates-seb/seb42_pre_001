@@ -26,6 +26,7 @@ const HomeContainer = styled.div`
 const HomeContentContainer = styled.div`
   max-width: 1100px;
   width: calc(100% - 164px);
+  margin-bottom: 40px;
   display: flex;
   flex-direction: row;
 `;
