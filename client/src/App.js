@@ -33,7 +33,7 @@ function App() {
           <Route path="/questions" element={<Questions />}></Route>
           <Route path="/questions/ask" element={<Ask />}></Route>
           <Route path="/questions/:id" element={<Answers />}></Route>
-          <Route path="/questions/page/:num" element={<Home />}></Route>
+          <Route path="/questions/page/:num" element={<Questions />}></Route>
           <Route path="/tags" element={<Tages />}></Route>
           <Route path="/users" element={<Users />}></Route>
           <Route path="/companies" element={<Companies />}></Route>
@@ -47,7 +47,7 @@ function App() {
           <Route path="/join/registeremail" element={<SignUpConfirm />} />
           <Route path="/questions/:id/edit" element={<Update />} />
           <Route path="/answers/:id/edit" element={<Update />} />
-          <Route path="/*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </PageLayout>
       <Footer />
