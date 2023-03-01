@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNewPass, setNewPassConfirm } from '../../slice/loginSlice';
 import { setErrorMsg6, setErrorMsg7 } from '../../slice/validationSlice';
-// import { useRef } from 'react';
 import LeftSidebar from '../inquiry/LeftSidebar';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -17,10 +15,11 @@ export default function Recovery() {
   });
   const location = useLocation();
   const newPass = useRef();
-
   //patch url 넘겨주기 body 에는 pass
+  const search = `${location.search}`;
   const url = `${location.pathname}${location.search}`;
-  console.log(url);
+
+  const email = [search.split('&')[0].slice(7)];
 
   const updatePass = async (pass) => {
     const body = {
@@ -28,7 +27,7 @@ export default function Recovery() {
     };
     try {
       // 요청 경로 : http://localhost:8080/pwChange/registerEmail?쿼리^%$^@#!@$#@%
-      const response = axios.patch(
+      axios.patch(
         `${process.env.REACT_APP_API_URL}${url}`,
         JSON.stringify(body),
         {
@@ -38,7 +37,7 @@ export default function Recovery() {
           withCredentials: true,
         }
       );
-      console.log(response);
+
       navigate('/');
     } catch (err) {
       console.log(err);
@@ -47,12 +46,9 @@ export default function Recovery() {
 
   const checkPass = () => {
     validationTest();
-    console.log(state);
+
     if (!state.validation.errMsg6) {
       newPass.current.classList.remove('active');
-    }
-    if (state.login.newPass === state.login.newPassConfirm) {
-      console.log('confirmed');
     }
   };
 
@@ -124,7 +120,7 @@ export default function Recovery() {
         <Main>
           <ContentContainer>
             <Title>Account Recovery</Title>
-            <Text1>Recover account for 유저 이메일 주소</Text1>
+            <Text1>Recover account for {email}</Text1>
             <InputContainer>
               <Label>New password</Label>
               <Input

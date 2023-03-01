@@ -18,18 +18,15 @@ export default function Logout() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
 
-  const logout = async () => {
-    console.log(setCookie);
-    try {
-      if (cookies) {
-        removeCookie('accessToken');
-        removeCookie('refreshToken');
-        removeCookie('id');
-        removeCookie('loginMemberId');
-        removeCookie('loginMemberName');
-      }
-    } catch (err) {
-      console.log(err);
+  const logout = () => {
+    if (!cookies) setCookie('');
+
+    if (cookies) {
+      removeCookie('accessToken');
+      removeCookie('refreshToken');
+      removeCookie('id');
+      removeCookie('loginMemberId');
+      removeCookie('loginMemberName');
     }
   };
 

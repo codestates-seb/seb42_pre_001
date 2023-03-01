@@ -1,15 +1,19 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainButton from '../MainButton';
+import { setAllTags } from '../../slice/questionSlice';
 const QuestionListTop = ({ name }) => {
   const { isLogin } = useSelector((state) => state.login);
-
+  const dispatch = useDispatch();
+  const resetTags = () => {
+    dispatch(setAllTags([]));
+  };
   return (
     <Container>
       <Title>{name}</Title>
       <AskLink to={isLogin ? '/questions/ask' : '/users/login'}>
-        <MainButton buttonText="Ask Question" />
+        <MainButton buttonText="Ask Question" functionHandler={resetTags} />
       </AskLink>
     </Container>
   );

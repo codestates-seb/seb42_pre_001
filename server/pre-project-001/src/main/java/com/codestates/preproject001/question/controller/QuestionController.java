@@ -12,7 +12,6 @@ import com.codestates.preproject001.question.dto.*;
 import com.codestates.preproject001.question.entity.Question;
 import com.codestates.preproject001.question.mapper.QuestionMapper;
 import com.codestates.preproject001.question.service.QuestionService;
-import com.codestates.preproject001.vote.entity.AnswerVote;
 import com.codestates.preproject001.vote.service.VoteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -99,9 +98,16 @@ public class QuestionController {
     @ApiOperation(value = "질문목록(홈)")
     @GetMapping // 질문 목록
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
-            @AuthenticationPrincipal MemberDetails memberDetails,
-            @Positive @RequestParam int size) {
-        Page<Question> questions = questionService.findQuestions(page - 1, size);
+                                       @AuthenticationPrincipal MemberDetails memberDetails,
+                                       @Positive @RequestParam int size,
+                                       @RequestParam String tab) {
+        Page<Question> questions = null;
+        if(tab.equals("view")) {
+            questions = questionService.findQuestionsOrderByView(page - 1, size);
+        }
+        else if(tab.equals("newest")){
+            questions = questionService.findQuestions(page - 1, size);
+        }
         List<Question> content = questions.getContent();
         List<QuestionResponseDto> questionResponseDtos = mapper.questionsToQuestionResponseDtos(content);
         if(memberDetails != null){

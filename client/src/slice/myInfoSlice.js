@@ -8,6 +8,7 @@ const myInfoSlice = createSlice({
     title: null,
     location: null,
     aboutMe: null,
+    myInfo: null,
   },
   reducers: {
     setImg: (state, action) => {
@@ -25,9 +26,18 @@ const myInfoSlice = createSlice({
     setAboutMe: (state, action) => {
       state.aboutMe = action.payload;
     },
+    setMyInfo: (state, action) => {
+      state.myInfo = action.payload;
+    },
   },
 });
 
 export default myInfoSlice;
-export const { setImg, setDisplayName, setTitle, setLocation, setAboutMe } =
-  myInfoSlice.actions;
+export const {
+  setImg,
+  setDisplayName,
+  setTitle,
+  setLocation,
+  setAboutMe,
+  setMyInfo,
+} = myInfoSlice.actions;

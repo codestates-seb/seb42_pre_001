@@ -39,16 +39,6 @@ const Answers = () => {
     const getQuestion = async () => {
       if (cookie.accessToken && cookie.refreshToken) {
         try {
-          const response = await axios.get(apiUrl);
-          const { data } = response;
-          setQuestion(data.data);
-          setAnswers(data.data.answers);
-          setIsLoading(false);
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        try {
           const response = await axios.get(apiUrl, {
             headers: {
               'Content-Type': 'application/json',
@@ -64,6 +54,16 @@ const Answers = () => {
         } catch (error) {
           console.error(error);
         }
+      } else {
+        try {
+          const response = await axios.get(apiUrl);
+          const { data } = response;
+          setQuestion(data.data);
+          setAnswers(data.data.answers);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
     getQuestion();
@@ -72,12 +72,12 @@ const Answers = () => {
   const onChangeEditor = () => {
     setText(editorRef.current?.getInstance().getMarkdown());
   };
-  const handleClick = () => {
+  const handleClick = async () => {
     if (text.length < 30) {
       setIsValid(false);
     } else {
-      axios
-        .post(
+      try {
+        const response = await axios.post(
           AnswerapiUrl,
           JSON.stringify({
             questionId,
@@ -92,20 +92,24 @@ const Answers = () => {
             },
             withCredentials: true,
           }
-        )
-        .then((res) => {
-          console.log(res.data);
-          setText('');
-          setIsValid(true);
-          setAnswersLength(answers.length + 1);
-          window.scrollTo(0, 0);
-          editorRef.current?.getInstance().reset();
-        })
-        .catch((error) =>
-          error.response.status === 403
-            ? navigate(`/users/login`)
-            : console.log(error)
         );
+        console.log(response);
+        setText('');
+        setIsValid(true);
+        setAnswersLength(answers.length + 1);
+        window.scrollTo(0, 0);
+        editorRef.current?.getInstance().reset();
+      } catch (error) {
+        if (error.response.status === 403) {
+          if (
+            confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')
+          ) {
+            navigate('/users/login');
+          } else {
+            return false;
+          }
+        }
+      }
     }
   };
 

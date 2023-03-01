@@ -66,6 +66,9 @@ public class QuestionService {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
+    public Page<Question> findQuestionsOrderByView(int page, int size) {
+        return questionRepository.findAll(PageRequest.of(page, size, Sort.by("view").descending()));
+    }
 
 
     public Question findVerifiedQuestion(long questionId) {
