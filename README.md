@@ -4,7 +4,7 @@
 * 프로젝트명 : Stackoverflow clone
 * 프로젝트 소개 : 개발자간의 질의 응답 커뮤니티인 Stackoverflow clone
 * 프로젝트 기간 : 2023.02.13 - 2023.03.02
-* 팀원 : 진태양(팀장), 윤상혁, 지윤구, 강명주, 이민형, 함소희
+* 팀원 : 진태양(팀장), 윤상혁, 강명주, 이민형, 함소희
 * 배포링크: http://preproject001.s3-website.ap-northeast-2.amazonaws.com
  
 <br/>
