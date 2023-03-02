@@ -19,9 +19,9 @@
 
 ### 🌄 Back-end
 
-|<img src="https://user-images.githubusercontent.com/96197310/219012856-66691ec7-202b-4b54-b07f-21535a48e6dc.png" width="200" height="200">|[진태양<br/>(@Taeyang-Jin)　](https://github.com/Taeyang-Jin)|- 질문 등록, 수정, 조회, 삭제 기능<br/>- 답변 등록, 수정, 조회, 삭제 기능<br/>- 예외처리 로직 기능 구현<br/>- 질문, 답변 유효성 검증<br/> - 질문 정렬 기능 구현　　　　　　　　　　　　　　　　　　　　　　　　　　|
+|<img src="https://user-images.githubusercontent.com/96197310/219012856-66691ec7-202b-4b54-b07f-21535a48e6dc.png" width="200px" height="200px">|[진태양<br/>(@Taeyang-Jin)　](https://github.com/Taeyang-Jin)|- 질문 등록, 수정, 조회, 삭제 기능<br/>- 답변 등록, 수정, 조회, 삭제 기능<br/>- 예외처리 로직 기능 구현<br/>- 질문, 답변 유효성 검증<br/> - 질문 정렬 기능 구현　　　　　　　　　　　　　　　　　　　　　　　　　　　|
 |:---:|:---:|:---|
-|<img src="https://user-images.githubusercontent.com/96197310/219012900-3725798b-7bfc-48ab-a1f2-00fea236cdb8.png" width="200" height="200">|**[윤상혁<br/>(@sanggur591)](https://github.com/sanggur591)**|**- 로그인,로그아웃 기능 구현 (JWT)<br/> - 인증/보안 기능 구현<br/> - 회원 정보 생성,조회,수정,삭제 기능 구현<br/> - 회원가입,비밀번호 찾기시 메일전송 기능 구현<br/> - API 명세서 작성**|
+|<img src="https://user-images.githubusercontent.com/96197310/219012900-3725798b-7bfc-48ab-a1f2-00fea236cdb8.png" width="200px" height="200px">|**[윤상혁<br/>(@sanggur591)](https://github.com/sanggur591)**|**- 로그인,로그아웃 기능 구현 (JWT)<br/> - 인증/보안 기능 구현<br/> - 회원 정보 생성,조회,수정,삭제 기능 구현<br/> - 회원가입,비밀번호 찾기시 메일전송 기능 구현<br/> - API 명세서 작성**|
 
 <br/>
 
