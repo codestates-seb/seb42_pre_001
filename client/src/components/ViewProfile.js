@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FaCircle } from 'react-icons/fa';
 
 const ViewProfile = ({ from, id, name, createdAt }) => {
+  createdAt = new Date(createdAt + 'z').toLocaleString();
   return (
     <UserContiner>
       <UserWrapper>
