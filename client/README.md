@@ -6,12 +6,13 @@
 - [x] React Router 로 클라이언트 라우팅
 - [x] App.js, App.css, index.css 초기화
 - [x] ESLint, Prettier 적용 및 설정
+<br/>
 
-# 프론트엔드 설치 
+**설치 목록** 
 
-npm install
-npm install --save @toast-ui/react-editor --force
-npm install react-cookie --force
-npm install react-markdown --force
-npm install remark-gfm --force
-npm install react-syntax-highlighter --force
+* npm install
+* npm install --save @toast-ui/react-editor --force
+* npm install react-cookie --force
+* npm install react-markdown --force
+* npm install remark-gfm --force
+* npm install react-syntax-highlighter --force
