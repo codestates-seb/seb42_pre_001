@@ -5,11 +5,12 @@
 * 프로젝트 소개 : 개발자간의 질의 응답 커뮤니티인 Stackoverflow clone
 * 프로젝트 기간 : 2023.02.13 - 2023.03.02
 * 팀원 : 진태양(팀장), 윤상혁, 지윤구, 강명주, 이민형, 함소희
-
+* 배포링크: http://preproject001.s3-website.ap-northeast-2.amazonaws.com
+ 
 <br/>
 
 ## 👨‍💻 Team
-### 🌞 Front-end
+### Front-end
 
 |<img src="https://user-images.githubusercontent.com/96197310/219012440-24ddea93-9797-4d10-a8b7-4b91fafe82a8.png" width="200px" height="200px">|[강명주(@myungju030)](https://github.com/myungju030)|- 질문 전체조회 기능 및 페이지 구현 <br/> - 질문,답변 상세조회 기능 및 페이지 구현<br/> - 답변등록 기능 및 페이지 구현 <br/> - User 상세조회 기능 및 페이지 구현 <br/> - Tags, Users, Companies, 404error 페이지 구현<br/>|
 |:---:|:---:|:---|
@@ -18,7 +19,7 @@
 
 <br/>
 
-### 🌞 Back-end
+###  Back-end
 
 |<img src="https://user-images.githubusercontent.com/96197310/219012856-66691ec7-202b-4b54-b07f-21535a48e6dc.png" width="200" height="200">|[진태양(@Taeyang-Jin)](https://github.com/Taeyang-Jin)|- 질문 등록, 수정, 조회, 삭제 기능<br/>- 답변 등록, 수정, 조회, 삭제 기능<br/>- 예외처리 로직 기능 구현<br/>- 질문, 답변 유효성 검증<br/> - 질문 정렬 기능 구현|
 |:---:|:---:|:---|
@@ -26,6 +27,22 @@
 
 
 <br/>
+
+
+
+## ⚙ Tech Stack
+### Front-end
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=ESLint&logoColor=white"> <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=black"> <img src="https://img.shields.io/badge/reactrouter-CA4245?style=for-the-badge&logo=ReactRouter&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white"> <img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white">
+
+
+### Back-end
+<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"> <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white"> <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDEgMTAxIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiNGRkYiIGQ9Ik01Ny44IDI3LjIgNTcuNy4zaC0xNWwuMSAyNi45IDcuNSAxMC4zIDcuNS0xMC4zWk00Mi44IDczLjN2MjdoMTV2LTI3TDUwLjMgNjNsLTcuNSAxMC4zWiIvPjxwYXRoIGZpbGw9IiMwMEYyRTYiIGQ9Im01Ny44IDczLjMgMTUuOCAyMS44IDEyLjEtOC44LTE1LjgtMjEuOC0xMi4xLTMuOXYxMi43Wk00Mi44IDI3LjIgMjYuOSA1LjRsLTEyLjEgOC44TDMwLjYgMzZsMTIuMiAzLjlWMjcuMloiLz48cGF0aCBmaWxsPSIjMDBCOUYxIiBkPSJNMzAuNiAzNiA1IDI3LjcuNCA0MS45IDI2IDUwLjNsMTIuMS00TDMwLjYgMzZaTTYyLjQgNTQuMmw3LjUgMTAuMyAyNS42IDguMyA0LjYtMTQuMi0yNS42LTguMy0xMi4xIDMuOVoiLz48cGF0aCBmaWxsPSIjRDYzQUZGIiBkPSJtNzQuNSA1MC4zIDI1LjYtOC40LTQuNi0xNC4yTDY5LjkgMzZsLTcuNSAxMC4zIDEyLjEgNFpNMjYgNTAuMy40IDU4LjYgNSA3Mi44bDI1LjYtOC4zIDcuNS0xMC4zTDI2IDUwLjNaIi8+PHBhdGggZmlsbD0iI0ZCMDE1QiIgZD0iTTMwLjYgNjQuNSAxNC44IDg2LjNsMTIuMSA4LjggMTUuOS0yMS44VjYwLjZsLTEyLjIgMy45Wk02OS45IDM2bDE1LjgtMjEuOC0xMi4xLTguOC0xNS44IDIxLjh2MTIuN0w2OS45IDM2WiIvPjwvZz48L3N2Zz4=&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"> 
+
+
+### Server
+<img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white">
+
+
 <br/>
 
 ## 🔗 Git
