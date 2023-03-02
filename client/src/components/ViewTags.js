@@ -1,24 +1,19 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-const ViewTags = () => {
-  const tagArr = useSelector((state) => {
-    return state.question.tags;
-  });
+const ViewTags = ({ tags = [] }) => {
   return (
     <Container>
-      {tagArr.map((el, idx) => (
+      {tags.map((el, idx) => (
         <Tag key={idx}>{el}</Tag>
       ))}
     </Container>
   );
 };
 export default ViewTags;
-const Container = styled.span`
-  list-style-type: none;
-`;
+
+const Container = styled.span``;
 const Tag = styled.span`
-  height: 27px;
-  margin-right: 5px;
+  display: inline-block;
+  margin: 0px 5px 5px 0px;
   padding: 4px 6px 5px 6px;
   border-radius: 3px;
   cursor: pointer;

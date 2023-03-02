@@ -1,10 +1,10 @@
 import Section from '../components/signup/Section';
 import SignUpContainer from '../components/signup/SignUpContainer';
 import styled from 'styled-components';
-import Complete from '../components/signup/complete';
+import Complete from '../components/signup/Complete';
 import { useSelector } from 'react-redux';
 const Conatiner = styled.div`
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

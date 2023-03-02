@@ -1,20 +1,23 @@
 package com.codestates.preproject001.question.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 public class QuestionPostDto {
-    @Positive
-    private long mId;
-
-    @NotBlank
+    @ApiModelProperty(required=true)
+    private long memberId;
+    @ApiModelProperty(required=true)
+    @NotBlank(message = "제목을 입력해주세요.")
     private String title;
-
-    @NotBlank
+    @ApiModelProperty(required=true)
+    @NotBlank(message = "내용을 입력해주세요.")
+    @Size(min=20)
     private String content;
-
-
+    @ApiModelProperty
+    private List<String> tags;
 }

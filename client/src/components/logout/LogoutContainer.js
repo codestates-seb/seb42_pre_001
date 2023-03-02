@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { setIsLogin, setUserInfo } from '../../slice/loginSlice';
 import { useDispatch } from 'react-redux';
-
 import styled from 'styled-components';
 import askubuntu from '../../assets/askubuntu.png';
 import exchange from '../../assets/exchange.png';
@@ -10,24 +9,39 @@ import serverfault from '../../assets/serverfault.png';
 import stackapps from '../../assets/stackapps.png';
 import stack from '../../assets/stack.png';
 import superuser from '../../assets/superuser.png';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 export default function Logout() {
+  axios.defaults.withCredentials = true;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  const logout = () => {
+    if (!cookies) setCookie('');
+
+    if (cookies) {
+      removeCookie('accessToken');
+      removeCookie('refreshToken');
+      removeCookie('id');
+      removeCookie('loginMemberId');
+      removeCookie('loginMemberName');
+    }
+  };
 
   // 로그아웃 성공 시 홈 화면으로 이동 => 현재 헤더의 state 값을 전역적으로 관리해야함(header 컴포넌트 수정 필요)
   const logoutHandler = () => {
     dispatch(setUserInfo(null));
     dispatch(setIsLogin(false));
+    logout();
     navigate('/');
+    window.location.reload();
   };
   // 로그아웃 취소 시 이전 화면으로 이동
   const cancelHandler = () => {
     navigate(-1);
   };
-
-  // 로그아웃 시 로그인 유지하는 것을 해제 => 쿠키가 담긴 삭제 필요
-  // const logoutlHandler = () => { };
 
   return (
     <Conatiner>

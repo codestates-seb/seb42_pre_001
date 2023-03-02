@@ -1,28 +1,23 @@
 import styled from 'styled-components';
-import Footer from '../components/Footer';
 import LeftSidebar from '../components/inquiry/LeftSidebar';
 import QuestionList from '../components/inquiry/QuestionList';
 import QuestionSidebar from '../components/inquiry/QuestionSidebar';
 
 const Questions = () => {
   return (
-    <>
-      <QuestionsContainer>
-        <LeftSidebar />
-        <QuestionsContentContainer>
-          <QuestionList name="All Questions"></QuestionList>
-          <QuestionSidebar></QuestionSidebar>
-        </QuestionsContentContainer>
-      </QuestionsContainer>
-      <Footer />
-    </>
+    <QuestionsContainer>
+      <LeftSidebar pageName="questions" />
+      <QuestionsContentContainer>
+        <QuestionList name="All Questions" tab="newest"></QuestionList>
+        <QuestionSidebar></QuestionSidebar>
+      </QuestionsContentContainer>
+    </QuestionsContainer>
   );
 };
 
 export default Questions;
 
 const QuestionsContainer = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;

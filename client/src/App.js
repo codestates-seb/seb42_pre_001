@@ -13,6 +13,14 @@ import SignUp from './pages/SignUp';
 import Logout from './pages/Logout';
 import Ask from './pages/Ask';
 import Answers from './pages/Answers';
+import Footer from './components/Footer';
+import Mypage from './pages/MyPage';
+import FindPass from './pages/FindPass';
+import Recovery from './pages/Recovery';
+import SignUpConfirm from './components/signup/Confirm';
+import Update from './pages/Update';
+import User from './pages/User';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -24,15 +32,25 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/questions" element={<Questions />}></Route>
           <Route path="/questions/ask" element={<Ask />}></Route>
-          <Route path="/questions/question" element={<Answers />}></Route>
+          <Route path="/questions/:id" element={<Answers />}></Route>
+          <Route path="/questions/page/:num" element={<Questions />}></Route>
           <Route path="/tags" element={<Tages />}></Route>
           <Route path="/users" element={<Users />}></Route>
           <Route path="/companies" element={<Companies />}></Route>
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/signup" element={<SignUp />} />
           <Route path="/users/logout" element={<Logout />} />
+          <Route path="/users/:id/" element={<Mypage />} />
+          <Route path="/users/:id/:name" element={<User />} />
+          <Route path="/users/account-recovery" element={<FindPass />} />
+          <Route path="/pwchange/registeremail" element={<Recovery />} />
+          <Route path="/join/registeremail" element={<SignUpConfirm />} />
+          <Route path="/questions/:id/edit" element={<Update />} />
+          <Route path="/answers/:id/edit" element={<Update />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </PageLayout>
+      <Footer />
     </Provider>
   );
 }
@@ -49,8 +67,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
   width: 100vw;
-  height: 100vh;  
-  background-color: hsl(210deg 8% 98%)
+  height: 100vh;
+  background-color: white;
   }
 
   a {
@@ -60,4 +78,6 @@ const GlobalStyle = createGlobalStyle`
 
 const PageLayout = styled.div`
   padding-top: 50px;
+  min-height: 100vh;
+  background-color: hsl(210, 8%, 96%);
 `;

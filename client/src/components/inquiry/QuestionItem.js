@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import profile from '../../assets/profile.png';
 import ViewTags from '../ViewTags';
-const QuestionsItems = () => {
+const QuestionsItem = ({ question }) => {
+  const { title, memberName, questionId, view, answerCount, tags, memberId } =
+    question;
+
+  const navigate = useNavigate();
   return (
     <Container>
       <LeftContainer>
@@ -10,33 +13,53 @@ const QuestionsItems = () => {
           <LeftVotesNum>0</LeftVotesNum>
           <LeftVotes>votes</LeftVotes>
         </LeftWrapper>
+
+        {answerCount > 0 ? (
+          <LeftWrapper>
+            <FocusLeftWrapper>
+              <LeftAnswersNum>{answerCount}</LeftAnswersNum>
+              {answerCount === 1 ? (
+                <LeftAnswers>answer</LeftAnswers>
+              ) : (
+                <LeftAnswers>answers</LeftAnswers>
+              )}
+            </FocusLeftWrapper>
+          </LeftWrapper>
+        ) : (
+          <LeftWrapper>
+            <LeftNum>0</LeftNum>
+            <Left>answers</Left>
+          </LeftWrapper>
+        )}
+
         <LeftWrapper>
-          <LeftAnswersNum>0</LeftAnswersNum>
-          <LeftAnswers>answers</LeftAnswers>
-        </LeftWrapper>
-        <LeftWrapper>
-          <LeftViewsNum>0</LeftViewsNum>
-          <LeftViews>views</LeftViews>
+          <LeftNum>{view}</LeftNum>
+          <Left>views</Left>
         </LeftWrapper>
       </LeftContainer>
       <RightContainer>
-        <TitleLink to="/questions/question">
-          <RightTop>Typescript specific string value in the array</RightTop>
-        </TitleLink>
+        <RightTop onClick={() => navigate(`/questions/${questionId}`)}>
+          {title}
+        </RightTop>
         <RightBottom>
-          <ViewTags />
+          <TagsContainer>
+            <ViewTags tags={tags} />
+          </TagsContainer>
           <NameContainer>
-            <NameImage src={profile} />
-            <Name>myungju kang</Name>
-            <Num>1</Num>
-            <Time>asked 5 min ago</Time>
+            <NameImage
+              src={`https://source.boringavatars.com/beam/25/${memberId}%20?square`}
+              alt="avatar"
+            />
+            <Name>{memberName}</Name>
+            <Num>{memberId + 5}</Num>
+            <Time>asked {memberId + 1} min ago</Time>
           </NameContainer>
         </RightBottom>
       </RightContainer>
     </Container>
   );
 };
-export default QuestionsItems;
+export default QuestionsItem;
 
 const Container = styled.div`
   display: flex;
@@ -57,11 +80,17 @@ const LeftWrapper = styled.div`
   justify-content: right;
   padding-bottom: 4px;
 `;
+const FocusLeftWrapper = styled.div`
+  padding: 2px 4px;
+  display: flex;
+  border: 1px solid hsl(140deg 41% 31%);
+  border-radius: 3px;
+`;
 const LeftVotes = styled.div``;
 const LeftAnswers = styled.div`
-  color: gray;
+  color: hsl(140deg 41% 31%);
 `;
-const LeftViews = styled.div`
+const Left = styled.div`
   color: gray;
 `;
 const LeftVotesNum = styled.div`
@@ -69,9 +98,9 @@ const LeftVotesNum = styled.div`
 `;
 const LeftAnswersNum = styled.div`
   padding: 0em 0.2em 0em 0em;
-  color: gray;
+  color: hsl(140deg 41% 31%);
 `;
-const LeftViewsNum = styled.div`
+const LeftNum = styled.div`
   padding: 0em 0.2em 0em 0em;
   color: gray;
 `;
@@ -81,6 +110,8 @@ const RightContainer = styled.div`
   flex-grow: 1;
 `;
 const RightTop = styled.div`
+  width: 593px;
+  word-wrap: break-word;
   cursor: pointer;
   padding-bottom: 6px;
   color: hsl(206deg 100% 40%);
@@ -100,7 +131,7 @@ const RightBottom = styled.div`
 const NameContainer = styled.div`
   display: flex;
   align-self: center;
-  padding-right: 30px;
+  flex-grow: 1;
 `;
 const NameImage = styled.img`
   width: 16px;
@@ -131,6 +162,9 @@ const Time = styled.div`
     color: black;
   }
 `;
-const TitleLink = styled(Link)`
-  text-decoration: none;
+const TagsContainer = styled.div`
+  width: 380px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
 `;

@@ -1,26 +1,44 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { FiMenu } from 'react-icons/fi';
 import { CgSearch } from 'react-icons/cg';
 import MainButton from './MainButton';
-// import { HiOutlineXMark } from 'react-icons/hi2';
 import { GoInbox } from 'react-icons/go';
 import { GiDiamondTrophy } from 'react-icons/gi';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { BsFillChatRightTextFill } from 'react-icons/bs';
 import { InputStyle } from './ask/AskStyle';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
+import { setIsLogin } from '../slice/loginSlice';
 
 function Header() {
+  const [cookie, setCookie] = useCookies();
+  const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state.login;
   });
-  console.log(state);
-  // const [isLogin, setIsLogin] = useState(false);
-  // const handleLogin = () => {
-  //   setIsLogin(!isLogin);
-  //   console.log(isLogin);
-  // };
+  const navigate = useNavigate();
+  if (!cookie.id) {
+    setCookie('id', 'unll@null');
+  }
+
+  const profile = `https://source.boringavatars.com/beam/25/${
+    cookie.loginMemberId ? cookie.loginMemberId : ''
+  }%20?square`;
+
+  // 토큰이 있을 경우 로그인 유지
+  if (cookie.accessToken && cookie.refreshToken) {
+    dispatch(setIsLogin(true));
+  }
+
+  const moveMypage = () => {
+    const memberId = cookie.loginMemberId;
+
+    const id = memberId;
+
+    navigate(`/users/${id}`);
+  };
 
   return (
     <HeaderWrapper>
@@ -29,18 +47,18 @@ function Header() {
           {/* <HiOutlineXMark size="20" /> */}
           <FiMenu size="20" />
         </Menu>
-        <LogoLink href="https://stackoverflow.com/">
+        <LogoLink to="/">
           <span></span>
         </LogoLink>
         <Navi isLogin={state.isLogin}>
           <li>
-            <a href="https://stackoverflow.co/">About</a>
+            <a href="/">About</a>
           </li>
           <li>
             <Link to="/">Products</Link>
           </li>
           <li>
-            <a href="https://stackoverflow.co/teams/">For Teams</a>
+            <a href="/">For Teams</a>
           </li>
         </Navi>
         <SearchBar isLogin={state.isLogin}>
@@ -51,13 +69,14 @@ function Header() {
           {state.isLogin ? (
             <>
               <li>
-                <Link to="/users/logout">
-                  <img
-                    src="https://www.gravatar.com/avatar/?s=32&d=identicon&r=PG&f=1"
-                    alt=""
-                  />
-                </Link>
+                <img
+                  onClick={moveMypage}
+                  role="presentation"
+                  src={profile}
+                  alt="pic"
+                />
               </li>
+
               <li>
                 <Link to="/users/logout">
                   <GoInbox />
@@ -109,6 +128,7 @@ const HeaderWrapper = styled.header`
   width: 100%;
   z-index: 5050;
   background-color: hsl(210deg 8% 98%);
+  min-width: 800px;
   height: 50px;
   border-top: 3px solid #f48024;
 `;
@@ -135,7 +155,16 @@ const Menu = styled.a`
   }
 `;
 
-const LogoLink = styled(Menu)`
+const LogoLink = styled(Link)`
+  display: ${({ isLogin }) => (isLogin ? 'none' : 'flex')};
+  align-items: center;
+  height: 100%;
+  background-color: transparent;
+  :hover {
+    color: hsl(210deg 8% 35%);
+    background-color: hsl(210, 8%, 90%);
+  }
+
   padding: 0 8px;
   > span {
     background-image: url('https://cdn.sstatic.net/Img/unified/sprites.svg?v=fcc0ea44ba27');
@@ -178,10 +207,12 @@ const Navi = styled.ol`
 
 const Topbar = styled.ol`
   display: flex;
+
   height: 100%;
   img {
-    width: 20px;
-    margin: 6px 15px 0 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
   }
   > li {
     display: flex;

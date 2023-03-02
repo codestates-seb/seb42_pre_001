@@ -1,12 +1,19 @@
 import styled from 'styled-components';
 import MainButton from '../MainButton';
 import { Link } from 'react-router-dom';
-const QuestionTitle = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { setAllTags } from '../../slice/questionSlice';
+const QuestionTitle = ({ title }) => {
+  const { isLogin } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+  const resetTags = () => {
+    dispatch(setAllTags([]));
+  };
   return (
     <Container>
-      <Title>{`The scrollview doesn't scroll`}</Title>
-      <Link to="/questions/ask">
-        <MainButton buttonText="Ask Question" />
+      <Title>{title}</Title>
+      <Link to={isLogin ? '/questions/ask' : '/users/login'}>
+        <MainButton buttonText="Ask Question" functionHandler={resetTags} />
       </Link>
     </Container>
   );
@@ -22,6 +29,8 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
+  width: 938px;
   color: hsl(210deg 8% 25%);
   font-size: 27px;
+  word-wrap: break-word;
 `;

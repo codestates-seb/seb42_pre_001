@@ -1,23 +1,61 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setDM,
+  setDN,
   setEmail,
   setPassword,
   setSubmit,
 } from '../../slice/signUpSlice';
 import { setErrorMsg1, setErrorMsg2 } from '../../slice/validationSlice';
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 
 // 회원가입
 export default function SingUp() {
+  axios.defaults.withCredentials = true;
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const id = useRef();
+  const pass = useRef();
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return state;
   });
 
-  const setDMVal = (e) => {
-    dispatch(setDM(e.target.value));
+  const signUp = async (name, email, password) => {
+    const body = {
+      email: email,
+      password: password,
+      name: name,
+    };
+    setIsLoading(true);
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/members/join`,
+        JSON.stringify(body),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
+
+      dispatch(setSubmit());
+      setIsLoading(false);
+    } catch (err) {
+      // 기존 회원이 존재하는 경우 에러를 받아서
+      // http://localhost:3000/users/account-recovery 페이지로 이동
+      navigate('/users/account-recovery?fromSignup=true');
+      setIsLoading(false);
+      console.log(err);
+    }
+  };
+
+  const setDNVal = (e) => {
+    dispatch(setDN(e.target.value));
   };
 
   const setEmailVal = (e) => {
@@ -27,10 +65,6 @@ export default function SingUp() {
   const setPassVal = (e) => {
     dispatch(setPassword(e.target.value));
   };
-
-  useEffect(() => {
-    validationTest();
-  }, [state]);
 
   // 유저 등록 및 유효성 검증(3가지)
   // 1.  아이디, 비밀번호 아무것도 입력 안 했을 때
@@ -51,6 +85,7 @@ export default function SingUp() {
     // id를 입력한 경우
     if (state.signUp.email) {
       if (emailRegex.test(state.signUp.email)) {
+        id.current.classList.remove('active');
         dispatch(setErrorMsg1(null));
       } else {
         dispatch(
@@ -89,101 +124,115 @@ export default function SingUp() {
         `)
         );
         return;
-      } else {
-        dispatch(setErrorMsg2(null));
       }
+      dispatch(setErrorMsg2(null));
     }
   };
 
+  //  회원 등록
   const registerUser = () => {
-    if (state.signUp.password === null) {
+    validationTest();
+
+    if (!state.signUp.password) {
+      pass.current.classList.add('active');
       dispatch(setErrorMsg2('Password cannot be empty.'));
     }
     // id를 입력하지 않은 경우
-    if (state.signUp.email === null) {
+    if (!state.signUp.email) {
+      id.current.classList.add('active');
       dispatch(setErrorMsg1('Email cannot be empty.'));
     }
-    // password를 입력하지 않은 경우
-
     if (
       state.validation.errMsg1 === null &&
       state.validation.errMsg2 === null
     ) {
-      dispatch(setSubmit());
+      signUp(
+        state.signUp.displayName,
+        state.signUp.email,
+        state.signUp.password
+      );
     }
   };
+
   const activeEnter = (e) => {
     if (e.key === 'Enter') {
-      console.log('submit test');
       registerUser();
     }
   };
   return (
     <Conatiner>
-      <SocialBtn color="white">Login in with Google</SocialBtn>
-      <SocialBtn color="black">Login in with Github</SocialBtn>
-      <SocialBtn color="hsl(209,100%,26%)">Login in with Facebook</SocialBtn>
-      <SignUpContainer>
-        <form>
-          <InputContainer>
-            <Label>Display name</Label>
-            <Input
-              onKeyDown={(e) => activeEnter(e)}
-              type="text"
-              name="display-name"
-              onChange={(e) => {
-                setDMVal(e);
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <SubConatiner>
+          <SocialBtn color="white">Login in with Google</SocialBtn>
+          <SocialBtn color="black">Login in with Github</SocialBtn>
+          <SocialBtn color="hsl(209,100%,26%)">
+            Login in with Facebook
+          </SocialBtn>
+          <SignUpContainer>
+            <InputContainer>
+              <Label>Display name</Label>
+              <Input
+                onKeyDown={(e) => activeEnter(e)}
+                type="text"
+                name="display-name"
+                onChange={(e) => {
+                  setDNVal(e);
+                }}
+              ></Input>
+              <FailLabel></FailLabel>
+            </InputContainer>
+            <InputContainer>
+              <Label>Email</Label>
+              <Input
+                ref={id}
+                onKeyDown={(e) => activeEnter(e)}
+                type="text"
+                name="email"
+                onChange={(e) => {
+                  setEmailVal(e);
+                }}
+              ></Input>
+
+              {state.validation.errMsg1 ? (
+                <FailLabel>{state.validation.errMsg1}</FailLabel>
+              ) : null}
+            </InputContainer>
+            <InputContainer>
+              <Label>Password</Label>
+              <Input
+                ref={pass}
+                onKeyDown={(e) => activeEnter(e)}
+                type="password"
+                name="password"
+                onChange={setPassVal}
+              ></Input>
+
+              {state.validation.errMsg2 ? (
+                <FailLabel>{state.validation.errMsg2}</FailLabel>
+              ) : null}
+            </InputContainer>
+
+            <Text>
+              Passwords must contain at least eight characters, including at
+              least 1 letter and 1 number.
+            </Text>
+            <SignUpBtn
+              type="submit"
+              onClick={() => {
+                registerUser();
               }}
-            ></Input>
-            <FailLabel></FailLabel>
-          </InputContainer>
-          <InputContainer>
-            <Label>Email</Label>
-            <Input
-              onKeyDown={(e) => activeEnter(e)}
-              type="text"
-              name="email"
-              onChange={(e) => {
-                setEmailVal(e);
-              }}
-            ></Input>
-
-            {state.validation.errMsg1 ? (
-              <FailLabel>{state.validation.errMsg1}</FailLabel>
-            ) : null}
-          </InputContainer>
-          <InputContainer>
-            <Label>Password</Label>
-            <Input
-              onKeyDown={(e) => activeEnter(e)}
-              type="password"
-              name="password"
-              onChange={setPassVal}
-            ></Input>
-
-            {state.validation.errMsg2 ? (
-              <FailLabel>{state.validation.errMsg2}</FailLabel>
-            ) : null}
-          </InputContainer>
-
-          <Text>
-            Passwords must contain at least eight characters, including at least
-            1 letter and 1 number.
-          </Text>
-          <SignUpBtn
-            type="submit"
-            onClick={() => {
-              registerUser();
-            }}
-          >
-            Sign up
-          </SignUpBtn>
-        </form>
-        <Text>
-          By clicking “Sign up”, you agree to our terms of service, privacy
-          policy and cookie policy
-        </Text>
-      </SignUpContainer>
+            >
+              Sign up
+            </SignUpBtn>
+            <Text>
+              By clicking “Sign up”, you agree to our terms of service, privacy
+              policy and cookie policy
+            </Text>
+          </SignUpContainer>
+        </SubConatiner>
+      )}
     </Conatiner>
   );
 }
@@ -191,8 +240,17 @@ export default function SingUp() {
 // Styled Componetns
 
 // 페이지 묶음
+
 const Conatiner = styled.div`
-  height: 100vh;
+  height: 100%;
+  display: flex;
+  margin-top: 8%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const SubConatiner = styled.div`
+  min-height: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -200,7 +258,6 @@ const Conatiner = styled.div`
 `;
 // 회원가입 창 묶음
 const SignUpContainer = styled.div`
-  max-height: 530px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -217,6 +274,9 @@ const InputContainer = styled.div`
   flex-direction: column;
   width: 300px;
   margin-bottom: 15px;
+  .active {
+    border: 1px solid red;
+  }
 `;
 // label label
 const Label = styled.label`
@@ -231,19 +291,10 @@ const FailLabel = styled.div`
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 15px;
+  font-size: 14px;
   color: red;
   margin-top: 5px;
 `;
-
-// 비밀번호 찾기 label
-// const PassLabel = styled.label`
-//   font-size: 18px;
-//   margin-left: 125px;
-//   color: hsl(206, 100%, 40%);
-//   margin-top: 50px;
-//   left: 400px;
-// `;
 
 // Input
 const Input = styled.input`

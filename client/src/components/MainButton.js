@@ -1,14 +1,15 @@
 import styled, { css } from 'styled-components';
 
-function MainButton({ buttonText }) {
+function MainButton({ buttonText, functionHandler = (value) => value }) {
   return (
-    <Button text={buttonText}>
+    <Button text={buttonText} onClick={functionHandler}>
       <div>{buttonText}</div>
     </Button>
   );
 }
 
 const Button = styled.button`
+  display: block;
   padding: 8px 10.4px;
   margin: 2px;
   border: 1px solid hsl(205, 41%, 63%);
@@ -16,7 +17,9 @@ const Button = styled.button`
   box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
   white-space: nowrap;
   cursor: pointer;
-
+  > div {
+    pointer-events: none;
+  }
   ${(props) => {
     return (
       props.text === 'Log in' &&
@@ -36,8 +39,10 @@ const Button = styled.button`
     return (
       (props.text === 'Sign up' ||
         props.text === 'Ask Question' ||
+        props.text === 'Post your question' ||
         props.text === 'Post Your Answer' ||
-        props.text === 'Next') &&
+        props.text === 'Next' ||
+        props.text === 'Save edits') &&
       css`
         height: ${(props) =>
           props.text === 'Ask Question' || props.text === 'Post Your Answer'

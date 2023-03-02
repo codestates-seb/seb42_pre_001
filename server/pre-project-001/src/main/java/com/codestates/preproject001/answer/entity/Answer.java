@@ -3,12 +3,14 @@ package com.codestates.preproject001.answer.entity;
 import com.codestates.preproject001.audit.auditable;
 import com.codestates.preproject001.member.entity.Member;
 import com.codestates.preproject001.question.entity.Question;
+import com.codestates.preproject001.vote.entity.AnswerVote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -17,10 +19,10 @@ import java.time.LocalDateTime;
 public class Answer extends auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long answerId;
+    private Long answerId;
 
     //length 추가?
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String content;
 
     @ManyToOne
@@ -30,6 +32,9 @@ public class Answer extends auditable {
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
     public void addMember(Member member) {
         this.member = member;

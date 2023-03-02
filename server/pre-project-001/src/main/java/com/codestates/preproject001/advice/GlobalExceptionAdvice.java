@@ -1,8 +1,9 @@
 package com.codestates.preproject001.advice;
 
+import javax.mail.MessagingException;
 import javax.validation.ConstraintViolationException;
 
-import com.codestates.preproject001.exception.BussinessLogicException;
+import com.codestates.preproject001.exception.BusinessLogicException;
 import com.codestates.preproject001.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler
-    public ResponseEntity handleBusinessLogicException(BussinessLogicException e) {
+    public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
         final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode()
@@ -76,6 +77,14 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleMailMessagingException (
+            MessagingException e) {
+        final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
+        return response;
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(Exception e) {
         log.error("# handle Exception", e);
@@ -84,4 +93,5 @@ public class GlobalExceptionAdvice {
 
         return response;
     }
+
 }

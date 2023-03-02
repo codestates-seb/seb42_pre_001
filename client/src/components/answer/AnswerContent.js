@@ -1,10 +1,49 @@
 import styled from 'styled-components';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import ViewProfile from '../ViewProfile';
-const AnswerContent = () => {
-  let str = `Certainly seems like an internal nuke issue. Which nuke are you running? I know 11 and 12 will almost always spit out some kind of python error on close - either threading or something like this.
-  If your my_callbacks.py is being loaded by init/menu, try just adding the callback to the root node itself (rather than the global knob change process) with node.knob('knob_changed').setValue(YOUR CODE in string format)
-  In this case of course, the knob changed code will only fire on the Root node, and you'll have to run that setValue code in each script you want. You might be able to use init/menu and another callback (onScriptLoad) to accomplish that.`;
+import { useNavigate } from 'react-router-dom';
+import { setContent } from '../../slice/answerSlice';
+import { useDispatch } from 'react-redux';
+import InquiryButtons from '../inquiry/InquiryButtons';
+import Markdown from '../Markdown';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+const AnswerContent = ({ answer, question, answers, setAnswers }) => {
+  const [cookie] = useCookies();
+  let dispatch = useDispatch();
+  const navigate = useNavigate();
+  // 답변 수정 페이지 이동
+  const navigateToEditPage = () => {
+    navigate(`/answers/${answer.answerId}/edit`, {
+      state: { answer, question },
+    });
+    dispatch(setContent(answer.content));
+  };
+
+  // 답변 삭제
+  const deleteAnswer = async () => {
+    if (confirm(`Delete this post?`)) {
+      await axios
+        .delete(`${process.env.REACT_APP_API_URL}/answers`, {
+          data: {
+            memberId: Number(cookie.loginMemberId),
+            answerId: answer.answerId,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: cookie.accessToken,
+            Refresh: cookie.refreshToken,
+          },
+          withCredentials: true,
+        })
+        .then(() => {
+          setAnswers(answers.filter((el) => el.answerId !== answer.answerId));
+        });
+    } else {
+      return false;
+    }
+  };
+
   return (
     <Container>
       <VoteContainer>
@@ -13,8 +52,20 @@ const AnswerContent = () => {
         <VoteDownButton size="45px"></VoteDownButton>
       </VoteContainer>
       <ContentContainer>
-        <Content>{str}</Content>
-        <ViewProfile />
+        <Markdown content={answer.content} />
+        <ButtonsAndProfile>
+          <InquiryButtons
+            editFunction={navigateToEditPage}
+            deleteFunction={deleteAnswer}
+            aMemberId={answer.memberId}
+          />
+          <ViewProfile
+            from="answer"
+            id={answer.memberId}
+            name={answer.memberName}
+            createdAt={answer.createdAt}
+          />
+        </ButtonsAndProfile>
       </ContentContainer>
     </Container>
   );
@@ -23,12 +74,12 @@ export default AnswerContent;
 const Container = styled.div`
   width: 727px;
   padding: 16px 0px;
+  border-bottom: 1px solid hsl(210deg 8% 90%);
   display: flex;
 `;
 const VoteContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 10px;
 `;
 const VoteUpButton = styled(GoTriangleUp)`
   color: hsl(210deg 8% 75%);
@@ -46,8 +97,14 @@ const VoteDownButton = styled(GoTriangleDown)`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  padding-left: 25px;
+  width: 657px;
+  word-wrap: break-word;
 `;
-const Content = styled.div`
-  height: 400px;
-  word-break: break-all; // width에 맞게 강제 줄바꿈
+
+const ButtonsAndProfile = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
 `;
