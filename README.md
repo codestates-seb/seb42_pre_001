@@ -12,11 +12,11 @@
 ## 👨‍💻 Team
 ### 🌅 Front-end
 
-|<img src="https://user-images.githubusercontent.com/96197310/219012440-24ddea93-9797-4d10-a8b7-4b91fafe82a8.png" width="200px" height="200px">|[강명주<br/>(@myungju030)　](https://github.com/myungju030)|- 질문 전체조회 기능 및 페이지 구현 <br/> - 질문,답변 상세조회 기능 및 페이지 구현<br/> - 답변등록 기능 및 페이지 구현 <br/> - User 상세조회 기능 및 페이지 구현 <br/> - Tags, Users, Companies, 404error 페이지 구현 　　　　　　　　　　　|
+|<img src="https://user-images.githubusercontent.com/96197310/219012440-24ddea93-9797-4d10-a8b7-4b91fafe82a8.png" width="200px" height="200px">|[강명주<br/>(@myungju030)　](https://github.com/myungju030)|- 질문 전체조회 기능 및 페이지 구현 <br/> - 질문,답변 상세조회 기능 및 페이지 구현<br/> - 답변등록 기능 및 페이지 구현 <br/> - User 상세조회 기능 및 페이지 구현 <br/> - Tags, Users, Companies, 404error 페이지 구현 　　　　　　　　　　　　　　|
 |:---:|:---:|:---|
-|<img src="https://cdn.discordapp.com/attachments/793349137596284930/1097386861791559710/ae34bba849941470.jpeg" width="200px" height="200px">|**[
-<br/>(@lsx2003)](https://github.com/lsx2003)**|**- 통합 테스트 환경 및 배포 환경 구축 (AWS)<br/> - 회원가입,로그인,로그아웃 기능 및 페이지 구현<br/> - 비밀번호 찾기,변경 기능 및 페이지 구현<br/> - 회원정보 수정,삭제 기능 및 페이지 구현<br/> - Loading 페이지 구현**|
+|<img src="https://cdn.discordapp.com/attachments/793349137596284930/1097386861791559710/ae34bba849941470.jpeg" width="200px" height="200px">|**[이민형<br/>(@lsx2003)](https://github.com/lsx2003)**|**- 통합 테스트 환경 및 배포 환경 구축 (AWS)<br/> - 회원가입,로그인,로그아웃 기능 및 페이지 구현<br/> - 비밀번호 찾기,변경 기능 및 페이지 구현<br/> - 회원정보 수정,삭제 기능 및 페이지 구현<br/> - Loading 페이지 구현**|
 |<img src="https://user-images.githubusercontent.com/96197310/219012810-5e1b3662-0b87-4847-aff3-6fdb8e1de6a1.png" width="200px" height="200px">|**[함소희<br/>(@qwerty00ui88)](https://github.com/qwerty00ui88)**|**- Ask Question 기능 및 페이지 구현 <br/> - 질문 수정,삭제 기능 및 페이지 구현<br/> - 답변 수정,삭제 기능 및 페이지 구현<br/> - 태그 생성 기능 구현<br/> - Header, Footer 구현**|
+
 
 ### 🌄 Back-end
 
